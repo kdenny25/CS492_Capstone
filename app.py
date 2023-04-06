@@ -53,6 +53,12 @@ def elements():
 def groupone():
     return render_template('groupone.html')
 
+@app.route('/communications')
+def communications():
+    comm_results = getInTouch.find()
+
+    return render_template('communications.html', comm_results=comm_results)
+
 @app.post('/get_in_touch')
 def get_in_touch():
     name = request.form.get('name')
@@ -69,4 +75,4 @@ def get_in_touch():
                              })
 
     # ideally this would be a thank you for your comment page
-    return render_template('index.html')
+    return redirect('/')

@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<!-- Page Wrapper -->
+    <div id="page-wrapper">
+
+        <!-- Header -->
+            <header id="header">
+                <h1><a href="/">Solid State</a></h1>
+                <nav>
+                    <a href="#menu">Menu</a>
+                </nav>
+            </header>
+
+        <!-- Menu -->
+        {% include 'elements/menu.html' %}
+
+                <!-- Wrapper -->
+        <section id="wrapper">
+            <header>
+                <div class="inner">
+                    <h2>Communications</h2>
+                    <p>Phasellus non pulvinar erat. Fusce tincidunt nisl eget ipsum.</p>
+                </div>
+            </header>
+
+            <div class="wrapper">
+                <div class="inner">
+                    <h4>Default</h4>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Message</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for comm_result in comm_results %}
+                                    <tr>
+                                        <td>{{ comm_result.date }}</td>
+                                        <td>{{ comm_result.name }}</td>
+                                        <td>{{ comm_result.email }}</td>
+                                        <td>{{ comm_result.message }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

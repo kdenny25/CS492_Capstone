@@ -1,0 +1,6 @@
+Flask
+flask_wtf
+psycopg2
+python-dotenv
+pymongo
+numpy

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<!--
+	Initial Template: Solid State, by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+	Modified index page and all elements beyond index,  By Group One Development
+-->
+<html>
+	<head>
+		<title>Pizza Place Site by Group One Development</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{{ url_for('static', filename='/assets/css/main.css') }}">
+		<noscript><link rel="stylesheet" href="{{ url_for('static', filename='/assets/css/noscript.css') }}" /></noscript>
+	</head>
+
+    <body class="is-preload">
+        {% block content %}{% endblock %}
+
+        <!-- Scripts -->
+        <script src="{{ url_for('static', filename='/assets/js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='/assets/js/jquery.scrollex.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='/assets/js/browser.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='/assets/js/breakpoints.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='/assets/js/util.js') }}"></script>
+        <script src="{{ url_for('static', filename='/assets/js/main.js') }}"></script>
+    </body>
+</html>

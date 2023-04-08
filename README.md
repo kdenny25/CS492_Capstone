@@ -4,3 +4,4 @@ Pizza Restaurant Online Ordering System
 
 https://ctucapstone.azurewebsites.net/
 
+![alt text](https://github.com/kdenny25/CS492_Capstone/blob/master/static/images/pizzaPlaceImage.PNG?raw=true)

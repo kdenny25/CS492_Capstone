@@ -49,9 +49,9 @@ def generic():
 def elements():
     return render_template('elements.html')
 
-@app.route('/groupone')
-def groupone():
-    return render_template('groupone.html')
+@app.route('/menu')
+def menu():
+    return render_template('menu.html')
 
 @app.route('/communications')
 def communications():

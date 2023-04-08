@@ -14,19 +14,7 @@
 					</header>
 
 				<!-- Menu -->
-					<nav id="menu">
-						<div class="inner">
-							<h2>Menu</h2>
-							<ul class="links">
-								<li><a href="index.html">Home</a></li>
-								<li><a href="generic.html">Generic</a></li>
-								<li><a href="elements.html">Elements</a></li>
-								<li><a href="#">Log In</a></li>
-								<li><a href="#">Sign Up</a></li>
-							</ul>
-							<a href="#" class="close">Close</a>
-						</div>
-					</nav>
+                {% include 'elements/navigation.html' %}
 
 				<!-- Wrapper -->
 					<section id="wrapper">
@@ -56,7 +44,7 @@
 												</thead>
 												<tbody>
 													<tr>
-														<td><image src="images/bg.png" height="100px" width="100px"></td>
+														<td><image src="{{ url_for('static', filename='/images/bg.png')}}" height="100px" width="100px"></td>
 														<td >Cacciatore Classic<br>Pepperoni Pizza with our house red sauce.</td>
 														<td>29.99</td>
 													</tr>
@@ -108,7 +96,7 @@
 												</thead>
 												<tbody>
 													<tr>
-														<td><image src="images/bg.png" height="100px" width="100px"></td>
+														<td><image src="{{ url_for('static', filename='/images/bg.png')}}"  height="100px" width="100px"></td>
 														<td >Cacciatore Classic<br>Pepperoni Pizza with our house red sauce.</td>
 														<td>29.99</td>
 													</tr>
@@ -159,7 +147,7 @@
 												</thead>
 												<tbody>
 													<tr>
-														<td><image src="images/bg.png" height="100px" width="100px"></td>
+														<td><image src="{{ url_for('static', filename='/images/bg.png')}}"  height="100px" width="100px"></td>
 														<td >Cacciatore Classic<br>Pepperoni Pizza with our house red sauce.</td>
 														<td>29.99</td>
 													</tr>
@@ -206,13 +194,13 @@
 
 									<section class="features">
 										<article>
-											<a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
+											<a href="#" class="image"><img src="{{ url_for('static', filename='/images/pic04.jpg')}}"  alt="" /></a>
 											<h3 class="major">Sed feugiat lorem</h3>
 											<p>Lorem ipsum dolor sit amet, consectetur adipiscing vehicula id nulla dignissim dapibus ultrices.</p>
 											<a href="#" class="special">Learn more</a>
 										</article>
 										<article>
-											<a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
+											<a href="#" class="image"><img src="{{ url_for('static', filename='/images/pic05.jpg')}}"  alt="" /></a>
 											<h3 class="major">Nisl placerat</h3>
 											<p>Lorem ipsum dolor sit amet, consectetur adipiscing vehicula id nulla dignissim dapibus ultrices.</p>
 											<a href="#" class="special">Learn more</a>

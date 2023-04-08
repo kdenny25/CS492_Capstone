@@ -21,7 +21,7 @@ Website url: https://ctucapstone.azurewebsites.net/
 ## Technologies
 * Discord (Team Communication)
 * Google Drive (Document collaboration)
-* Github (Respository Hosting)
+* Github (Respository Hosting - SCM)
 * Azure (Web hosting)
 * HTML
 * CSS

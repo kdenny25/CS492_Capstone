@@ -4,16 +4,7 @@
 
 <!-- Page Wrapper -->
 			<div id="page-wrapper">
-
-				<!-- Header -->
-					<header id="header" class="alt">
-						<h1><a href="index.html">Cacciatore's</a></h1>
-						<nav>
-							<a href="#menu">Menu</a>
-						</nav>
-					</header>
-
-				<!-- Menu -->
+				<!-- Navigation -->
 					{% include 'elements/navigation.html' %}
 
 				<!-- Banner -->
@@ -21,6 +12,9 @@
 						<div class="inner">
 							<div class="logo"><span class="icon fa-gem"></span></div>
 							<h2>Cacciatore's</h2>
+                                    {% if current_user.is_authenticated %}
+                                        <p> Welcome {{ current_user.fName }}</p>
+                                    {% endif %}
 							<p>Boutique Italian Pizza and Cuisine</p>
 						</div>
 					</section>

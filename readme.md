@@ -1,56 +1,66 @@
-# Python Flask Backend Key Points
+# CS492-2302A-01 - Computer Science Team Project II
 
-This readme is intended to decipher some of the backend so members of group 1 can make
-changes to the application as needed.
+Pizza Restaurant Online Ordering System
 
-If you want a brief of what Flask is then check out the link below. 
+## Table of contents
+* [Project Description](#project-description)
+* [Technologies](#technologies)
+* [Usage instructions](#usage-instructions)
+* [Contributing guidelines](#contributing-guidelines)
+* [Team Acknowledgments](#team-acknowledgments)
+* [Contact Information](#contact-information)
+* [Other Information](#other-information)
 
-https://pythonbasics.org/what-is-flask-python/
+## Project Description
+Our goal as a group is to make an app that will change the way pizza is ordered and consumed forever. In addition to facilitating real-time inventory and menu management for pizzeria business owners, our goal is to streamline the ordering process for hungry patrons. Our app will make ordering pizza more convenient and enjoyable by providing a streamlined, straightforward interface.
 
-### Index
+Website url: https://ctucapstone.azurewebsites.net/
 
-* [Adding a webpage to navigation](#webpage-navigation)
-* [Adding images to a webpage](#adding-images)
+![alt text](https://github.com/kdenny25/CS492_Capstone/blob/master/static/images/pizzaPlaceImage.PNG?raw=true)
 
+## Technologies
+* Discord (Team Communication)
+* Google Drive (Document collaboration)
+* Github (Respository Hosting - SCM)
+* Azure (Web hosting)
+* HTML
+* CSS
+* SCSS
+* JavaScript
+* Phyton
 
-### <a id='webpage-navigation'> Adding a webpage to navigation </a>
+## Usage instructions
+Our pizza project application is a web-based platform that allows customers to browse menus, place orders, and track their delivery in real-time. The app also includes an admin dashboard for restaurant owners to manage their inventory, prices, and menu items. With our app, customers can customize their pizzas with a variety of toppings, track the progress of their order, and receive notifications when their pizza is ready for pickup or delivery.
 
-This portion assumes a webpage is already created. We will use menu.html as an example.
+The app offers a range of features that make it easy and convenient for customers to order pizza, including intuitive navigation, easy payment options, and a user-friendly interface. For restaurant owners, our app provides real-time inventory management and menu updates, reducing the risk of waste and ensuring accurate pricing. We also provide a customer feedback and review system that allows restaurant owners to respond to customer concerns and feedback in real-time, helping to build stronger relationships and increase customer loyalty.
 
-1. Open /templates/elements/navigation.html
-2. In navigation.html add the highlighted line of code where you want the link to
-show up. Make note of the href reference to /menu. This is an endpoint url, the same
-as "https://mywebsite/menu" just in shorter form. Flask will recognize this and return
-run a function as long as there is a function associated to the endpoint. 
+Our pizza project application is designed to meet the needs of both customers and restaurant owners, offering a reliable and convenient solution for ordering and delivering pizza. We are committed to continuously improving and updating our app to ensure that it provides the best possible experience for all users.
 
-`<li><a href="/menu">Menu</a></li>`
+## Contributing guidelines
+To use this project, follow these steps:
 
-![img.png](static/readme_images/navigation_page.png)
+1. Clone the repository to your local machine:
 
-3. Now open app.py in the root folder.
-4. This is where all the endpoint functions are located. To establish a response to a
-you would first add @app.route("/menu) followed by the function. The function name can 
-be anything just be sure it is unique. in this case it is def menu(): then return the 
-html file using, return render_template('menu.html'). Below is the code and an image
-showing where you can place it.
+```$ git clone https://github.com/kdenny25/CS492_Capstone```
 
+2. Navigate to the project directory:
 
-    app.route('/menu')
-    def menu():
-        return render_template('menu.html')
+```$ cd CS492_Capstone```
 
-    
+3. Install the project dependencies:
 
+``` $ npm install```
 
-![img.png](static/readme_images/app_py_adding menu.png)
+4. Start the development server:
 
-Now you should be able to click the link and navigate to your new webpage.
+```$ npm start```
 
-### <a id='adding-images'> Adding images to a webpage</a>
+Open your web browser and navigate to 'https://ctucapstone.azurewebsites.net/' to see the project in action.
 
-1. Save the image to `static/images/`
-2. In the webpage html add the following block of code to add an image to the
-webpage.
+You can also customize the project by editing the configuration files or adding new features. If you make any changes, remember to commit and push them to the repository to keep them in sync with the latest version.
 
+## Team Acknowledgments
 
+## Contact Information
 
+## Other Information

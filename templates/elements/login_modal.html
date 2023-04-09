@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<form method="post">
+    {% if error %}
+        <p class=error><strong>Error:</strong> {{ error }}
+    {% endif %}
+    {% if success %}
+        <p class=success><strong>Success:</strong> {{ error }}
+    {% endif %}
+    <div class="row gtr-uniform">
+        <div class="col-6 col-12-xsmall">
+            <label for="demo-name">Email</label>
+            <input type="email" name="email" id="email" value="" />
+            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+        </div>
+        <div class="col-6 col-12-xsmall">
+            <label for="demo-email">Password</label>
+            <input type="password" name="password" id="password value="" />
+            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+        </div>
+    </div>
+    <div class="col-12">
+        <ul class="actions">
+            <li><input type="submit" value="Login" class="primary" /></li>
+        </ul>
+    </div>
+</form>
+{% endblock %}

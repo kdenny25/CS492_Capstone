@@ -4,3 +4,8 @@ psycopg2
 python-dotenv
 pymongo
 numpy
+Flask-Login
+oauthlib
+requests
+pyOpenSSL
+flask-bcrypt

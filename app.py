@@ -49,11 +49,12 @@ orders = db.orders
 getInTouch = db.getInTouch
 users = db.users
 
+# this is called when the user is loaded into a webpage
 @login_manager.user_loader
 def load_user(user_id):
     user = users.find_one({'_id': ObjectId(user_id)})
     if user is not None:
-        return User(user["first_name"], user["last_name"], user["email"], user["password"], str(user["_id"]))
+        return User(user)
         print('User returned')
     else:
         return None
@@ -72,11 +73,12 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
+        #pulls all user details from users collection
         find_user = users.find_one({'email': email})
         if find_user is not None:
             if bcrypt.check_password_hash(find_user['password'], password):
-                log_user = User(find_user['first_name'], find_user['last_name'], find_user['email'], find_user['password'], str(find_user['_id']))
-                print(log_user.json())
+                # assign user details (in JSON format) to the User class
+                log_user = User(find_user)
                 login_user(log_user)
                 return redirect('/')
             else:
@@ -93,6 +95,7 @@ def register():
         fName = request.form.get('fName')
         lName = request.form.get('lName')
         email = request.form.get('email')
+        role = 'customer'
         password = bcrypt.generate_password_hash(request.form.get('password')).decode('utf-8')
 
         find_user = users.find_one({'email': email})
@@ -101,8 +104,11 @@ def register():
             _id = users.insert_one({'first_name': fName,
                                     'last_name': lName,
                                     'email': email,
+                                    'role': role,
                                     'password': password})
+            # sends message if registration is successful
             flash(f'Account created for {fName}!', 'success')
+            return redirect('/')
         else:
             flash(f'Account already exits for email: {email}!', 'error')
     return render_template('elements/register_modal.html')
@@ -112,6 +118,14 @@ def register():
 def logout():
     logout_user()
     return redirect("/")
+
+@app.route('/admin_dashboard')
+@login_required
+def admin_dash():
+    if current_user.is_admin:
+        return render_template("admin_dashboard/admin_dashboard.html")
+    else:
+        return redirect('/')
 
 @app.route('/generic')
 def generic():

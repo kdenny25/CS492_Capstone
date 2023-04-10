@@ -51,9 +51,11 @@
                 <div class="col-md-8">
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
-                <div class="col-md-4">
-                    <button type="button" class="btn btn-danger" onclick="window.location.href='/admin_delete_profile?_id={{ user_profile._id }}';">Delete Profile</button>
-                </div>
+                {% if current_user.email != user_profile.email %}
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-danger" onclick="window.location.href='/admin_delete_profile?_id={{ user_profile._id }}';">Delete Profile</button>
+                    </div>
+                {% endif %}
             </form>
         </div>
     </div>

@@ -1,0 +1,71 @@
+{% extends 'admin_dashboard/admin_elements/admin_layout.html' %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/user_management" style="color: #ffffff;">User Management</a></li>
+        <li class="breadcrumb-item active" aria-current="page" style="color: #dcdcdc;">User Profile</li>
+      </ol>
+    </nav>
+    <div class="card" style="background-color: rgba(53, 56, 73, 0.95);">
+        <div class="card-body" >
+            <h3 class="card-title" style="color: #ffffff;">User Profile</h3>
+            <hr>
+            <form class="row g-3" id="updateUser" action="/admin_update_user?_id={{ user_profile._id }}" method="post">
+                <div class="col-md-4 mb-3">
+                    <label for="firstName" class="form-label" style="color: #ffffff;">First Name</label>
+                    <input type="text" class="form-control" name="firstName" id="firstName" value="{{ user_profile.first_name }}">
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="lastName" class="form-label" style="color: #ffffff;">Last Name</label>
+                    <input type="text" class="form-control" name="lastName" id="lastName" value="{{ user_profile.last_name }}">
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="email" class="form-label" style="color: #ffffff;">Email address</label>
+                    <input type="email" class="form-control"  name="email" id="email" value="{{ user_profile.email }}">
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="role" class="form-label" style="color: #ffffff;">Role</label>
+                    <select class="form-select" aria-label="Default select" name="role" id="role">
+                        <option value="">...</option>
+                        {% if user_profile.role == 'customer' %}
+                            <option value="customer" selected>Customer</option>
+                            <option value="admin">Administrator</option>
+                        {% elif  user_profile.role == 'admin'%}
+                            <option value="customer">Customer</option>
+                            <option value="admin" selected>Administrator</option>
+                        {% else %}
+                            <option value="customer">Customer</option>
+                            <option value="admin">Administrator</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <hr>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-12">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+
+{% endblock %}

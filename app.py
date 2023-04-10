@@ -55,7 +55,6 @@ def load_user(user_id):
     user = users.find_one({'_id': ObjectId(user_id)})
     if user is not None:
         return User(user)
-        print('User returned')
     else:
         return None
 
@@ -143,7 +142,47 @@ def menu():
 def communications():
     comm_results = getInTouch.find()
 
-    return render_template('communications.html', comm_results=comm_results)
+    return render_template('admin_dashboard/communications.html', comm_results=comm_results)
+
+@app.route('/user_management', methods=['GET', 'POST'])
+def user_management():
+    if current_user.is_admin:
+        if request.method == 'POST':
+            user_profiles = users.find()
+            return render_template('admin_dashboard/user_management.html', user_profiles=user_profiles)
+
+        return render_template('admin_dashboard/user_management.html', user_profiles=[])
+    else:
+        return redirect('/')
+
+@app.route('/admin_user_profile')
+def admin_user_profile():
+    if current_user.is_admin:
+        id = request.values.get("_id")
+
+        edit_user = users.find_one({'_id': ObjectId(id)})
+        return render_template('admin_dashboard/admin_user_profile.html', user_profile=edit_user)
+    return redirect('/')
+
+@app.post('/admin_update_user')
+def admin_update_user():
+    if current_user.is_admin:
+        first_name = request.form.get('firstName')
+        last_name = request.form.get('lastName')
+        email = request.form.get('email')
+        role = request.form.get('role')
+
+        id = request.values.get("_id")
+
+        users.update_one({'_id': ObjectId(id)}, {'$set':{
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'role': role
+        }})
+        flash('Profile successfully updated.', 'success')
+        return redirect('/admin_user_profile?_id=' + str(id))
+    return redirect('/')
 
 @app.post('/get_in_touch')
 def get_in_touch():

@@ -1,11 +1,12 @@
 <!-- Header -->
 <header id="header">
     <h1><a href="/">Cacciatore's</a></h1>
-
     <nav>
         <a href="#menu">Menu</a>
     </nav>
 </header>
+
+
 <nav id="menu">
     <div class="inner">
         <h2>Menu</h2>
@@ -13,7 +14,6 @@
             <li><a href="/">Home</a></li>
             <li><a href="/menu">Menu</a></li>
             <li><a href="/elements">Elements</a></li>
-            <li><a href="/communications">Communications</a></li>
             {% if current_user.is_authenticated %}
                 {% if current_user.is_admin %}
                     <li><a href="/admin_dashboard">Admin Dashboard</a></li>

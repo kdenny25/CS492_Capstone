@@ -1,0 +1,70 @@
+{% extends 'admin_dashboard/admin_elements/admin_layout.html' %}
+
+{% block styles %}
+    <style>
+        #user_profile_card.card{
+            box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+        }
+        #user_profile_card.card:hover{
+            transform: scale(1.01);
+            box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page" style="color: #dcdcdc;">User Management</li>
+      </ol>
+    </nav>
+    <div class="card" style="background-color: rgba(53, 56, 73, 0.95);">
+        <div class="card-body" >
+            <h3 class="card-title" style="color: #ffffff;">User Management</h3>
+            <hr>
+            <form class="row g-3" id="userSearch" action="{{ url_for("user_management")}}" method="post">
+                <div class="col-md-4 mb-3">
+                    <label for="firstNameSearch" class="form-label" style="color: #ffffff;">First Name</label>
+                    <input type="text" class="form-control" name="firstNameSearch" id="firstNameSearch">
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="lastNameSearch" class="form-label" style="color: #ffffff;">Last Name</label>
+                    <input type="text" class="form-control" name="lastNameSearch" id="lastNameSearch">
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="emailSearch" class="form-label" style="color: #ffffff;">Email address</label>
+                    <input type="email" class="form-control" name="emailSearch" id="emailSearch">
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card mt-3" style="background-color: rgba(53, 56, 73, 0.95);">
+        <div class="card-body" >
+            <h5 class="card-title" style="color: #ffffff;">Results</h5>
+            <hr>
+
+            {% for user_profile in user_profiles %}
+                    <div class="card" style="background-color: rgba(255, 255, 255, 0.025); border: solid 2px rgba(255, 255, 255, 0.125);" id="user_profile_card" type="submit">
+                        <div class="card-body row">
+
+                            <div class="col">
+                                <h6 style="color: #ffffff;">{{ user_profile.first_name }} {{ user_profile.last_name }}</h6>
+                            </div>
+                            <div class="col">
+                                <p style="color: #ffffff;">{{ user_profile.email }}</p>
+                            </div>
+                            <a href="/admin_user_profile?_id={{ user_profile._id }}" class="stretched-link"></a>
+                        </div>
+                    </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

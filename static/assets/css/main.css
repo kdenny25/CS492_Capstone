@@ -101,12 +101,9 @@ input, select, textarea {
 	body {
 		background-color: #692d32;/* #2e3141;*/
 		background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.2)), url("../../images/bg.png");
-		background-size: auto,
- cover;
-		background-attachment: fixed,
- fixed;
-		background-position: center,
- center;
+		background-size: auto, cover;
+		background-attachment: fixed, fixed;
+		background-position: center, center;
 	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -3071,7 +3068,7 @@ input, select, textarea {
 
 /* Header */
 
-	#header {
+	#header{
 		-moz-transition: background-color 0.2s ease-in-out;
 		-webkit-transition: background-color 0.2s ease-in-out;
 		-ms-transition: background-color 0.2s ease-in-out;
@@ -3102,6 +3099,7 @@ input, select, textarea {
 			#header h1 a {
 				border: 0;
 			}
+
 
 		#header nav {
 			font-family: Raleway, Helvetica, sans-serif;

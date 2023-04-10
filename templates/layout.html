@@ -12,6 +12,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="{{ url_for('static', filename='/assets/css/main.css') }}">
 		<noscript><link rel="stylesheet" href="{{ url_for('static', filename='/assets/css/noscript.css') }}" /></noscript>
+
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             <ul class=flashes>
@@ -35,5 +36,6 @@
         <script src="{{ url_for('static', filename='/assets/js/breakpoints.min.js') }}"></script>
         <script src="{{ url_for('static', filename='/assets/js/util.js') }}"></script>
         <script src="{{ url_for('static', filename='/assets/js/main.js') }}"></script>
+        {% block scripts %}{% endblock %}
     </body>
 </html>

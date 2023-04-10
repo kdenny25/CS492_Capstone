@@ -94,7 +94,7 @@ def register():
         fName = request.form.get('fName')
         lName = request.form.get('lName')
         email = request.form.get('email')
-        role = 'customer'
+        role = 'admin'
         password = bcrypt.generate_password_hash(request.form.get('password')).decode('utf-8')
 
         find_user = users.find_one({'email': email})

@@ -94,7 +94,7 @@ def register():
         fName = request.form.get('fName')
         lName = request.form.get('lName')
         email = request.form.get('email')
-        role = 'admin'
+        role = 'customer'
         password = bcrypt.generate_password_hash(request.form.get('password')).decode('utf-8')
 
         find_user = users.find_one({'email': email})
@@ -183,6 +183,16 @@ def admin_update_user():
         flash('Profile successfully updated.', 'success')
         return redirect('/admin_user_profile?_id=' + str(id))
     return redirect('/')
+
+@app.route('/admin_delete_profile')
+def admin_delete_profile():
+    if current_user.is_admin:
+        id = request.values.get("_id")
+        users.delete_one({'_id': ObjectId(id)})
+        flash('Profile: ' + str(id) + ' successfully deleted.')
+        return redirect('/user_management')
+    return redirect('/')
+
 
 @app.post('/get_in_touch')
 def get_in_touch():

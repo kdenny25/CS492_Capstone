@@ -51,7 +51,7 @@
             <hr>
 
             {% for user_profile in user_profiles %}
-                    <div class="card" style="background-color: rgba(255, 255, 255, 0.025); border: solid 2px rgba(255, 255, 255, 0.125);" id="user_profile_card" type="submit">
+                    <div class="card mb-1" style="background-color: rgba(255, 255, 255, 0.025); border: solid 2px rgba(255, 255, 255, 0.125);" id="user_profile_card" type="submit">
                         <div class="card-body row">
 
                             <div class="col">
@@ -64,6 +64,21 @@
                         </div>
                     </div>
             {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="row mt-2">
+        <div class="col-md-12">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
         </div>
     </div>
 

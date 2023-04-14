@@ -1,0 +1,30 @@
+<div class="modal fade modal-dialog-scrollable"  id="addMenuTopping">
+    <div class="modal-dialog" >
+        <form class="modal-content"  style="background-color: rgba(53, 56, 73, 0.95);" action="{{ url_for("add_menu_topping")}}" method="post">
+            <div class="modal-header" style="border-bottom-color:#111217">
+                <h1 class="modal-title fs-5" style="color: #ffffff;" >Add Topping</h1>
+                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" >
+                <div class="col-12">
+                    <label for="toppingCategory" class="form-label" style="color: #ffffff;">Topping Categories:</label>
+                    <div class="input-group mb-3">
+                        <select class="form-select" multiple size='3' id="toppingCategory" name="toppingCategory">
+                            {% for category in menu_data.dish_categories %}
+                                <option value="{{ category.category }}">{{ category.category }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label for="toppingName" class="form-label" style="color: #ffffff;">Topping Name:</label>
+                    <input class="form-control" type="text" id="toppingName" name="toppingName" value="">
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top-color:#111217">
+                <button type="submit" class="btn btn-success">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

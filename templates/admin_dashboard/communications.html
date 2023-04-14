@@ -3,29 +3,32 @@
 {% block content %}
 
 <div class="card" style="background-color: rgba(53, 56, 73, 0.95);">
-        <div class="card-body" >
-            <h3 class="card-title" style="color: #ffffff;">Customer Communications</h3>
-            <hr>
-            <div>
-                <table class="table table-dark table-striped">
-                    <thead>
+    <div class="card-body" >
+        <h3 class="card-title" style="color: #ffffff;">Customer Communications</h3>
+        <hr>
+        <div>
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for comm_result in comm_results %}
                         <tr>
-                            <th scope="col">Date</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Message</th>
+                            <td>{{ comm_result.date }}</td>
+                            <td>{{ comm_result.name }}</td>
+                            <td>{{ comm_result.message }}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {% for comm_result in comm_results %}
-                            <tr>
-                                <td>{{ comm_result.date }}</td>
-                                <td>{{ comm_result.name }}</td>
-                                <td>{{ comm_result.message }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
+
+<!-- alert messages below -->
+    {% include "elements/alert_messages.html" %}
 {% endblock %}

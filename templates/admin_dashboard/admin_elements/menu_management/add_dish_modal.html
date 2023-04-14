@@ -1,0 +1,66 @@
+<div class="modal fade modal-dialog-scrollable"  id="addMenuDish">
+    <div class="modal-dialog" >
+        <form class="modal-content"  style="background-color: rgba(53, 56, 73, 0.95);" action="{{ url_for("add_menu_dish")}}" method="post" enctype="multipart/form-data">
+            <div class="modal-header" style="border-bottom-color:#111217">
+                <h1 class="modal-title fs-5" style="color: #ffffff;" >Add a Dish</h1>
+                <button type="button" style="color: #ffffff;" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body row" >
+                <div class="col-12">
+                    <label for="dishName" class="form-label" style="color: #ffffff;">Dish Name:</label>
+                    <input class="form-control" type="text" id="dishName" name="dishName" value="">
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+                <div class="col-12">
+                    <label for="dishImage" class="form-label" style="color: #ffffff;">Display Image:</label>
+                    <input class="form-control" type="file" id="dishImage" name="dishImage" accept=".png, .jpg">
+                </div>
+                <div class="col-12">
+                    <label for="dishCat" class="form-label" style="color: #ffffff;">Category:</label>
+                    <div class="input-group mb-3">
+                        <select class="form-select" id="dishCat" name="dishCat">
+                            <option selected>...</option>
+                            {% for category in menu_data.dish_categories %}
+                                <option value="{{ category.category }}">{{ category.category }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label for="toppingCategory" class="form-label" style="color: #ffffff;">Toppings: (disabled)</label>
+                    <div class="input-group mb-3">
+                        <select class="form-select" multiple size='3' id="toppingCategory" name="toppingCategory" disabled>
+                            {% for category in menu_data.dish_categories %}
+                                <option value="{{ category.category }}">{{ category.category }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label for="dishDescription" class="form-label" style="color: #ffffff;">Description:</label>
+                    <textarea class="form-control" id="dishDescription" name="dishDescription"></textarea>
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+                <div class="col-6">
+                    <label for="dishCost" class="form-label" style="color: #ffffff;">Cost:</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input class="form-control" type="number" step="any"  placeholder="0.00" id="dishCost" name="dishCost">
+                    </div>
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+                <div class="col-6">
+                    <label for="dishPrice" class="form-label" style="color: #ffffff;">Price:</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input class="form-control" type="number" step="any" placeholder="0.00" id="dishPrice" name="dishPrice">
+                    </div>
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top-color:#111217">
+                <button type="submit" class="btn btn-success">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,154 @@
+{% extends 'admin_dashboard/admin_elements/admin_layout.html' %}
+
+{% block styles %}
+    <style>
+        #user_profile_card.card{
+            box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+        }
+        #user_profile_card.card:hover{
+            transform: scale(1.01);
+            box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin_dashboard" style="color: #ffffff;">Admin Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page" style="color: #dcdcdc;">Menu Management</li>
+      </ol>
+    </nav>
+    <div class="container">
+        <div class="row gx-3">
+            <div class="col-md-3">
+                <div class="card" style="background-color: rgba(53, 56, 73, 0.95);">
+                    <div class="card-body" >
+                        <h5 class="card-title text-center" style="color: #ffffff;"># Dishes</h5>
+                        <hr>
+                            <h1 class="text-center" style="color: #ffffff;">{{ menu_data.counts.menu_items }}</h1>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMenuDish" align-center>Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card" style="background-color: rgba(53, 56, 73, 0.95);">
+                    <div class="card-body" >
+                        <h5 class="card-title text-center" style="color: #ffffff;"># Beverages</h5>
+                        <hr>
+                            <h1 class="text-center" style="color: #ffffff;">{{ menu_data.counts.beverages }}</h1>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMenuBeverage" align-center>Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card" style="background-color: rgba(53, 56, 73, 0.95);">
+                    <div class="card-body" >
+                        <h5 class="card-title text-center" style="color: #ffffff;"># Toppings</h5>
+                        <hr>
+                            <h1 class="text-center" style="color: #ffffff;">{{ menu_data.counts.toppings }}</h1>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMenuTopping" align-center>Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card" style="background-color: rgba(53, 56, 73, 0.95);">
+                    <div class="card-body" >
+                        <h5 class="card-title text-center" style="color: #ffffff;"># Categories</h5>
+                        <hr>
+                            <h1 class="text-center" style="color: #ffffff;">{{ menu_data.counts.categories }}</h1>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMenuCategoriesModal" align-center>Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- alert messages below -->
+    {% include "elements/alert_messages.html" %}
+
+    {% for category in menu_data.bev_categories %}
+        <div class="card mt-1" style="background-color: rgba(53, 56, 73, 0.95);">
+            <div class="card-body" >
+                <h5 class="card-title" style="color: #ffffff;">{{ category.category }}</h5>
+                <hr>
+
+                {% for bev in category.bev_list %}
+                        <div class="card mb-1" style="background-color: rgba(255, 255, 255, 0.025); border: solid 2px rgba(255, 255, 255, 0.125);" id="user_profile_card" type="submit">
+                            <div class="card-body row">
+                                <div class="col">
+                                    <button type="button" class="btn btn-secondary" id="open-itemImageDialog" data-img="{{ bev.image }}" data-bs-target="#itemImageDialog" data-bs-toggle="modal" align-center>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                        </svg>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" id="open-itemImageDialog" data-img="{{ bev.image }}" data-bs-target="#itemImageDialog" data-bs-toggle="modal" align-center>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+                                          <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                          <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <h6 style="color: #ffffff;">{{ bev.name }}</h6>
+                                </div>
+                                <div class="col">
+                                    <p style="color: #ffffff;">{{ bev.category }}</p>
+                                </div>
+                            </div>
+                        </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="modal fade modal-dialog-scrollable"  id="itemImageDialog">
+        <div class="modal-dialog modal-sm" >
+            <div class="modal-content" style="background-color: rgba(53, 56, 73, 0.95);">
+                <div class="modal-header" style="border-bottom-color:#111217">
+                    <h1 class="modal-title fs-5" style="color: #ffffff;" >Menu Image</h1>
+                    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center" id="imageHere" >
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include "admin_dashboard/admin_elements/menu_management/add_category_modal.html" %}
+    {% include "admin_dashboard/admin_elements/menu_management/add_beverage_modal.html" %}
+    {% include "admin_dashboard/admin_elements/menu_management/add_topping_modal.html" %}
+    {% include "admin_dashboard/admin_elements/menu_management/add_dish_modal.html" %}
+    <script>
+        const imageModal = document.getElementById('itemImageDialog')
+        var imagePath = ""
+
+        $(document).on("click", '#open-itemImageDialog', function(){
+            imagePath = this.dataset.img
+            var elem = document.createElement("img");
+            elem.src = imagePath;
+            elem.setAttribute("height", "200");
+            elem.setAttribute("width", "200");
+            elem.id = 'imagePlaceholder'
+            document.getElementById("imageHere").appendChild(elem);
+        })
+
+        $(document).on("hide.bs.modal", '#itemImageDialog', function(){
+            imagePlaceholder = document.getElementById("imagePlaceholder")
+            if (imagePlaceholder){
+                imagePlaceholder.remove()
+            }
+        })
+
+
+    </script>
+
+{% endblock %}

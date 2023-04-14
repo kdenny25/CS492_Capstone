@@ -7,6 +7,7 @@
 {% block content %}
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin_dashboard" style="color: #ffffff;">Admin Dashboard</a></li>
         <li class="breadcrumb-item"><a href="/user_management" style="color: #ffffff;">User Management</a></li>
         <li class="breadcrumb-item active" aria-current="page" style="color: #dcdcdc;">User Profile</li>
       </ol>
@@ -59,18 +60,7 @@
             </form>
         </div>
     </div>
-    <div class="row mt-2">
-        <div class="col-md-12">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-success" role="alert">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-              {% endif %}
-            {% endwith %}
-        </div>
-    </div>
+    <!-- alert messages below -->
+    {% include "elements/alert_messages.html" %}
 
 {% endblock %}

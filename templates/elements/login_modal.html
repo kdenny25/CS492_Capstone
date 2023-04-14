@@ -2,12 +2,6 @@
 
 {% block content %}
 <form method="post">
-    {% if error %}
-        <p class=error><strong>Error:</strong> {{ error }}
-    {% endif %}
-    {% if success %}
-        <p class=success><strong>Success:</strong> {{ error }}
-    {% endif %}
     <div class="row gtr-uniform">
         <div class="col-6 col-12-xsmall">
             <label for="demo-name">Email</label>
@@ -26,4 +20,5 @@
         </ul>
     </div>
 </form>
+{% include "elements/alert_messages.html" %}
 {% endblock %}

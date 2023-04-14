@@ -13,15 +13,6 @@
 		<link rel="stylesheet" href="{{ url_for('static', filename='/assets/css/main.css') }}">
 		<noscript><link rel="stylesheet" href="{{ url_for('static', filename='/assets/css/noscript.css') }}" /></noscript>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            <ul class=flashes>
-            {% for category, message in messages %}
-              <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %}
         {% block headerScripts %} {% endblock %}
         {% block styles %}{% endblock %}
     </head>

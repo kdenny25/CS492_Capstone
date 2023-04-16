@@ -337,7 +337,7 @@ def add_menu_beverage():
 
         if find_beverage is None:
             beverages.insert_one({'name': bev_name,
-                                  'image': bev_image_filepath,
+                                  'image': bev_image_path,
                                   'category': bev_category,
                                   'dscription': bev_description,
                                   'cost': bev_cost,

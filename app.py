@@ -12,7 +12,7 @@ import json
 import datetime
 from backend.user import User
 from werkzeug.utils import secure_filename
-#from azure.storage.blob import BlobClient
+from azure.storage.blob import BlobClient
 
 base_dir = '.'
 

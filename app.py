@@ -53,7 +53,7 @@ else:
     app.config.from_object('project_settings.production')
     conn_str = app.config.get('CONN_STRING')
     client = MongoClient(conn_str)
-    host_name=request.base_url
+
     # image storage
     blob_conn_str = app.config.get('BLOB_CONN_STRING')
 

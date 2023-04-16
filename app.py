@@ -254,8 +254,6 @@ def admin_menu_management():
             bev_options = list(beverages.find())
             dish_options = list(menu_dishes.find())
 
-            bev_dict = {}
-
             for bev_cat in beverage_categories:
                 bev_list = []
                 for bev in bev_options:
@@ -300,10 +298,53 @@ def add_menu_category():
             return redirect('/menu_management')
         else:
             flash('Category already exists', 'error')
-            return redirect('/menu_management')
+            return redirect(request.referrer)
     else:
         return redirect('/')
 
+@app.route('/menu_management_beverages')
+def view_beverage_menu():
+    if current_user.is_admin:
+        if request.method == 'GET':
+            count_cats = menu_categories.count_documents({})
+            count_bevs = beverages.count_documents({})
+            count_tops = toppings.count_documents({})
+            count_dishes = menu_dishes.count_documents({})
+
+            dish_categories = list(menu_categories.find({'category_type': 'dish'}))
+            beverage_categories = list(menu_categories.find({'category_type': 'beverage'}))
+            topping_categories = list(menu_categories.find({'category_type': 'topping'}))
+
+            bev_options = list(beverages.find())
+            dish_options = list(menu_dishes.find())
+
+            for bev_cat in beverage_categories:
+                bev_list = []
+                for bev in bev_options:
+                    if bev['category'] == bev_cat['category']:
+                        bev_list.append(bev)
+                bev_cat['bev_list'] = bev_list
+
+            for dish_cat in dish_categories:
+                dish_list = []
+                for dish in dish_options:
+                    if dish['category'] == dish_cat['category']:
+                        dish_list.append(dish)
+                dish_cat['dish_list'] = dish_list
+
+            counts = {'menu_items': count_dishes,
+                      'categories': count_cats,
+                      'beverages': count_bevs,
+                      'toppings': count_tops}
+
+            page_data = {'counts': counts,
+                         'dish_categories': dish_categories,
+                         'bev_categories': beverage_categories,
+                         'top_categories': topping_categories}
+
+        return render_template('admin_dashboard/admin_elements/menu_management/admin_menu_management_beverages.html',
+                               menu_data=page_data)
+    return redirect('/')
 @app.post('/add_menu_beverage')
 def add_menu_beverage():
     if current_user.is_admin:
@@ -311,7 +352,7 @@ def add_menu_beverage():
         bev_image = request.files.get('beverageImage', None)
         bev_image_path = ''
 
-        if bev_image is not None:
+        if bev_image.filename != '':
             filename = secure_filename(bev_image.filename)
             bev_image.save(filename)
             blob_client = blob_service_client.get_blob_client(container=container_name, blob=filename)
@@ -331,23 +372,24 @@ def add_menu_beverage():
         bev_price = float(request.form.get('beveragePrice'))
         bev_net_profit = bev_price - bev_cost
 
+
         find_beverage = beverages.find_one({'beverage_name': bev_name})
 
         if find_beverage is None:
             beverages.insert_one({'name': bev_name,
                                   'image': bev_image_path,
                                   'category': bev_category,
-                                  'dscription': bev_description,
+                                  'description': bev_description,
                                   'cost': bev_cost,
                                   'price': bev_price,
                                   'net_profit': bev_net_profit})
             flash('Beverage successfully added.', 'success')
-            redirect('/menu_management')
+            return redirect(request.referrer)
         else:
             flash('Beverage name already exists')
-            redirect('/menu_management')
+            return redirect(request.referrer)
 
-        return redirect('/menu_management')
+        return redirect(request.referrer)
     else:
         return redirect('/')
 
@@ -372,7 +414,7 @@ def add_menu_topping():
             return redirect('/menu_management')
 
         flash('Topping already exists.', 'error')
-        return redirect('/menu_management')
+        return redirect(request.referrer)
     else:
         return redirect('/')
 
@@ -381,10 +423,9 @@ def add_menu_dish():
     if current_user.is_admin:
         dish_name = request.form.get('dishName')
         dish_image = request.files.get('dishImage', None)
-        print(dish_image)
 
         dish_image_path = ''
-        if dish_image is not None:
+        if dish_image.filename != '':
             filename = secure_filename(dish_image.filename)
             dish_image.save(filename)
             blob_client = blob_service_client.get_blob_client(container=container_name, blob=filename)
@@ -415,10 +456,10 @@ def add_menu_dish():
                                     'price': dish_price,
                                     'net_profit': dish_net_profit})
             flash('Dish added successfully', 'success')
-            return redirect('/menu_management')
+            return redirect(request.referrer)
         else:
             flash('Dish already exists', 'error')
-            return redirect('/menu_management')
+            return redirect(request.referrer)
     else:
         return redirect('/')
 

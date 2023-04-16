@@ -12,7 +12,7 @@ import json
 import datetime
 from backend.user import User
 from werkzeug.utils import secure_filename
-from azure.storage.blob import BlobClient
+from azure.storage.blob import BlobServiceClient
 
 base_dir = '.'
 
@@ -34,19 +34,17 @@ csrf = CSRFProtect(app)
 # OAuth 2 client setup
 # gClient = WebApplicationClient(GOOGLE_CLIENT_ID)
 
-container_name = 'images'
-
 # checks if local development environment or production environment and
 # connects to correct MongoDB database.
 if 'COSMOS_CONNECTION_STRING' not in os.environ:
     # local development, where environment variables are used
-    print('Loading config.development and environment variables from .env file.')
+    #print('Loading config.development and environment variables from .env file.')
     client = MongoClient('localhost', 27017)
     # file storage path
     # app.config['UPLOAD_FOLDER'] = os.path.join(base_dir, "static/uploaded_images/")
     blob_conn_str = "DefaultEndpointsProtocol=https;AccountName=ctucapstonestg;AccountKey=/kF8zvrGJ8LsON1fd/TfTF79mrlmBYj/XiXN+o7USfDxbWtsWZPwYAa/Sz7sthSZL2BMowH0fqOR+ASt1TQqpA==;EndpointSuffix=core.windows.net"
     app.secret_key = b'_53oi3uriq9pifpff;apl'
-    host_name="http://ctucapstone.azurewebsites.net/"
+    blob_service_client = BlobServiceClient.from_connection_string(blob_conn_str)
 else:
     # production
     print('Loading config.production.')
@@ -56,7 +54,10 @@ else:
 
     # image storage
     blob_conn_str = app.config.get('BLOB_CONN_STRING')
+    blob_service_client = BlobServiceClient.from_connection_string(blob_conn_str)
 
+host_name="https://ctucapstonestg.blob.core.windows.net"
+container_name = 'images'
 
 # sets up database
 db = client.pizza_db
@@ -310,20 +311,20 @@ def add_menu_beverage():
         bev_image = request.files.get('beverageImage', None)
         #test
         bev_image_path = ''
-        if bev_image is not None:
-            try:
-                bev_image_filename = './' + secure_filename(bev_image.filename)
-                bev_image_upload = BlobClient.from_connection_string(
-                    conn_str=blob_conn_str,
-                    container_name=container_name,
-                    blob_name=bev_image_filename)
-
-                with open(bev_image.file.read(), "rb") as data:
-                    bev_image_upload(data)
-
-                bev_image_path = f"{host_name}/{container_name}/{bev_image_filename}"
-            except:
-                pass
+        # if bev_image is not None:
+        #     try:
+        #         bev_image_filename = './' + secure_filename(bev_image.filename)
+        #         bev_image_upload = BlobClient.from_connection_string(
+        #             conn_str=blob_conn_str,
+        #             container_name=container_name,
+        #             blob_name=bev_image_filename)
+        #
+        #         with open(bev_image.file.read(), "rb") as data:
+        #             bev_image_upload(data)
+        #
+        #         bev_image_path = f"{host_name}/{container_name}/{bev_image_filename}"
+        #     except:
+        #         pass
 
         # bev_image_filepath = os.path.join(app.config['UPLOAD_FOLDER'],
         #                                   secure_filename(bev_image.filename))
@@ -388,24 +389,27 @@ def add_menu_dish():
 
         dish_image_path = ''
         if dish_image is not None:
-            try:
-                dish_image_filename = './' + secure_filename(dish_image.filename)
-                dish_image_upload = BlobClient.from_connection_string(
-                    conn_str=blob_conn_str,
-                    container_name=container_name,
-                    blob_name=dish_image_filename)
+            filename = secure_filename(dish_image.filename)
+            dish_image.save(filename)
+            blob_client = blob_service_client.get_blob_client(container=container_name, blob=filename)
+            with open(filename, "rb") as data:
+                try:
+                    blob_client.upload_blob(data, overwrite=True)
+                    print("Upload Done")
+                    # dish_image_filename = './' + secure_filename(dish_image.filename)
+                    # dish_image_upload = BlobClient.from_connection_string(
+                    #     conn_str=blob_conn_str,
+                    #     container_name=container_name,
+                    #     blob_name=dish_image_filename)
+                    #
+                    # with open(dish_image.file.read(), "rb") as data:
+                    #     dish_image_upload(data)
 
-                with open(dish_image.file.read(), "rb") as data:
-                    dish_image_upload(data)
+                    dish_image_path = f"{host_name}/{container_name}/{filename}"
+                except:
+                    pass
+            os.remove(filename)
 
-                dish_image_path = f"{host_name}/{container_name}/{dish_image_filename}"
-            except:
-                pass
-
-
-        #dish_image_filepath = os.path.join(app.config['UPLOAD_FOLDER'],
-                                          #secure_filename(dish_image.filename))
-        #dish_image.save(dish_image_filepath)
         dish_category = request.form.get('dishCat')
         dish_description = request.form.get('dishDescription')
         dish_cost = float(request.form.get('dishCost'))

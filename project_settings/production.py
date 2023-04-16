@@ -8,3 +8,4 @@ ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.env
 CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']] if 'WEBSITE_HOSTNAME' in os.environ else []
 
 CONN_STRING = os.environ['COSMOS_CONNECTION_STRING']
+BLOB_CONN_STRING = os.environ['BLOB_CONN_STRING']

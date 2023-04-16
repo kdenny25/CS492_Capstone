@@ -37,7 +37,7 @@
                     <label for="beverageCost" class="form-label" style="color: #ffffff;">Cost:</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text">$</span>
-                        <input class="form-control" type="number" step="any"  placeholder="0.00" id="beverageCost" name="beverageCost">
+                        <input class="form-control" type="number" step="any"  placeholder="0.00" id="beverageCost" name="beverageCost" required>
                     </div>
                     <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
 
@@ -46,7 +46,7 @@
                     <label for="beveragePrice" class="form-label" style="color: #ffffff;">Price:</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text">$</span>
-                        <input class="form-control" type="number" step="any" placeholder="0.00" id="beveragePrice" name="beveragePrice">
+                        <input class="form-control" type="number" step="any" placeholder="0.00" id="beveragePrice" name="beveragePrice" required>
                     </div>
                     <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
                 </div>

@@ -9,3 +9,4 @@ oauthlib
 requests
 pyOpenSSL
 flask-bcrypt
+azure-storage-blob

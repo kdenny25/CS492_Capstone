@@ -12,7 +12,7 @@ import json
 import datetime
 from backend.user import User
 from werkzeug.utils import secure_filename
-from azure.storage.blob import BlobClient
+#from azure.storage.blob import BlobClient
 
 base_dir = '.'
 
@@ -44,7 +44,6 @@ if 'COSMOS_CONNECTION_STRING' not in os.environ:
     client = MongoClient('localhost', 27017)
     # file storage path
     # app.config['UPLOAD_FOLDER'] = os.path.join(base_dir, "static/uploaded_images/")
-    accountUrl = '/subscriptions/1ea6187c-4c37-4cca-b973-121937c008d1/resourceGroups/ctucapstone_group/providers/Microsoft.Storage/storageAccounts/ctucapstonestg'
     blob_conn_str = "DefaultEndpointsProtocol=https;AccountName=ctucapstonestg;AccountKey=/kF8zvrGJ8LsON1fd/TfTF79mrlmBYj/XiXN+o7USfDxbWtsWZPwYAa/Sz7sthSZL2BMowH0fqOR+ASt1TQqpA==;EndpointSuffix=core.windows.net"
     app.secret_key = b'_53oi3uriq9pifpff;apl'
     host_name="http://ctucapstone.azurewebsites.net/"
@@ -56,7 +55,6 @@ else:
     client = MongoClient(conn_str)
     host_name=request.base_url
     # image storage
-    accountUrl = '/subscriptions/1ea6187c-4c37-4cca-b973-121937c008d1/resourceGroups/ctucapstone_group/providers/Microsoft.Storage/storageAccounts/ctucapstonestg'
     blob_conn_str = app.config.get('BLOB_CONN_STRING')
 
 

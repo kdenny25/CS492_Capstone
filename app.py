@@ -309,26 +309,22 @@ def add_menu_beverage():
     if current_user.is_admin:
         bev_name = request.form.get('beverageName')
         bev_image = request.files.get('beverageImage', None)
-        #test
         bev_image_path = ''
-        # if bev_image is not None:
-        #     try:
-        #         bev_image_filename = './' + secure_filename(bev_image.filename)
-        #         bev_image_upload = BlobClient.from_connection_string(
-        #             conn_str=blob_conn_str,
-        #             container_name=container_name,
-        #             blob_name=bev_image_filename)
-        #
-        #         with open(bev_image.file.read(), "rb") as data:
-        #             bev_image_upload(data)
-        #
-        #         bev_image_path = f"{host_name}/{container_name}/{bev_image_filename}"
-        #     except:
-        #         pass
 
-        # bev_image_filepath = os.path.join(app.config['UPLOAD_FOLDER'],
-        #                                   secure_filename(bev_image.filename))
-        # bev_image.save(bev_image_filepath)
+        if bev_image is not None:
+            filename = secure_filename(bev_image.filename)
+            bev_image.save(filename)
+            blob_client = blob_service_client.get_blob_client(container=container_name, blob=filename)
+            with open(filename, "rb") as data:
+                try:
+                    blob_client.upload_blob(data, overwrite=True)
+                    print("Upload Done")
+
+                    bev_image_path = f"{host_name}/{container_name}/{filename}"
+                except:
+                    pass
+            os.remove(filename)
+
         bev_category = request.form.get('beverageCat')
         bev_description = request.form.get('beverageDescription')
         bev_cost = float(request.form.get('beverageCost'))
@@ -396,14 +392,6 @@ def add_menu_dish():
                 try:
                     blob_client.upload_blob(data, overwrite=True)
                     print("Upload Done")
-                    # dish_image_filename = './' + secure_filename(dish_image.filename)
-                    # dish_image_upload = BlobClient.from_connection_string(
-                    #     conn_str=blob_conn_str,
-                    #     container_name=container_name,
-                    #     blob_name=dish_image_filename)
-                    #
-                    # with open(dish_image.file.read(), "rb") as data:
-                    #     dish_image_upload(data)
 
                     dish_image_path = f"{host_name}/{container_name}/{filename}"
                 except:

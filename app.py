@@ -307,7 +307,7 @@ def add_menu_beverage():
     if current_user.is_admin:
         bev_name = request.form.get('beverageName')
         bev_image = request.files.get('beverageImage', None)
-
+        #test
         bev_image_path = ''
         if bev_image is not None:
             try:
@@ -320,7 +320,7 @@ def add_menu_beverage():
                 with open(bev_image.file.read(), "rb") as data:
                     bev_image_upload(data)
 
-                dish_image_path = f"{host_name}/{container_name}/{bev_image_filename}"
+                bev_image_path = f"{host_name}/{container_name}/{bev_image_filename}"
             except:
                 pass
 

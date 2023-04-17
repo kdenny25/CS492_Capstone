@@ -257,6 +257,7 @@ def admin_menu_management():
             for bev_cat in beverage_categories:
                 bev_list = []
                 for bev in bev_options:
+                    bev['_id'] = str(bev['_id'])
                     if bev['category'] == bev_cat['category']:
                         bev_list.append(bev)
                 bev_cat['bev_list'] = bev_list
@@ -264,6 +265,7 @@ def admin_menu_management():
             for dish_cat in dish_categories:
                 dish_list = []
                 for dish in dish_options:
+                    dish['_id'] = str(dish['_id'])
                     if dish['category'] == dish_cat['category']:
                         dish_list.append(dish)
                 dish_cat['dish_list'] = dish_list
@@ -281,6 +283,107 @@ def admin_menu_management():
 
             return render_template('admin_dashboard/admin_menu_management.html', menu_data=page_data)
     return redirect('/')
+
+@app.post('/add_menu_dish')
+def add_menu_dish():
+    if current_user.is_admin:
+        dish_name = request.form.get('dishName')
+        dish_image = request.files.get('dishImage', None)
+
+        dish_image_path = ''
+        if dish_image.filename != '':
+            filename = secure_filename(dish_image.filename)
+            dish_image.save(filename)
+            blob_client = blob_service_client.get_blob_client(container=container_name, blob=filename)
+            with open(filename, "rb") as data:
+                try:
+                    blob_client.upload_blob(data, overwrite=True)
+                    print("Upload Done")
+
+                    dish_image_path = f"{host_name}/{container_name}/{filename}"
+                except:
+                    pass
+            os.remove(filename)
+
+        dish_category = request.form.get('dishCat')
+        dish_description = request.form.get('dishDescription')
+        dish_cost = float(request.form.get('dishCost'))
+        dish_price = float(request.form.get('dishPrice'))
+        dish_net_profit = dish_price - dish_cost
+
+        find_dish = menu_dishes.find_one({"name": dish_name})
+
+        if find_dish is None:
+            menu_dishes.insert_one({'name': dish_name,
+                                    'image': dish_image_path,
+                                    'category': dish_category,
+                                    'description': dish_description,
+                                    'cost': dish_cost,
+                                    'price': dish_price,
+                                    'net_profit': dish_net_profit})
+            flash('Dish added successfully', 'success')
+            return redirect(request.referrer)
+        else:
+            flash('Dish already exists', 'error')
+            return redirect(request.referrer)
+    else:
+        return redirect('/')
+
+@app.post('/update_menu_dish')
+def update_menu_dish():
+    if current_user.is_admin:
+        dish_id = request.form.get('_id')
+        dish_name = request.form.get('dishName')
+        dish_image = request.files.get('dishImage', None)
+        dish_category = request.form.get('dishCat')
+        dish_description = request.form.get('dishDescription')
+        dish_cost = float(request.form.get('dishCost'))
+        dish_price = float(request.form.get('dishPrice'))
+        dish_net_profit = dish_price - dish_cost
+
+        print(dish_id)
+
+        if dish_image.filename != '':
+            filename = secure_filename(dish_image.filename)
+            dish_image.save(filename)
+            blob_client = blob_service_client.get_blob_client(container=container_name, blob=filename)
+            with open(filename, "rb") as data:
+                try:
+                    blob_client.upload_blob(data, overwrite=True)
+                    print("Upload Done")
+                    dish_image_path = f"{host_name}/{container_name}/{filename}"
+
+                    # update database
+                    menu_dishes.update_one({'_id': ObjectId(dish_id)}, {'$set':{
+                        'name': dish_name,
+                        'image': dish_image_path,
+                        'category': dish_category,
+                        'description': dish_description,
+                        'cost': dish_cost,
+                        'price': dish_price,
+                        'net_profit': dish_net_profit
+                    }})
+
+                except:
+                    pass
+            os.remove(filename)
+
+        else:
+            # update database without image
+            menu_dishes.update_one({'_id': ObjectId(dish_id)}, {'$set': {
+                'name': dish_name,
+                'category': dish_category,
+                'description': dish_description,
+                'cost': dish_cost,
+                'price': dish_price,
+                'net_profit': dish_net_profit
+            }})
+
+        flash('Dish updated successfully', 'success')
+        return redirect(request.referrer)
+
+    else:
+        redirect('/')
 
 @app.post('/add_menu_category')
 def add_menu_category():
@@ -321,6 +424,7 @@ def view_beverage_menu():
             for bev_cat in beverage_categories:
                 bev_list = []
                 for bev in bev_options:
+                    bev['_id'] = str(bev['_id'])
                     if bev['category'] == bev_cat['category']:
                         bev_list.append(bev)
                 bev_cat['bev_list'] = bev_list
@@ -328,6 +432,7 @@ def view_beverage_menu():
             for dish_cat in dish_categories:
                 dish_list = []
                 for dish in dish_options:
+                    dish['_id'] = str(dish['_id'])
                     if dish['category'] == dish_cat['category']:
                         dish_list.append(dish)
                 dish_cat['dish_list'] = dish_list
@@ -418,50 +523,7 @@ def add_menu_topping():
     else:
         return redirect('/')
 
-@app.post('/add_menu_dish')
-def add_menu_dish():
-    if current_user.is_admin:
-        dish_name = request.form.get('dishName')
-        dish_image = request.files.get('dishImage', None)
 
-        dish_image_path = ''
-        if dish_image.filename != '':
-            filename = secure_filename(dish_image.filename)
-            dish_image.save(filename)
-            blob_client = blob_service_client.get_blob_client(container=container_name, blob=filename)
-            with open(filename, "rb") as data:
-                try:
-                    blob_client.upload_blob(data, overwrite=True)
-                    print("Upload Done")
-
-                    dish_image_path = f"{host_name}/{container_name}/{filename}"
-                except:
-                    pass
-            os.remove(filename)
-
-        dish_category = request.form.get('dishCat')
-        dish_description = request.form.get('dishDescription')
-        dish_cost = float(request.form.get('dishCost'))
-        dish_price = float(request.form.get('dishPrice'))
-        dish_net_profit = dish_price - dish_cost
-
-        find_dish = menu_dishes.find_one({"name": dish_name})
-
-        if find_dish is None:
-            menu_dishes.insert_one({'name': dish_name,
-                                    'image': dish_image_path,
-                                    'category': dish_category,
-                                    'description': dish_description,
-                                    'cost': dish_cost,
-                                    'price': dish_price,
-                                    'net_profit': dish_net_profit})
-            flash('Dish added successfully', 'success')
-            return redirect(request.referrer)
-        else:
-            flash('Dish already exists', 'error')
-            return redirect(request.referrer)
-    else:
-        return redirect('/')
 
 # inserts communication responses from customers
 @app.post('/get_in_touch')

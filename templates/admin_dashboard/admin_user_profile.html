@@ -54,7 +54,7 @@
                 </div>
                 {% if current_user.email != user_profile.email %}
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-danger" onclick="window.location.href='/admin_delete_profile?_id={{ user_profile._id }}';">Delete Profile</button>
+                        <button type="button" class="btn btn-danger float-end" onclick="window.location.href='/admin_delete_profile?_id={{ user_profile._id }}';">Delete Profile</button>
                     </div>
                 {% endif %}
             </form>

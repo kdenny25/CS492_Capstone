@@ -1,0 +1,63 @@
+<div class="modal fade modal-dialog-scrollable"  id="itemUpdateBevDialog">
+    <div class="modal-dialog" >
+        <form class="modal-content"  style="background-color: rgba(53, 56, 73, 0.95);" action="{{ url_for("update_menu_dish")}}" method="post" enctype="multipart/form-data">
+            <div class="modal-header" style="border-bottom-color:#111217">
+                <h1 class="modal-title fs-5" style="color: #ffffff;" >Update this Beverage</h1>
+                <button type="button" style="color: #ffffff;" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body row" >
+                <div style="display:none">
+                    <input class="invisible"  id="_id" name="_id" value="">
+                </div>
+                <div class="col-12">
+                    <label for="bevName" class="form-label" style="color: #ffffff;">Beverage Name:</label>
+                    <input class="form-control" type="text" id="bevName" name="bevName" value="">
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+                <div class="col-12 text-center mt-3">
+                    <img src="" id="bevImagePlaceholder" width="75" height="75">
+                </div>
+                <div class="col-12">
+                    <label for="bevImage" class="form-label" style="color: #ffffff;">Change Image:</label>
+                    <input class="form-control" type="file" id="bevImage" name="bevImage" accept=".png, .jpg">
+                </div>
+                <div class="col-12">
+                    <label for="dishCat" class="form-label" style="color: #ffffff;">Category:</label>
+                    <div class="input-group mb-3">
+                        <select class="form-select" id="bevCat" name="bevCat">
+                            <option selected>...</option>
+                            {% for category in menu_data.bev_categories %}
+                                <option value="{{ category.category }}">{{ category.category }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label for="bevDescription" class="form-label" style="color: #ffffff;">Description:</label>
+                    <textarea class="form-control" id="bevDescription" name="bevDescription"></textarea>
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+                <div class="col-6">
+                    <label for="bevCost" class="form-label" style="color: #ffffff;">Cost:</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input class="form-control" type="number" step="any"  placeholder="0.00" id="bevCost" name="bevCost" required>
+                    </div>
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+                <div class="col-6">
+                    <label for="bevPrice" class="form-label" style="color: #ffffff;">Price:</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input class="form-control" type="number" step="any" placeholder="0.00" id="bevPrice" name="bevPrice" required>
+                    </div>
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top-color:#111217">
+                <button type="submit" class="btn btn-success">Update</button>
+            </div>
+        </form>
+    </div>
+</div>

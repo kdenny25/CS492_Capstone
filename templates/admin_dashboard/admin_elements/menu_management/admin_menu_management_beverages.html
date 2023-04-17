@@ -79,12 +79,22 @@
             <div class="card-body" >
                 <h5 class="card-title" style="color: #ffffff;">{{ category.category }}</h5>
                 <hr>
-
-                {% for bev in category.bev_list %}
-                        <div class="card mb-1" style="background-color: rgba(255, 255, 255, 0.025); border: solid 2px rgba(255, 255, 255, 0.125);" id="user_profile_card">
-                            <div class="card-body row" id="menu_item">
-                                <div class="col-md-2 my-auto">
-                                    <button type="button" class="btn btn-secondary" id="open-itemImageDialog" data-img="{{ bev.image }}" data-bs-target="#itemImageDialog" data-bs-toggle="modal" align-center>
+                 <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Options</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Cost</th>
+                            <th scope="col">Net</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bev in category.bev_list %}
+                            <tr>
+                                <td>
+                                    <button type="button" class="btn btn-secondary" id="open-itemUpdateDialog" data-dict="{{ bev }}" data-bs-target="#itemUpdateBevDialog" data-bs-toggle="modal" align-center>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                           <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -96,38 +106,22 @@
                                           <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
                                         </svg>
                                     </button>
-                                </div>
-                                <div class="col-md-3 my-auto">
-                                    <h6 style="color: #ffffff;">Name: {{ bev.name }}</h6>
-                                </div>
-                                <div class="col-md-4 my-auto">
-                                    <p style="color: #ffffff;">Description: {{ bev.description[0:40] }}</p>
-                                </div>
-                                <div class="col-md-3 my-auto">
-                                    <p style="color: #ffffff; margin-bottom:0px; display: inline;">Price: ${{ bev.price }}</p>
-                                    <p style="color: #e3a5a5; margin-bottom:0px; display: inline;">Cost: ${{ bev.cost }} </p>
-                                    <p style="color: #96c77d; margin-bottom:0px; display: inline;">Net: ${{ bev.net_profit }}</p>
-                                </div>
-                            </div>
-                        </div>
-                {% endfor %}
+                                </td>
+                                <td>{{ bev.name }}</td>
+                                <td style="width:50%">{{ bev.description[0:60] }}</td>
+                                <td>${{ '%0.2f' % bev.price|float }}</td>
+                                <td style="color: #e3a5a5;">${{ '%0.2f' % bev.cost|float }}</td>
+                                <td style="color: #96c77d;">${{ '%0.2f' % bev.net_profit|float }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     {% endfor %}
 
-    <div class="modal fade modal-dialog-scrollable"  id="itemImageDialog">
-        <div class="modal-dialog modal-sm" >
-            <div class="modal-content" style="background-color: rgba(53, 56, 73, 0.95);">
-                <div class="modal-header" style="border-bottom-color:#111217">
-                    <h1 class="modal-title fs-5" style="color: #ffffff;" >Menu Image</h1>
-                    <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body text-center" id="imageHere" >
-                </div>
-            </div>
-        </div>
-    </div>
-
+    {#  Modals #}
+    {% include "admin_dashboard/admin_elements/menu_management/item_image_modal.html" %}
     {% include "admin_dashboard/admin_elements/menu_management/add_category_modal.html" %}
     {% include "admin_dashboard/admin_elements/menu_management/add_beverage_modal.html" %}
     {% include "admin_dashboard/admin_elements/menu_management/add_topping_modal.html" %}
@@ -152,8 +146,6 @@
                 imagePlaceholder.remove()
             }
         })
-
-
     </script>
 
 {% endblock %}

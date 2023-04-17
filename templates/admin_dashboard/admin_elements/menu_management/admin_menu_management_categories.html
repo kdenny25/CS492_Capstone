@@ -2,7 +2,7 @@
 
 {% block styles %}
     <style>
-        #menu_item.card-body{
+       #menu_item.card-body{
             padding-top: 0px;
             padding-bottom: 0px;
             padding-left: 2px;
@@ -14,19 +14,21 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/admin_dashboard" style="color: #ffffff;">Admin Dashboard</a></li>
-        <li class="breadcrumb-item active" aria-current="page" style="color: #dcdcdc;">Menu Management</li>
+        <li class="breadcrumb-item"><a href="/menu_management" style="color: #ffffff;">Menu Management</a></li>
+        <li class="breadcrumb-item active" aria-current="page" style="color: #dcdcdc;">Beverage Management</li>
       </ol>
     </nav>
     <div class="container">
         <div class="row gx-3">
             <div class="col-md-3">
-                <div class="card" style="background-color: rgba(32,33,45,0.95);">
+                <div class="card" style="background-color: rgba(53, 56, 73, 0.95);">
                     <div class="card-body" >
                         <h5 class="card-title text-center" style="color: #ffffff;"># Dishes</h5>
                         <hr>
                             <h1 class="text-center" style="color: #ffffff;">{{ menu_data.counts.menu_items }}</h1>
                         <div class="text-center">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMenuDish" align-center>Add</button>
+                            <a type="button" class="btn btn-primary" href="/menu_management" align-center>View</a>
                         </div>
                     </div>
                 </div>
@@ -57,14 +59,13 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card" style="background-color: rgba(53, 56, 73, 0.95);">
+                <div class="card" style="background-color: rgba(32,33,45,0.95);">
                     <div class="card-body" >
                         <h5 class="card-title text-center" style="color: #ffffff;"># Categories</h5>
                         <hr>
                             <h1 class="text-center" style="color: #ffffff;">{{ menu_data.counts.categories }}</h1>
                         <div class="text-center">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMenuCategoriesModal" align-center>Add</button>
-                            <a type="button" class="btn btn-primary" href="/menu_management_categories" align-center>View</a>
                         </div>
                     </div>
                 </div>
@@ -74,60 +75,44 @@
         <!-- alert messages below -->
     {% include "elements/alert_messages.html" %}
 
-    {% for category in menu_data.dish_categories %}
         <div class="card mt-1" style="background-color: rgba(53, 56, 73, 0.95);">
             <div class="card-body" >
-                <h5 class="card-title" style="color: #ffffff;">{{ category.category }}</h5>
+                <h5 class="card-title" style="color: #ffffff;">Categories</h5>
                 <hr>
                  <table class="table table-dark table-striped">
                     <thead>
                         <tr>
                             <th scope="col">Options</th>
+                            <th scole="col">Type</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Cost</th>
-                            <th scope="col">Net</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for dish in category.dish_list %}
+                        {% for category in menu_data.all_categories %}
                             <tr>
                                 <td>
-                                    <button type="button" class="btn btn-secondary" id="open-itemUpdateDialog" data-dict="{{ dish }}" data-bs-target="#itemUpdateDishDialog" data-bs-toggle="modal" align-center>
+                                    <button type="button" class="btn btn-secondary" id="open-itemUpdateDialog" data-dict="{{ category }}" data-bs-target="#itemUpdateCatDialog" data-bs-toggle="modal" align-center>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                           <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                         </svg>
                                     </button>
-                                    <button type="button" class="btn btn-secondary" id="open-itemImageDialog" data-img="{{ dish.image }}" data-bs-target="#itemImageDialog" data-bs-toggle="modal" align-center>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
-                                          <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-                                          <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
-                                        </svg>
-                                    </button>
                                 </td>
-                                <td>{{ dish.name }}</td>
-                                <td style="width:50%">{{ dish.description[0:60] }}</td>
-                                <td>${{ '%0.2f' % dish.price|float }}</td>
-                                <td style="color: #e3a5a5;">${{ '%0.2f' % dish.cost|float }}</td>
-                                <td style="color: #96c77d;">${{ '%0.2f' % dish.net_profit|float }}</td>
+                                <td>{{ category.category_type }}</td>
+                                <td>{{ category.category }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-    {% endfor %}
 
     {#  Modals #}
-    {% include "admin_dashboard/admin_elements/menu_management/item_image_modal.html" %}
-    {% include "admin_dashboard/admin_elements/menu_management/update_dish_modal.html" %}
+    {% include "admin_dashboard/admin_elements/menu_management/update_category_modal.html" %}
     {% include "admin_dashboard/admin_elements/menu_management/add_category_modal.html" %}
     {% include "admin_dashboard/admin_elements/menu_management/add_beverage_modal.html" %}
     {% include "admin_dashboard/admin_elements/menu_management/add_topping_modal.html" %}
     {% include "admin_dashboard/admin_elements/menu_management/add_dish_modal.html" %}
-
     <script>
         const imageModal = document.getElementById('itemImageDialog')
         var imagePath = ""
@@ -150,7 +135,7 @@
         })
     </script>
     <script>
-        const updateModal = document.getElementById('itemDishUpdateDialog')
+        const updateModal = document.getElementById('itemUpdateCatDialog')
 
         $(document).on("click", '#open-itemUpdateDialog', function(){
             let dictData = this.dataset.dict;
@@ -159,14 +144,8 @@
 
             console.log(dictData._id)
             document.getElementById("_id").value = dictData._id;
-            document.getElementById("dishName").value = dictData.name;
-            document.getElementById("dishImagePlaceholder").src = dictData.image;
-            document.getElementById("dishCat").value = dictData.category
-            document.getElementById("dishDescription").value = dictData.description;
-            document.getElementById("dishCost").value = dictData.cost.toFixed(2);
-            document.getElementById("dishPrice").value = dictData.price.toFixed(2);
-
-
+            document.getElementById("categoryType").value = dictData.category_type;
+            document.getElementById("categoryName").value = dictData.category;
         })
     </script>
 

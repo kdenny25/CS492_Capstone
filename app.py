@@ -250,6 +250,7 @@ def admin_menu_management():
             dish_categories = list(menu_categories.find({'category_type': 'dish'}))
             beverage_categories = list(menu_categories.find({'category_type': 'beverage'}))
             topping_categories = list(menu_categories.find({'category_type': 'topping'}))
+            all_categories = list(menu_categories.find())
 
             bev_options = list(beverages.find())
             dish_options = list(menu_dishes.find())
@@ -278,7 +279,8 @@ def admin_menu_management():
             page_data = {'counts': counts,
                          'dish_categories': dish_categories,
                          'bev_categories': beverage_categories,
-                         'top_categories': topping_categories}
+                         'top_categories': topping_categories,
+                         'all_categories': all_categories}
 
 
             return render_template('admin_dashboard/admin_menu_management.html', menu_data=page_data)
@@ -384,6 +386,73 @@ def update_menu_dish():
 
     else:
         redirect('/')
+
+@app.route('/menu_management_categories', methods=['GET', 'POST'])
+def admin_menu_management_categories():
+    if current_user.is_admin:
+        if request.method == 'GET':
+            count_cats = menu_categories.count_documents({})
+            count_bevs = beverages.count_documents({})
+            count_tops = toppings.count_documents({})
+            count_dishes = menu_dishes.count_documents({})
+
+            dish_categories = list(menu_categories.find({'category_type': 'dish'}))
+            beverage_categories = list(menu_categories.find({'category_type': 'beverage'}))
+            topping_categories = list(menu_categories.find({'category_type': 'topping'}))
+            all_categories = list(menu_categories.find())
+
+            bev_options = list(beverages.find())
+            dish_options = list(menu_dishes.find())
+
+            for cat in all_categories:
+                cat['_id'] = str(cat['_id'])
+
+            for bev_cat in beverage_categories:
+                bev_list = []
+                for bev in bev_options:
+                    bev['_id'] = str(bev['_id'])
+                    if bev['category'] == bev_cat['category']:
+                        bev_list.append(bev)
+                bev_cat['bev_list'] = bev_list
+
+            for dish_cat in dish_categories:
+                dish_list = []
+                for dish in dish_options:
+                    dish['_id'] = str(dish['_id'])
+                    if dish['category'] == dish_cat['category']:
+                        dish_list.append(dish)
+                dish_cat['dish_list'] = dish_list
+
+            counts = {'menu_items': count_dishes,
+                      'categories': count_cats,
+                      'beverages': count_bevs,
+                      'toppings': count_tops}
+
+            page_data = {'counts': counts,
+                         'dish_categories': dish_categories,
+                         'bev_categories': beverage_categories,
+                         'top_categories': topping_categories,
+                         'all_categories': all_categories}
+
+
+            return render_template('admin_dashboard/admin_elements/menu_management/admin_menu_management_categories.html', menu_data=page_data)
+    return redirect('/')
+
+@app.post('/update_menu_category')
+def update_menu_category():
+    if current_user.is_admin:
+        _id = request.form.get('_id')
+        cat_type = request.form.get('categoryType')
+        category = request.form.get('categoryName')
+
+        menu_categories.update_one({'_id': ObjectId(_id)}, {'$set':{
+            'category_type': cat_type,
+            'category': category
+        }})
+        flash('Category updated successfully', 'success')
+        return redirect(request.referrer)
+
+    return redirect('/')
 
 @app.post('/add_menu_category')
 def add_menu_category():

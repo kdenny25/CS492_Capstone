@@ -1,11 +1,15 @@
-<div class="modal fade modal-dialog-scrollable"  id="addMenuCategoriesModal">
+<div class="modal fade modal-dialog-scrollable"  id="itemUpdateCatDialog">
     <div class="modal-dialog" >
-        <form class="modal-content"  style="background-color: rgba(53, 56, 73, 0.95);" action="{{ url_for("add_menu_category")}}" method="post">
+        <form class="modal-content"  style="background-color: rgba(53, 56, 73, 0.95);" action="{{ url_for("update_menu_category")}}" method="post" enctype="multipart/form-data">
             <div class="modal-header" style="border-bottom-color:#111217">
-                <h1 class="modal-title fs-5" style="color: #ffffff;" >Add Category</h1>
-                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+                <h1 class="modal-title fs-5" style="color: #ffffff;" >Update this Category</h1>
+                <button type="button" style="color: #ffffff;" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body" >
+
+            <div class="modal-body row" >
+                <div style="display:none">
+                    <input class="invisible"  id="_id" name="_id" value="">
+                </div>
                 <div class="col-12">
                     <label for="categoryType" class="form-label" style="color: #ffffff;">Category Type:</label>
                     <div class="input-group mb-3">
@@ -24,7 +28,7 @@
                 </div>
             </div>
             <div class="modal-footer" style="border-top-color:#111217">
-                <button type="submit" class="btn btn-success">Save</button>
+                <button type="submit" class="btn btn-success">Update</button>
             </div>
         </form>
     </div>

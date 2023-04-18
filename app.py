@@ -503,6 +503,17 @@ def add_menu_category():
     else:
         return redirect('/')
 
+@app.route('/delete_category')
+def delete_category():
+    if current_user.is_admin:
+        _id = request.values.get('_id')
+
+        menu_categories.delete_one({'_id': ObjectId(_id)})
+
+        return redirect(request.referrer)
+    else:
+        return redirect('/')
+
 @app.route('/menu_management_beverages')
 def view_beverage_menu():
     if current_user.is_admin:
@@ -591,6 +602,78 @@ def add_menu_beverage():
         else:
             flash('Beverage name already exists')
             return redirect(request.referrer)
+
+        return redirect(request.referrer)
+    else:
+        return redirect('/')
+
+@app.post('/update_menu_beverage')
+def update_menu_beverage():
+    if current_user.is_admin:
+        bev_id = request.form.get('_id')
+        bev_name = request.form.get('bevName')
+        bev_image = request.files.get('bevImage', None)
+        bev_category = request.form.get('bevCat')
+        bev_description = request.form.get('bevDescription')
+        bev_cost = float(request.form.get('bevCost'))
+        bev_price = float(request.form.get('bevPrice'))
+        bev_net_profit = bev_price - bev_cost
+
+        if bev_image.filename != '':
+            filename = secure_filename(bev_image.filename)
+            bev_image.save(filename)
+            blob_client = blob_service_client.get_blob_client(container=container_name, blob=filename)
+            with open(filename, "rb") as data:
+                try:
+                    blob_client.upload_blob(data, overwrite=True)
+                    print("Upload Done")
+                    bev_image_path = f"{host_name}/{container_name}/{filename}"
+
+                    # update database
+                    beverages.update_one({'_id': ObjectId(bev_id)}, {'$set':{
+                        'name': bev_name,
+                        'image': bev_image_path,
+                        'category': bev_category,
+                        'description': bev_description,
+                        'cost': bev_cost,
+                        'price': bev_price,
+                        'net_profit': bev_net_profit
+                    }})
+
+                except:
+                    pass
+            os.remove(filename)
+
+        else:
+            # update database without image
+            beverages.update_one({'_id': ObjectId(bev_id)}, {'$set': {
+                'name': bev_name,
+                'category': bev_category,
+                'description': bev_description,
+                'cost': bev_cost,
+                'price': bev_price,
+                'net_profit': bev_net_profit
+            }})
+
+        flash('Beverage updated successfully', 'success')
+        return redirect(request.referrer)
+
+    else:
+        redirect('/')
+@app.route('/delete_beverage')
+def delete_beverage():
+    if current_user.is_admin:
+        _id = request.values.get('_id')
+
+        bev_to_delete = beverages.find_one({'_id': ObjectId(_id)})
+        try:
+            filename = bev_to_delete['image'][len(host_name+container_name)+2:]
+            blob_client = blob_service_client.get_blob_client(container=container_name, blob=filename)
+            blob_client.delete_blob()
+        except:
+            pass
+
+        beverages.delete_one({'_id': ObjectId(_id)})
 
         return redirect(request.referrer)
     else:

@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(53, 56, 73, 0.95)">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Cacciatore's</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/menu">Menu</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/elements">Pricing</a>
+        </li>
+      </ul>
+      <span class="navbar-text" id="navbarText">
+            {% if current_user.is_authenticated %}
+                {% if current_user.is_admin %}
+                    <a class="nav-link" style="display:inline; margin-right:10px;" href="/admin_dashboard">Admin Dashboard</a>
+                {% endif %}
+                <a class="nav-link" style="display:inline;" href="/logout">Log Out</a>
+            {%  else %}
+                <a class="nav-link" style="display:inline; margin-right:10px;" href="/login">Log In</a>
+                <a class="nav-link" style="display:inline;" href="/signup">Sign Up</a>
+            {% endif %}
+      </span>
+    </div>
+  </div>
+</nav>

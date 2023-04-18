@@ -181,6 +181,11 @@ def elements():
 
 @app.route('/menu')
 def menu():
+
+    # page_data = {'counts': counts,
+    #              'dish_categories': dish_categories,
+    #              'bev_categories': beverage_categories}
+
     return render_template('menu.html')
 
 @app.route('/communications')

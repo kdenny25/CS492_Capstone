@@ -432,8 +432,6 @@ def admin_menu_management_categories():
             bev_options = list(beverages.find())
             dish_options = list(menu_dishes.find())
 
-            print(bev_options)
-
             for cat in all_categories:
                 cat['_id'] = str(cat['_id'])
 

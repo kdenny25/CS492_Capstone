@@ -396,6 +396,25 @@ def update_menu_dish():
     else:
         redirect('/')
 
+@app.route('/delete_dish')
+def delete_dish():
+    if current_user.is_admin:
+        _id = request.values.get('_id')
+
+        dish_to_delete = menu_dishes.find_one({'_id': ObjectId(_id)})
+        try:
+            filename = dish_to_delete['image'][len(host_name+container_name)+2:]
+            blob_client = blob_service_client.get_blob_client(container=container_name, blob=filename)
+            blob_client.delete_blob()
+        except:
+            pass
+
+        menu_dishes.delete_one({'_id': ObjectId(_id)})
+
+        return redirect(request.referrer)
+    else:
+        return redirect('/')
+
 @app.route('/menu_management_categories', methods=['GET', 'POST'])
 def admin_menu_management_categories():
     if current_user.is_admin:

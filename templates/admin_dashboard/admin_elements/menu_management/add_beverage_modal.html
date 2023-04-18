@@ -20,8 +20,8 @@
                 <div class="col-12">
                     <label for="beverageCat" class="form-label" style="color: #ffffff;">Category:</label>
                     <div class="input-group mb-3">
-                        <select class="form-select" type="text" id="beverageCat" name="beverageCat">
-                            <option selected>...</option>
+                        <select class="form-select" type="text" id="beverageCat" name="beverageCat" required>
+                            <option selected value="">...</option>
                             {% for category in menu_data.bev_categories %}
                                 <option value="{{ category.category }}">{{ category.category }}</option>
                             {% endfor %}

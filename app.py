@@ -255,8 +255,15 @@ def admin_menu_management():
             bev_options = list(beverages.find())
             dish_options = list(menu_dishes.find())
 
+            for cat in all_categories:
+                cat['_id'] = str(cat['_id'])
+
+            for top in topping_categories:
+                top['_id'] = str(top['_id'])
+
             for bev_cat in beverage_categories:
                 bev_list = []
+                bev_cat['_id'] = str(bev_cat['_id'])
                 for bev in bev_options:
                     bev['_id'] = str(bev['_id'])
                     if bev['category'] == bev_cat['category']:
@@ -265,6 +272,7 @@ def admin_menu_management():
 
             for dish_cat in dish_categories:
                 dish_list = []
+                dish_cat['_id'] = str(dish_cat['_id'])
                 for dish in dish_options:
                     dish['_id'] = str(dish['_id'])
                     if dish['category'] == dish_cat['category']:
@@ -280,7 +288,8 @@ def admin_menu_management():
                          'dish_categories': dish_categories,
                          'bev_categories': beverage_categories,
                          'top_categories': topping_categories,
-                         'all_categories': all_categories}
+                         'all_categories': all_categories,
+                         'all_dishes': dish_options}
 
 
             return render_template('admin_dashboard/admin_menu_management.html', menu_data=page_data)
@@ -404,6 +413,8 @@ def admin_menu_management_categories():
             bev_options = list(beverages.find())
             dish_options = list(menu_dishes.find())
 
+            print(bev_options)
+
             for cat in all_categories:
                 cat['_id'] = str(cat['_id'])
 
@@ -423,17 +434,16 @@ def admin_menu_management_categories():
                         dish_list.append(dish)
                 dish_cat['dish_list'] = dish_list
 
-            counts = {'menu_items': count_dishes,
-                      'categories': count_cats,
-                      'beverages': count_bevs,
-                      'toppings': count_tops}
+            counts = {"menu_items": count_dishes,
+                      "categories": count_cats,
+                      "beverages": count_bevs,
+                      "toppings": count_tops}
 
-            page_data = {'counts': counts,
-                         'dish_categories': dish_categories,
-                         'bev_categories': beverage_categories,
-                         'top_categories': topping_categories,
-                         'all_categories': all_categories}
-
+            page_data = {"counts": counts,
+                         "dish_categories": dish_categories,
+                         "bev_categories": beverage_categories,
+                         "top_categories": topping_categories,
+                         "all_categories": all_categories}
 
             return render_template('admin_dashboard/admin_elements/menu_management/admin_menu_management_categories.html', menu_data=page_data)
     return redirect('/')

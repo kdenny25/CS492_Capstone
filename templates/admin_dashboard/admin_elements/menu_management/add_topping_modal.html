@@ -9,7 +9,7 @@
                 <div class="col-12">
                     <label for="toppingCategory" class="form-label" style="color: #ffffff;">Topping Categories:</label>
                     <div class="input-group mb-3">
-                        <select class="form-select" multiple size='3' id="toppingCategory" name="toppingCategory">
+                        <select class="form-select" multiple size='3' id="toppingCategory" name="toppingCategory" required>
                             {% for category in menu_data.dish_categories %}
                                 <option value="{{ category.category }}">{{ category.category }}</option>
                             {% endfor %}
@@ -18,7 +18,7 @@
                 </div>
                 <div class="col-12">
                     <label for="toppingName" class="form-label" style="color: #ffffff;">Topping Name:</label>
-                    <input class="form-control" type="text" id="toppingName" name="toppingName" value="">
+                    <input class="form-control" type="text" id="toppingName" name="toppingName" value="" required>
                     <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
                 </div>
             </div>

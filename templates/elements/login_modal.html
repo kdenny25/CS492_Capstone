@@ -1,24 +1,27 @@
-{% extends 'layout.html' %}
-
-{% block content %}
-<form method="post">
-    <div class="row gtr-uniform">
-        <div class="col-6 col-12-xsmall">
-            <label for="demo-name">Email</label>
-            <input type="email" name="email" id="email" value="" />
-            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-        </div>
-        <div class="col-6 col-12-xsmall">
-            <label for="demo-email">Password</label>
-            <input type="password" name="password" id="password value="" />
-            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-        </div>
+<div class="modal fade modal-dialog-scrollable"  id="loginDialog">
+    <div class="modal-dialog" >
+        <form class="modal-content"  style="background-color: rgba(53, 56, 73, 0.95);" action="{{ url_for("login")}}" method="post">
+            <div class="modal-header" style="border-bottom-color:#111217">
+                <h1 class="modal-title fs-5" style="color: #ffffff;" >Login</h1>
+                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" >
+                <div class="col-12">
+                    <label for="categoryType" class="form-label" style="color: #ffffff;">Email:</label>
+                    <div class="input-group mb-3">
+                        <input class="form-select" type="email" id="loginEmail" name="email" required>
+                        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label for="categoryName" class="form-label" style="color: #ffffff;">Password:</label>
+                    <input class="form-control" type="password" id="loginPassword" name="password" required>
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top-color:#111217">
+                <button type="submit" class="btn btn-success">Login</button>
+            </div>
+        </form>
     </div>
-    <div class="col-12">
-        <ul class="actions">
-            <li><input type="submit" value="Login" class="primary" /></li>
-        </ul>
-    </div>
-</form>
-{% include "elements/alert_messages.html" %}
-{% endblock %}
+</div>

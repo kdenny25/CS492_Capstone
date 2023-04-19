@@ -13,7 +13,7 @@
 		<!-- Page Wrapper -->
 			<div id="page-wrapper">
 				<!-- Menu -->
-                {% include 'elements/navigation.html' %}
+{#                {% include 'elements/navigation.html' %}#}
 
 				<!-- Wrapper -->
 					<section id="wrapper">
@@ -27,161 +27,29 @@
 						<!-- Content -->
 							<div class="wrapper">
 								<div class="inner">
-
+                                {% for category in menu_data.dish_categories %}
                                     <section class="table">
                                         <article>
-                                            <h3 class="major">Adult Fare</h3>
+                                            <h3 class="major">{{ category.category }}</h3>
                                         </article>
                                         <div class="table-wrapper">
 											<table>
-												<thead>
-													<tr>
-														<th>Name</th>
-														<th>Description</th>
-														<th>Price</th>
-													</tr>
-												</thead>
 												<tbody>
+                                                    {% for dish in category.dish_list %}
 													<tr>
-														<td><image src="{{ url_for('static', filename='/images/bg.png')}}" height="100px" width="100px"></td>
-														<td >Cacciatore Classic<br>Pepperoni Pizza with our house red sauce.</td>
-														<td>29.99</td>
+														<td><image src="{{ dish.image }}" height="100px" width="100px"/> </td>
+                                                        <td>{{ dish.name }}</td>>
+                                                        <td>{{ dish.description}}</td>
+														<td>{{ dish.price }}</td>
 													</tr>
-													<tr>
-														<td>Item Two</td>
-														<td>Vis ac commodo adipiscing arcu aliquet.</td>
-														<td>19.99</td>
-													</tr>
-													<tr>
-														<td>Item Three</td>
-														<td> Morbi faucibus arcu accumsan lorem.</td>
-														<td>29.99</td>
-													</tr>
-													<tr>
-														<td>Item Four</td>
-														<td>Vitae integer tempus condimentum.</td>
-														<td>19.99</td>
-													</tr>
-													<tr>
-														<td>Item Five</td>
-														<td>Ante turpis integer aliquet porttitor.</td>
-														<td>29.99</td>
-													</tr>
+													{% endfor %}
 												</tbody>
-												<tfoot>
-													<tr>
-														<td colspan="2"></td>
-														<td>100.00</td>
-													</tr>
-												</tfoot>
 											</table>
 										</div>
-
-
                                     </section>
-
-                                    <section class="table">
-                                        <article>
-                                            <h3 class="major">Children's Fare</h3>
-                                        </article>
-                                        <div class="table-wrapper">
-											<table>
-												<thead>
-													<tr>
-														<th>Name</th>
-														<th>Description</th>
-														<th>Price</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td><image src="{{ url_for('static', filename='/images/bg.png')}}"  height="100px" width="100px"></td>
-														<td >Cacciatore Classic<br>Pepperoni Pizza with our house red sauce.</td>
-														<td>29.99</td>
-													</tr>
-													<tr>
-														<td>Item Two</td>
-														<td>Vis ac commodo adipiscing arcu aliquet.</td>
-														<td>19.99</td>
-													</tr>
-													<tr>
-														<td>Item Three</td>
-														<td> Morbi faucibus arcu accumsan lorem.</td>
-														<td>29.99</td>
-													</tr>
-													<tr>
-														<td>Item Four</td>
-														<td>Vitae integer tempus condimentum.</td>
-														<td>19.99</td>
-													</tr>
-													<tr>
-														<td>Item Five</td>
-														<td>Ante turpis integer aliquet porttitor.</td>
-														<td>29.99</td>
-													</tr>
-												</tbody>
-												<tfoot>
-													<tr>
-														<td colspan="2"></td>
-														<td>100.00</td>
-													</tr>
-												</tfoot>
-											</table>
-										</div>
+                                {% endfor %}
 
 
-                                    </section>
-                                    <section class="table">
-                                        <article>
-                                            <h3 class="major">Wines and Drinks</h3>
-                                        </article>
-                                        <div class="table-wrapper">
-											<table>
-												<thead>
-													<tr>
-														<th>Name</th>
-														<th>Description</th>
-														<th>Price</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td><image src="{{ url_for('static', filename='/images/bg.png')}}"  height="100px" width="100px"></td>
-														<td >Cacciatore Classic<br>Pepperoni Pizza with our house red sauce.</td>
-														<td>29.99</td>
-													</tr>
-													<tr>
-														<td>Item Two</td>
-														<td>Vis ac commodo adipiscing arcu aliquet.</td>
-														<td>19.99</td>
-													</tr>
-													<tr>
-														<td>Item Three</td>
-														<td> Morbi faucibus arcu accumsan lorem.</td>
-														<td>29.99</td>
-													</tr>
-													<tr>
-														<td>Item Four</td>
-														<td>Vitae integer tempus condimentum.</td>
-														<td>19.99</td>
-													</tr>
-													<tr>
-														<td>Item Five</td>
-														<td>Ante turpis integer aliquet porttitor.</td>
-														<td>29.99</td>
-													</tr>
-												</tbody>
-												<tfoot>
-													<tr>
-														<td colspan="2"></td>
-														<td>100.00</td>
-													</tr>
-												</tfoot>
-											</table>
-										</div>
-
-
-                                    </section>
 
 									<h3 class="major">Lorem ipsum dolor</h3>
 									<p>Morbi mattis mi consectetur tortor elementum, varius pellentesque velit convallis. Aenean tincidunt lectus auctor mauris maximus, ac scelerisque ipsum tempor. Duis vulputate ex et ex tincidunt, quis lacinia velit aliquet. Duis non efficitur nisi, id malesuada justo. Maecenas sagittis felis ac sagittis semper. Curabitur purus leo donec vel dolor at arcu tincidunt bibendum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce ut aliquet justo. Donec id neque ipsum. Integer eget ultricies odio. Nam vel ex a orci fringilla tincidunt. Aliquam eleifend ligula non velit accumsan cursus. Etiam ut gravida sapien.</p>
@@ -210,6 +78,9 @@
 							</div>
 
 					</section>
+
+    {% include "elements/login_modal.html" %}
+    {% include "elements/register_modal.html" %}
 
 {% endblock %}
 

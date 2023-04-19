@@ -15,7 +15,7 @@
 				<!-- Navigation -->
 {#                {% include 'elements/navigation.html' %}#}
 
-                {% include "elements/alert_messages.html" %}
+
 				<!-- Banner -->
 					<section id="banner">
 						<div class="inner">
@@ -30,7 +30,7 @@
 
 				<!-- Wrapper -->
 					<section id="wrapper">
-
+                        {% include "elements/alert_messages.html" %}
 						<!-- One -->
 							<section id="one" class="wrapper spotlight style1">
 								<div class="inner">
@@ -112,6 +112,10 @@
 					</section>
 
 			</div>
+
+    {% include "elements/register_modal.html" %}
+    {% include "elements/login_modal.html" %}
+
 {% endblock %}
 
 {% block scripts %}

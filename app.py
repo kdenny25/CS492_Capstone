@@ -85,7 +85,6 @@ def home_page():
     if request.method == 'POST':
         return redirect('index.html')
     else:
-        print(current_user)
         return render_template('index.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -181,12 +180,33 @@ def elements():
 
 @app.route('/menu')
 def menu():
+    dish_categories = list(menu_categories.find({'category_type': 'dish'}))
+    beverage_categories = list(menu_categories.find({'category_type': 'beverage'}))
+    dish_options = list(menu_dishes.find())
+    bev_options = list(beverages.find())
 
-    # page_data = {'counts': counts,
-    #              'dish_categories': dish_categories,
-    #              'bev_categories': beverage_categories}
+    for bev_cat in beverage_categories:
+        bev_list = []
+        bev_cat['_id'] = str(bev_cat['_id'])
+        for bev in bev_options:
+            bev['_id'] = str(bev['_id'])
+            if bev['category'] == bev_cat['category']:
+                bev_list.append(bev)
+        bev_cat['bev_list'] = bev_list
 
-    return render_template('menu.html')
+    for dish_cat in dish_categories:
+        dish_list = []
+        dish_cat['_id'] = str(dish_cat['_id'])
+        for dish in dish_options:
+            dish['_id'] = str(dish['_id'])
+            if dish['category'] == dish_cat['category']:
+                dish_list.append(dish)
+        dish_cat['dish_list'] = dish_list
+
+    page_data = {'dish_categories': dish_categories,
+                 'bev_categories': beverage_categories}
+
+    return render_template('menu.html', menu_data=page_data)
 
 @app.route('/communications')
 def communications():

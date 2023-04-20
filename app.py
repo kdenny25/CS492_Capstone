@@ -174,9 +174,12 @@ def admin_dash():
 def generic():
     return render_template('generic.html')
 
-@app.route('/dishes')
+@app.route('/dishes')           #This is strictly for the dishes.html page, not anyhting to with the db categories,etc.
 def dishes():
     return render_template('dishes.html')
+@app.route('/wine')             #This is for the Winelist page, nothing to do with db otherwise.
+def wine():
+    return render_template('winelist.html')
 
 @app.route('/elements')
 def elements():

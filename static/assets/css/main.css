@@ -116,15 +116,6 @@ img {
   height: var(--height);
 }
 
-/*.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 250px, 1fr);
-  /*grid-auto-rows: 250px;*/
-  /*grid-template-rows: 1fr; /* add this line to set a fixed row height */
-  /*gap: 10px;
-  padding: 10px;
-}*/
-
 .clipped-border {
   -webkit-clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
   clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
@@ -165,8 +156,8 @@ clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
 }
 
 .clipped-border:hover{
-  transform:scale(1.2);
-  transition:transform 0.2s;
+  transform:scale(3.2); /*1.2*/
+  transition:transform 0.4s;/*0.2s*/
   z-index:10;
 }
 

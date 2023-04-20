@@ -1,8 +1,16 @@
 {% extends 'layout.html' %}
 
+{% block headerScripts %}
+    <!-- header scripts here -->
+{% endblock %}
+
+{% block styles %}
+    <!-- CSS style code here -->
+{% endblock %}
+
 {% block content %}
 
-		<!-- Page Wrapper -->
+<!-- Page Wrapper -->
 			<div id="page-wrapper">
 
 {#				{% include 'elements/navigation.html' %}#}
@@ -11,8 +19,9 @@
 					<section id="wrapper">
 						<header>
 							<div class="inner">
-								<h2>Our Menu</h2>
-								<p>Cacciatore's offers a fine selection of dishes for a refined palatte to more traditional fare.</p>
+								<h2>The Gatronomic delights we serve. Our Dishes.</h2>
+								<p>Cacciatore's offers a fine selection of dishes for a refined palatte to more traditional fare.<BR>We don't hide between tiny thumbnails here. If a picture is worth a thousand words, then perhaps you would enjoy a visual novel of our gastronomic repertoire.<BR><BR>
+                                Please enjoy a High Resolution look at the actual dishes serbed in our fine dining establishment. Do consider making Cacciatore's your destination for your next special night out.</p>
 							</div>
 						</header>
 
@@ -22,7 +31,7 @@
 
                                     <section class="table">
                                         <article>
-                                            <h3 class="major">Adult Fare</h3>
+                                            <h3 class="major">Pizza</h3>
                                         </article>
                                         <div class="table-wrapper">
 											<table>
@@ -74,6 +83,55 @@
 
                                     <section class="table">
                                         <article>
+                                            <h3 class="major">Pasta</h3>
+                                        </article>
+                                        <div class="table-wrapper">
+											<table>
+												<thead>
+													<tr>
+														<th>Name</th>
+														<th>Description</th>
+														<th>Price</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td><image src="images/bg.png" height="100px" width="100px"></td>
+														<td >Cacciatore Classic<br>Pepperoni Pizza with our house red sauce.</td>
+														<td>29.99</td>
+													</tr>
+													<tr>
+														<td>Item Two</td>
+														<td>Vis ac commodo adipiscing arcu aliquet.</td>
+														<td>19.99</td>
+													</tr>
+													<tr>
+														<td>Item Three</td>
+														<td> Morbi faucibus arcu accumsan lorem.</td>
+														<td>29.99</td>
+													</tr>
+													<tr>
+														<td>Item Four</td>
+														<td>Vitae integer tempus condimentum.</td>
+														<td>19.99</td>
+													</tr>
+													<tr>
+														<td>Item Five</td>
+														<td>Ante turpis integer aliquet porttitor.</td>
+														<td>29.99</td>
+													</tr>
+												</tbody>
+												<tfoot>
+													<tr>
+														<td colspan="2"></td>
+														<td>100.00</td>
+													</tr>
+												</tfoot>
+											</table>
+										</div>
+
+                                    <section class="table">
+                                        <article>
                                             <h3 class="major">Children's Fare</h3>
                                         </article>
                                         <div class="table-wrapper">
@@ -121,6 +179,8 @@
 											</table>
 										</div>
 
+
+                                    </section>
 
                                     </section>
                                     <section class="table">

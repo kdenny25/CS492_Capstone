@@ -72,6 +72,148 @@ input, select, textarea {
 	appearance: none;
 }
 
+/*Gallery*/
+:root {
+  --width: 100%;
+  --height: 100%;
+}
+
+html, body {
+  /*background: radial-gradient(mistyrose, pink);*/
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+/*.gallery {
+  --border-height: 250px; /* add this line to set a fixed height */
+ /* display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 1fr;
+  max-width: 100%;
+}*/
+
+.gallery:after {
+  content: '';
+}
+
+/* Even row offset */
+.hex-row:nth-child(even) .hex {
+  margin-left: 130px;
+}
+
+/* Container styles */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  --border-height: 250px; /* add this line to set a fixed height */
+}
+
+img {
+  width: var(--width);
+  height: var(--height);
+}
+
+/*.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 250px, 1fr);
+  /*grid-auto-rows: 250px;*/
+  /*grid-template-rows: 1fr; /* add this line to set a fixed row height */
+  /*gap: 10px;
+  padding: 10px;
+}*/
+
+.clipped-border {
+  -webkit-clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+  clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+  padding: 5px;
+  background: linear-gradient(grey, lightgrey);
+  width: var(--border-width);
+  height: var(--border-height);
+  max-height: 250px;
+  max-width: 250px;
+  transition: transform 0.2s;
+  position: relative;
+  cursor: pointer;
+}
+
+.clipped-border:before {
+  content: '';
+  position: absolute;
+  opacity: 0.5;
+  width: 350px;
+  height: 70px;
+  background: white;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transform: rotate(45deg);
+  transition: transform 0.5s;
+}
+
+.clipped-border:hover:before{
+  transform: translate(-100px,400%) rotate(45deg);
+  transition:transform 0.5s;
+}
+
+#clipped {
+-webkit-clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+
+}
+
+.clipped-border:hover{
+  transform:scale(1.2);
+  transition:transform 0.2s;
+  z-index:10;
+}
+
+
+@media screen and (max-width:500px){
+.clipped-border {
+  -webkit-clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+  clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+  padding: 5px;
+  background: linear-gradient(grey, lightgrey);
+  width: var(--border-width);
+  height: var(--border-height);
+  max-height: 250px;
+  max-width: 250px;
+  height: var(--height);
+  width: var(--width);
+  transition: transform 0.2s;
+  position: relative;
+  cursor: pointer;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+.clipped-border:before {
+  content: '';
+  position: absolute;
+  opacity: 0.5;
+  width: 350px;
+  height: 70px;
+  background: white;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transform: rotate(45deg);
+  transition: transform 0.5s;
+}
+
+
+}
+/*---end gallery code*/
+
 /* Basic */
 
 	@-ms-viewport {

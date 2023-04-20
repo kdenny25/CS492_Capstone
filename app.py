@@ -340,7 +340,7 @@ def add_menu_dish():
                     blob_client.upload_blob(data, overwrite=True)
                     print("Upload Done")
 
-                    dish_image_path = f"{host_name}/{container_name}/{filename}"
+                    dish_image_path = f"{host_name}   /{container_name}/{filename}"
                 except:
                     pass
             os.remove(filename)

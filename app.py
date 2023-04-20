@@ -174,6 +174,10 @@ def admin_dash():
 def generic():
     return render_template('generic.html')
 
+@app.route('/dishes')
+def dishes():
+    return render_template('dishes.html')
+
 @app.route('/elements')
 def elements():
     return render_template('elements.html')

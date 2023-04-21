@@ -161,6 +161,22 @@ def logout():
     logout_user()
     return redirect("/")
 
+@app.route('/user_profile')
+@login_required
+def user_profile():
+    if current_user.is_authenticated:
+        return render_template('user_pages/user_profile.html')
+    else:
+        return redirect('/')
+
+@app.route('/user_orders')
+@login_required
+def user_orders():
+    if current_user.is_authenticated:
+        return render_template(('user_pages/user_orders.html'))
+    else:
+        return redirect('/')
+
 @app.route('/admin_dashboard')
 @login_required
 def admin_dash():

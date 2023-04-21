@@ -37,7 +37,7 @@
 												<tbody>
                                                     {% for dish in category.dish_list %}
 													<tr>
-														<td><image src="{{ dish.image }}" height="100px" width="100px"/> </td>
+														<td><img src="{{ dish.image }}" style="height:100px; width:auto;"/> </td>
                                                         <td>{{ dish.name }}</td>>
                                                         <td>{{ dish.description}}</td>
 														<td>{{ dish.price }}</td>
@@ -78,6 +78,7 @@
 							</div>
 
 					</section>
+            </div>
 
     {% include "elements/login_modal.html" %}
     {% include "elements/register_modal.html" %}

@@ -11,8 +11,10 @@ import os, sys
 import json
 import datetime
 from backend.user import User
+from backend.site_logging import log_site_traffic
 from werkzeug.utils import secure_filename
 from azure.storage.blob import BlobServiceClient
+
 
 base_dir = '.'
 
@@ -83,8 +85,10 @@ def load_user(user_id):
 @app.route('/')
 def home_page():
     if request.method == 'POST':
+
         return redirect('index.html')
     else:
+        log_site_traffic(db)
         return render_template('index.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -145,6 +149,7 @@ def register():
                                     'password': password})
             # sends message if registration is successful
             flash(f'Account created for {fName}!', 'success')
+            log_site_traffic(db)
             # returns user to homepage with success message
             return redirect('/')
         else:
@@ -173,6 +178,7 @@ def user_profile():
 @login_required
 def user_orders():
     if current_user.is_authenticated:
+        log_site_traffic(db)
         return render_template(('user_pages/user_orders.html'))
     else:
         return redirect('/')
@@ -192,9 +198,11 @@ def generic():
 
 @app.route('/dishes')           #This is strictly for the dishes.html page, not anyhting to with the db categories,etc.
 def dishes():
+    log_site_traffic(db)
     return render_template('dishes.html')
 @app.route('/wine')             #This is for the Winelist page, nothing to do with db otherwise.
 def wine():
+    log_site_traffic(db)
     return render_template('winelist.html')
 
 @app.route('/elements')
@@ -228,6 +236,8 @@ def menu():
 
     page_data = {'dish_categories': dish_categories,
                  'bev_categories': beverage_categories}
+
+    log_site_traffic(db)
 
     return render_template('menu.html', menu_data=page_data)
 

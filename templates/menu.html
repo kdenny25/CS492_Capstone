@@ -46,37 +46,18 @@
 									 			</tbody>
 											</table>
 										</div>
+
                                     </section>
                                 {% endfor %}
 
                             <div>
 
-                            <h1>List of Dishes</h1>
-                              <table>
-                                <!-- Table Header Row -->
-                                <thead>
-                                  <tr>
-                                    <th>Dish</th>
-                                    <th>Description</th>
-                                    <th>Price</th>
-                                    <th>add to cart</th>
 
-                                </thead>
-
-                                <!-- Table Element (Row) -->
-                                <tbody>
-                                  <td>{{ session['dish.name'] }}</td>
-                                  <td>{{ session['dish.description'] }}</td>
-                                  <td>${{ session['dish.price'] }}</td>
-                                  <td>${{ session['addt'] }}</td>
-                                </tbody>
-                              </table>
-                            </div>
                             <!-- Start Pizza Menu -->
                                               <div class="menu menu--is-visible" id="pizzaMenu" data-aos="fade-up">
                                                   <div class="item row align-items-center">
                                                       <div class="col-sm-3 pr-5">
-                                                          <img class="product-img" src="./images/Entree/Mid/centered-side-of-plate-view-of-cheese-only-pizza-food-photography-high-end-ristorante-perfect-com-346868365.png">
+                                                          <img class="product-img" src="{{ url_for('static', filename='/images/pic04.png')}}"  alt="" >
                                                       </div>
                                                       <div class="details col-sm-9">
                                                           <div class="item__header">

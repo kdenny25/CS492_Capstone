@@ -2,10 +2,18 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway:200,700|Source+Sans+Pro:300,600,300italic,600italic");
 
 /*
+	Initial CSS:
 	Solid State by HTML5 UP
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+
+	Modified and New CSS:
+	Lourdes Bond - mslourdes@gmail.com - Gallery And Modifications
+	Kevin Denny - put your email or website link here Kevin - Modifications
+
 */
+
+/*ALSO NOTE TO LOURDES! ONCE WE'RE SURE EVERYTHING WORKS< MAKE SURE TO DO A SANITY PASS AND RIP OUT ALL THE DEAD/UNUSED CODE, Comment the important bits*/
 
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
@@ -76,39 +84,20 @@ input, select, textarea {
 :root {
   --width: 100%;
   --height: 100%;
+  --border-height: 250px;
+	--border-width: 250px;
 }
 
 html, body {
-  /*background: radial-gradient(mistyrose, pink);*/
   height: 100%;
   width: 100%;
-  position: relative;
 }
 
-/*.gallery {
-  --border-height: 250px; /* add this line to set a fixed height */
- /* display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  grid-gap: 1fr;
-  max-width: 100%;
-}*/
-
-.gallery:after {
-  content: '';
-}
-
-/* Even row offset */
-.hex-row:nth-child(even) .hex {
-  margin-left: 130px;
-}
-
-/* Container styles */
 .gallery {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  --border-height: 250px; /* add this line to set a fixed height */
 }
 
 img {
@@ -116,21 +105,23 @@ img {
   height: var(--height);
 }
 
-.clipped-border {
+.hexagonals {
   -webkit-clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
   clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
   padding: 5px;
   background: linear-gradient(grey, lightgrey);
   width: var(--border-width);
   height: var(--border-height);
-  max-height: 250px;
+  max-height: auto;
   max-width: 250px;
   transition: transform 0.2s;
   position: relative;
   cursor: pointer;
+  justify-content: center;
+  align-items: center;
 }
 
-.clipped-border:before {
+.hexagonals:before {
   content: '';
   position: absolute;
   opacity: 0.5;
@@ -144,64 +135,73 @@ img {
   transition: transform 0.5s;
 }
 
-.clipped-border:hover:before{
+.hexagonals:hover:before{
   transform: translate(-100px,400%) rotate(45deg);
-  transition:transform 0.5s;
 }
 
-#clipped {
+.hexagonals:hover, .bannlayer {
+  transform: scale(3);
+  z-index: 10;
+}
+
+.hexagonals:hover .bannlayer {
+  opacity: 0.9;
+  width: 100%;
+  height: 5%;
+  z-index: 10;
+}
+
+#hexagonalborder {
 -webkit-clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
 clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
-
 }
 
-.clipped-border:hover{
-  transform:scale(3.2); /*1.2*/
-  transition:transform 0.4s;/*0.2s*/
-  z-index:10;
+.bannlayer {
+  opacity: 0;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 5%;
+  background: #FFF;
+  color: #151E3F;
+  transition: all 0.7s ease;
+  transform: translateY(50%);
 }
 
+.bannlayer p:only-of-type {
 
-@media screen and (max-width:500px){
-.clipped-border {
-  -webkit-clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
-  clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
-  padding: 5px;
-  background: linear-gradient(grey, lightgrey);
+  text-align: center;
+  font-size: 1em;
+	font-style: normal;
+	text-weight: 700;
+	text-shadow: 2px 2px 4px #000000;
+  letter-spacing: 1%;
+  transform: scale(.1);
+  transition: all 0.9s ease;
+}
+
+.hexagonals:hover .bannlayer {/*Banner Placement*/
+  opacity: 0.9;              /*Banner Translucency*/
+  top: 76.5%;                /* Percent distance from interior top of hexagon*/
+  left: 0%; /*Percent of hexagon width to start text placement. 50% is middle of the hexagon's width. Set this to zero and comment out the transform below and the banner just appears and the text expans into place.*/
+  /*transform: translate(-50%, -50%); /*Adjust this for the swing in of the banner (-50%,-50%) Slides in from bottom right to center of hexagon. HOWEVER, if you remove this entirely, the banner shows up on hover and the text looks like its expanding or coming towards you against the background banner.*/
+}
+
+.hexagonals:hover .bannlayer p {/* Banner Text Size*/
+  transform: scale(1);
+}
+@media screen and (max-width: 500px) {
+  .hexagonals {
   width: var(--border-width);
   height: var(--border-height);
-  max-height: 250px;
-  max-width: 250px;
+  }
+
+  img {
+    width: var(--width);
   height: var(--height);
-  width: var(--width);
-  transition: transform 0.2s;
-  position: relative;
-  cursor: pointer;
-}
-
-img {
-  width: 100%;
-  height: 100%;
-}
-
-
-
-
-.clipped-border:before {
-  content: '';
-  position: absolute;
-  opacity: 0.5;
-  width: 350px;
-  height: 70px;
-  background: white;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  transform: rotate(45deg);
-  transition: transform 0.5s;
-}
-
-
+  }
 }
 /*---end gallery code*/
 

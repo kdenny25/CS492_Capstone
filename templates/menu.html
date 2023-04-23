@@ -51,25 +51,62 @@
                                 {% endfor %}
 
                             <div>
-
+                            <div class="maincontent">
+                                <div class="container">
+                                   <section id="menu">
+                                      <div class="block menu1">
+                                        <div class="buttons-container"> <a href="#" class="button button--is-active" data-target="pizzaMenu">Pizzas</a>
+                                        <ahref="#" class="button" data-target="coffeeMenu">Drinks</a>
+                                        <a href="#" class="button" data-target="noodlesMenu">Desserts</a>
+                                        </div>
 
                             <!-- Start Pizza Menu -->
-                                              <div class="menu menu--is-visible" id="pizzaMenu" data-aos="fade-up">
-                                                  <div class="item row align-items-center">
-                                                      <div class="col-sm-3 pr-5">
-                                                          <img class="product-img" src="{{ url_for('static', filename='/images/pic04.png')}}"  alt="" >
-                                                      </div>
-                                                      <div class="details col-sm-9">
-                                                          <div class="item__header">
-                                                               <h3 class="item__title">Cheese Pizza</h3> <span class="item__dots"></span> <span class="item__price">$15</span>
-                                                          </div>
-                                                          <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt quos harum
-                                                              officia eaque nobis ut.</p>
+                        <div class="menu menu--is-visible" id="pizzaMenu" data-aos="fade-up">
+                            <div class="item row align-items-center">
+                                <div class="col-sm-3 pr-5">
+                                         <img class="product-img" src="{{ url_for('static', filename='/images/pic04.png')}}"  alt="" >
+                                </div>
+                            <div class="details col-sm-9">
+                                    <div class="item__header">
+                                         <h3 class="item__title">Cheese Pizza</h3> <span class="item__dots"></span> <span class="item__price">$15</span>
+                                    </div>
+                                         <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt quos harum officia eaque nobis ut.</p>
                                                           <button class="btn btn-sm btn-outline-primary my-cart-btn"
                                                           data-id="1" data-name="Cheese Pizza" data-price="15" data-quantity="1"
                                                           data-image="./img/pizza-1.png">Add to cart</button>
-                                                      </div>
-                                                  </div>
+                                    </div>
+                                    </div>
+                                <div class="details col-sm-9">
+                                    <div class="item__header">
+                                         <h3 class="item__title">Hot Pastrami</h3>
+                                            <span class="item__dots"></span>
+                                            <span class="item__price">$25</span>
+                                    </div>
+                                <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt quos harum officia eaque nobis ut.</p>
+                                    <button class="btn btn-sm btn-outline-primary my-cart-btn"
+                                    data-id="2" data-name="Hot Pastrami" data-price="25" data-quantity="1"
+                                    data-image="./img/pizza-2.png">Add to cart</button>
+                                </div>
+                                </div>
+                        <!-- End Pizza Menu -->
+
+                        <!-- Start Drink Menu -->
+                                <div class="menu" id="drinkMenu">
+                                <div class="item">
+                                <div class="item__header">
+                                     <h3 class="item__title">Red Wine</h3>
+                                    <span class="item__dots"></span>
+                                    <span class="item__price">$40</span>
+                                </div>
+                                <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt quos harum
+                                    officia eaque nobis ut.</p>
+                            </div>
+
+
+
+
+
+
 
 
 									<section class="features">

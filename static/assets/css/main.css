@@ -4140,6 +4140,31 @@ clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
 
 		}
 /* Food Menu Layout */
+		.maincontent {
+		  border: double medium #e5e3d6;
+		  border-top: 0;
+		  margin: 0 30px;
+		  padding: 80px 0;
+		  overflow: hidden; }
+		.container {
+		  width: 100%;
+		  padding-right: 15px;
+		  padding-left: 15px;
+		  margin-right: auto;
+		  margin-left: auto; }
+	 		 @media (min-width: 576px) {
+		.container {
+		  max-width: 540px; } }
+	 		 @media (min-width: 768px) {
+		.container {
+		  max-width: 720px; } }
+	 		 @media (min-width: 992px) {
+		.container {
+		  max-width: 960px; } }
+	 		 @media (min-width: 1200px) {
+		.container {
+		  max-width: 1140px; } }
+
 		.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col,
 		.col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm,
 		.col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md,

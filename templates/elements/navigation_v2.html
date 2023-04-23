@@ -50,15 +50,37 @@
                 </svg>
                     Cart
                 <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger">
-                    99+
+                    2
                     <span class="visually-hidden">items in cart</span>
                 </span>
               </button>
-              <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" id="navbarSupportContent">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
+              <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end px-2" id="navbarSupportContent">
+                <table class="table table-dark table-striped">
+                        <div class="table-wrapper">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Dish</th>
+                                    <th scope="col">Qty</th>
+                                    <th scope="col">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Chicago-Style Deep Dish Pizza with Pepperoni and Italian Sausage Layers</td>
+                                    <td>3</td>
+                                    <td>$23.59</td>
+                                </tr>
+                                <tr>
+                                    <td>Baked Feta Cheese Rigatoni in Red Sauce</td>
+                                    <td>1</td>
+                                    <td>$11.25</td>
+                                </tr>
+                            </tbody>
+                        </div>
+                    </table>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li class="text-end">Total: $23.59</li>
+                  <li class="text-center"><a href="/order_review" type="button" class="btn btn-primary">Check Out</a></li>
               </ul>
             </li>
           </ul>

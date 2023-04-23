@@ -241,6 +241,10 @@ def menu():
 
     return render_template('menu.html', menu_data=page_data)
 
+@app.route('/order_review')
+def order_review():
+    return render_template('order_review.html')
+
 @app.route('/communications')
 def communications():
     comm_results = getInTouch.find()

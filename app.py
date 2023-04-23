@@ -91,6 +91,7 @@ def home_page():
         log_site_traffic(db)
         return render_template('index.html')
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

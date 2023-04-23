@@ -199,13 +199,32 @@ def generic():
 @app.route('/dishes')           #This is strictly for the dishes.html page, not anyhting to with the db categories,etc.
 def dishes():
     log_site_traffic(db)
-    return render_template('dishes.html')
+    dish_categories = list(menu_categories.find({'category_type': 'dish'}))
+    dish_options = list(menu_dishes.find())
+
+
+    for dish_cat in dish_categories:
+        dish_list = []
+        dish_cat['_id'] = str(dish_cat['_id'])
+        for dish in dish_options:
+            dish['_id'] = str(dish['_id'])
+            if dish['category'] == dish_cat['category']:
+                dish_list.append(dish)
+        dish_cat['dish_list'] = dish_list
+
+    page_data = {'dish_categories': dish_categories}
+    return render_template('dishes.html', menu_data=page_data)
+
 @app.route('/wine')             #This is for the Winelist page, nothing to do with db otherwise.
 def wine():
     log_site_traffic(db)
     return render_template('winelist.html')
 
-@app.route('/elements')
+@app.route('/story')            #For the Cacciatore's Story page (about the owners)
+def story():
+    return render_template('story.html')
+
+@app.route('/elements')          #WE CAN TAKE THIS OUT IN THE FINAL PUSH, Leave it for now just in case but this is a developer's useful page only.
 def elements():
     return render_template('elements.html')
 

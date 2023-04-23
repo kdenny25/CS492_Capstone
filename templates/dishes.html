@@ -11,202 +11,64 @@
 {% block content %}
 
 <!-- Page Wrapper -->
-			<div id="page-wrapper">
+            <div id="page-wrapper">
 
-{#				{% include 'elements/navigation.html' %}#}
+{#              {% include 'elements/navigation.html' %}#}
 
-				<!-- Wrapper -->
-					<section id="wrapper">
-						<header>
-							<div class="inner">
-								<h2>The Gastronomic Delights we offer.<BR>Our Dishes.</h2>
-								<p>Cacciatore's offers a fine selection of dishes for a refined palatte to more traditional italian american fare.<BR>If a picture is worth a thousand words, then perhaps you would enjoy perusing a veritable novel of the gastronomic repertoire you will enjoy with us.<BR><BR>
+                <!-- Wrapper -->
+                    <section id="wrapper">
+                        <header>
+                            <div class="inner">
+                                <h2>The Gastronomic Delights we offer.<BR>Our Dishes.</h2>
+                                <p>Cacciatore's offers a fine selection of dishes for a refined palatte to more traditional italian american fare.<BR>If a picture is worth a thousand words, then perhaps you would enjoy perusing a veritable novel of the gastronomic repertoire you will enjoy with us.<BR><BR>
                                 Please enjoy a look at the actual dishes served in our fine dining establishment taken by world famous food photographer Ken Dolen and  make Cacciatore's your destination for your next special night out.</p>
-							</div>
-						</header>
+                            </div>
+                        </header>
 
-						<!-- Content -->
-							<div class="wrapper">
-								<div class="inner">
+                        <!-- Content -->
+                            <div class="wrapper">
+                                <div class="inner">
+
+
+{% for category in menu_data.dish_categories %}
 
 <section class="table">
-<h3 class="major">Our Pizza Selections</h3><BR><BR>
+<h3 class="major">Our {{ category.category }} Selections</h3><BR><BR>
 
    <div class = "gallery">
-    <div class="hexagonals">
-      <div class="bannlayer">
-        <p>Classic Pizza with Cheese</p>
-      </div>
-      <img src="{{ url_for('static', filename='/images/Entree/Mid/centered-side-of-plate-view-of-cheese-only-pizza-food-photography-high-end-ristorante-perfect-com-346868365.png')}}" alt="" id="hexagonalborder">
-  </div>
+      {% for dish in category.dish_list %}
 
-    <div class="hexagonals">
-      <div class="bannlayer">
-        <p>Chicago Deep Dish Pizza</p>
-      </div>
-      <img src="{{ url_for('static', filename='/images/Entree/Mid/chicago-style-deep-dish-pizza-food-photography-high-end-ristorante-88084053.png')}}" alt="" id="hexagonalborder">
-  </div>
-
-    <div class="hexagonals">
-      <div class="bannlayer">
-        <p>Classic Four Cheese Pepperoni and Sausage Pizza</p>
-      </div>
-      <img src="{{ url_for('static', filename='/images/Entree/Mid/pepperoni-italian-sausage-basil-leaf-pizza-food-photography-high-end-ristorante-709953335.png')}}" alt="" id="hexagonalborder">
-  </div>
-
-    <div class="hexagonals">
-      <div class="bannlayer">
-        <p>Classic Supreme Pizza</p>
-      </div>
-      <img src="{{ url_for('static', filename='/images/Entree/Mid/plate-view-of-pizza-with-mushrooms-green-peppers-red-peppers-olives-and-onions-food-photography-234490615.png')}}" alt="" id="hexagonalborder">
-    </div>
-
-    <div class="hexagonals">
-      <div class="bannlayer">
-        <p>Classic Pepperoni and Sausage</p>
-      </div>
-      <img src="{{ url_for('static', filename='/images/Entree/Mid/pizza-with-pepperoni-italian-sausage-bacon-food-photography-high-end-ristorante-perfect-composi-17968353.png')}}" alt="" id="hexagonalborder">
-    </div>
-
-   <div class="hexagonals">
-      <div class="bannlayer">
-        <p>Classic Hawaiian Pizza</p>
-      </div>
-      <img src="{{ url_for('static', filename='/images/Entree/Mid/side-plate-view-of-pizza-with-large-pineapple-chunks-cooked-ham-chunks-food-photography-high-end--978986893.png')}}" alt="" id="hexagonalborder">
-  </div>
-
-  <div class="hexagonals">
-      <div class="bannlayer">
-        <p>Pizza Bianca</p>
-      </div>
-      <img src="{{ url_for('static', filename='/images/Entree/Mid/side-of-plate-view-of-pizza-bianca-food-photography-high-end-ristorante-perfect-composition-beau-779636309.png')}}" alt="" id="hexagonalborder">
-  </div>
-
-  <div class="hexagonals">
-      <div class="bannlayer">
-        <p>The Mother of Meatball Pizza</p>
-      </div>
-      <img src="{{ url_for('static', filename='/images/Entree/Mid/MOM-meatball-pizza-single-pizza-food-photography-high-end-ristorante-perfect-composition-bea-771054881.png')}}" alt="" id="hexagonalborder">
-  </div>
-
-</div>
+        <div class="hexagonals">
+         <div class="bannlayer">
+          <p>{{ dish.name }}</p>
+        </div>
+         <img src="{{ dish.image }}" alt="" id="hexagonalborder">
+        </div>
+        {% endfor %}
+          </div><BR><BR>
 </section>
-<BR><BR>
-                                    <section class="table">
-    <h3 class="major">Our Pasta Selections</h3><BR><BR>
-                                        <div class = "gallery">
-  <div class="hexagonals">
-    <div class="bannlayer">
-        <p>Fettucini Alfredo</p>
-    </div>
-  <img src="{{ url_for('static', filename='/images/Entree/Mid/chicken-fettuccini-alfredo-with-alfedo-sauce-food-photography-high-end-ristorante-italy-perfect--461298487.png')}}" alt="" id="hexagonalborder">
-  </div>
+{% endfor %}
 
-    <div class="hexagonals">
-    <div class="bannlayer">
-        <p>Chicken Parmigiana</p>
-    </div>
-  <img src="{{ url_for('static', filename='/images/Entree/Mid/chicken-parmigiana-on-spaghetti-noodles-sprig-of-parsley-food-photography-high-end-ristorante-i-461298487.png')}}" alt="" id="hexagonalborder">
-  </div>
+<section class="table">
+                                <BR><BR>
 
-    <div class="hexagonals">
-    <div class="bannlayer">
-        <p>Chicken Tortellini</p>
-    </div>
-  <img src="{{ url_for('static', filename='/images/Entree/Mid/chicken-tortellini-food-photography-high-end-ristorante-italy-perfect-composition-beautiful-det-595652130.png')}}" alt="" id="hexagonalborder">
-  </div>
+                                    <h3 class="major">Lorem ipsum dolor</h3>
+                                    <p>Morbi mattis mi consectetur tortor elementum, varius pellentesque velit convallis. Aenean tincidunt lectus auctor mauris maximus, ac scelerisque ipsum tempor. Duis vulputate ex et ex tincidunt, quis lacinia velit aliquet. Duis non efficitur nisi, id malesuada justo. Maecenas sagittis felis ac sagittis semper. Curabitur purus leo donec vel dolor at arcu tincidunt bibendum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce ut aliquet justo. Donec id neque ipsum. Integer eget ultricies odio. Nam vel ex a orci fringilla tincidunt. Aliquam eleifend ligula non velit accumsan cursus. Etiam ut gravida sapien.</p>
 
-    <div class="hexagonals">
-    <div class="bannlayer">
-        <p>Lasagna</p>
-    </div>
-  <img src="{{ url_for('static', filename='/images/Entree/Mid/lasagna-topped-with-crumbled-parmesan-cheese-basil-leaf-food-photography-high-end-ristorante-it-461298487.png')}}" alt="" id="hexagonalborder">
-    </div>
+                                    <p>Vestibulum ultrices risus velit, sit amet blandit massa auctor sit amet. Sed eu lectus sem. Phasellus in odio at ipsum porttitor mollis id vel diam. Praesent sit amet posuere risus, eu faucibus lectus. Vivamus ex ligula, tempus pulvinar ipsum in, auctor porta quam. Proin nec commodo, vel scelerisque nisi scelerisque. Suspendisse id quam vel tortor tincidunt suscipit. Nullam auctor orci eu dolor consectetur, interdum ullamcorper ante tincidunt. Mauris felis nec felis elementum varius.</p>
 
-    <div class="hexagonals">
-    <div class="bannlayer">
-        <p>Marscapone Pasta</p>
-    </div>
-  <img src="{{ url_for('static', filename='/images/Entree/Mid/mascarpone-pesto-pasta-using-spaghetti-noodles-topped-with-grated-parmesan-cheese-sprig-of-basil--461298487.png')}}" alt="" id="hexagonalborder">
-    </div>
-
-    <div class="hexagonals">
-    <div class="bannlayer">
-        <p>Cheese Tortellini in Red Sauce</p>
-    </div>
-  <img src="{{ url_for('static', filename='/images/Entree/Mid/cheese-tortellini-in-red-sauce-food-photography-high-end-ristorante-italy-perfect-composition-beautifu-652420561.png')}}" alt="" id="hexagonalborder">
-  </div>
-
-     <div class="hexagonals">
-    <div class="bannlayer">
-        <p>Pesto Penne Pasta</p>
-    </div>
-  <img src="{{ url_for('static', filename='/images/Entree/Mid/pesto-penne-pasta-topped-with-grated-parmesan-cheese-sprig-of-cilantro-food-photography-high-end-461298487.png')}}" alt="" id="hexagonalborder">
-  </div>
-
-    <div class="hexagonals">
-    <div class="bannlayer">
-        <p>Spaghettini And Meatballs</p>
-    </div>
-  <img src="{{ url_for('static', filename='/images/Entree/Mid/spaghetti-and-meatballs-in-red-sauce-food-photography-high-end-ristorante-italy-perfect-composit-461298487.png')}}" alt="" id="hexagonalborder">
-  </div>
-
-
-</div>
-</section>
-<BR><BR>
-                                    <section class="table">
-<h3 class="major">For the Children</h3><BR><BR>
-
-   <div class = "gallery">
-    <div class="hexagonals">
-      <div class="bannlayer">
-        <p>Breaded Chicken Fingers</p>
-      </div>
-      <img src="{{ url_for('static', filename='/images/Entree/Mid/5-breaded-chicken-fingers-food-photography-high-end-ristorante-italy-perfect-composition-beauti-461298487.png')}}" alt="" id="hexagonalborder">
-  </div>
-
-    <div class="hexagonals">
-      <div class="bannlayer">
-        <p>Baked Chicken Finger Rolls</p>
-      </div>
-      <img src="{{ url_for('static', filename='/images/Entree/Mid/baked-chicken-fingers-with-prosciutto-and-mozzarella-cheese-roll-food-photography-high-end-ristora-461298487.png')}}" alt="" id="hexagonalborder">
-  </div>
-       <div class="hexagonals">
-      <div class="bannlayer">
-        <p>Peanut Butter Panino with Grape Jelly</p>
-      </div>
-      <img src="{{ url_for('static', filename='/images/Entree/Mid/peanut-butter-and-grape-jelly-sandwich-topped-with-a-sprig-of-cilantro-food-photography-high-end--461298487.png')}}" alt="" id="hexagonalborder">
-  </div>
-       <div class="hexagonals">
-      <div class="bannlayer">
-        <p>Chicken Wrap</p>
-      </div>
-      <img src="{{ url_for('static', filename='/images/Entree/Mid/chicken-wrap-with-romain-lettuce-and-tomato-topped-with-a-sprig-of-cilantro-food-photography-high-461298487.png')}}" alt="" id="hexagonalborder">
-  </div>
-       <div class="hexagonals">
-      <div class="bannlayer">
-        <p>Patate Fritte</p>
-      </div>
-      <img src="{{ url_for('static', filename='/images/Entree/Mid/french-fries-topped-with-a-sprig-of-cilantro-food-photography-high-end-ristorante-italy-perfect-461298487.png')}}" alt="" id="hexagonalborder">
-  </div>
-   </div>
-                                    </section>
-                                    <BR><BR>
-
-									<h3 class="major">Lorem ipsum dolor</h3>
-									<p>Morbi mattis mi consectetur tortor elementum, varius pellentesque velit convallis. Aenean tincidunt lectus auctor mauris maximus, ac scelerisque ipsum tempor. Duis vulputate ex et ex tincidunt, quis lacinia velit aliquet. Duis non efficitur nisi, id malesuada justo. Maecenas sagittis felis ac sagittis semper. Curabitur purus leo donec vel dolor at arcu tincidunt bibendum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce ut aliquet justo. Donec id neque ipsum. Integer eget ultricies odio. Nam vel ex a orci fringilla tincidunt. Aliquam eleifend ligula non velit accumsan cursus. Etiam ut gravida sapien.</p>
-
-									<p>Vestibulum ultrices risus velit, sit amet blandit massa auctor sit amet. Sed eu lectus sem. Phasellus in odio at ipsum porttitor mollis id vel diam. Praesent sit amet posuere risus, eu faucibus lectus. Vivamus ex ligula, tempus pulvinar ipsum in, auctor porta quam. Proin nec commodo, vel scelerisque nisi scelerisque. Suspendisse id quam vel tortor tincidunt suscipit. Nullam auctor orci eu dolor consectetur, interdum ullamcorper ante tincidunt. Mauris felis nec felis elementum varius.</p>
-
-									<h3 class="major">Vitae phasellus</h3>
-									<p>Cras mattis ante fermentum, malesuada neque vitae, eleifend erat. Phasellus non pulvinar erat. Fusce tincidunt, nisl eget mattis egestas, purus ipsum consequat orci, sit amet lobortis lorem lacus in tellus. Sed ac elementum arcu. Quisque placerat auctor laoreet.</p>
+                                    <h3 class="major">Vitae phasellus</h3>
+                                    <p>Cras mattis ante fermentum, malesuada neque vitae, eleifend erat. Phasellus non pulvinar erat. Fusce tincidunt, nisl eget mattis egestas, purus ipsum consequat orci, sit amet lobortis lorem lacus in tellus. Sed ac elementum arcu. Quisque placerat auctor laoreet.</p>
 
 
 
-								</div>
-							</div>
+                                </div>
+                            </div>
 
-					</section>
+                    </section>
+
+{% endblock %}
+
+{% block scripts %}
 
 {% endblock %}

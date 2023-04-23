@@ -49,15 +49,30 @@
                                     </section>
                                 {% endfor %}
 
- <div class="maincontent">
-                                    <div class="container">
-                                        <section id="menu">
-                                             <div class="block menu1">
-                                                <div class="buttons-container"> <a href="#" class="button button--is-active" data-target="pizzaMenu">Pizzas</a>
-                                             <a href="#" class="button" data-target="wineMenu">Drinks</a>
-                                             </div>
+                            <div>
 
-                                              <!-- Start Pizza Menu -->
+                            <h1>List of Dishes</h1>
+                              <table>
+                                <!-- Table Header Row -->
+                                <thead>
+                                  <tr>
+                                    <th>Dish</th>
+                                    <th>Description</th>
+                                    <th>Price</th>
+                                    <th>add to cart</th>
+
+                                </thead>
+
+                                <!-- Table Element (Row) -->
+                                <tbody>
+                                  <td>{{ session['dish.name'] }}</td>
+                                  <td>{{ session['dish.description'] }}</td>
+                                  <td>${{ session['dish.price'] }}</td>
+                                  <td>${{ session['addt'] }}</td>
+                                </tbody>
+                              </table>
+                            </div>
+                            <!-- Start Pizza Menu -->
                                               <div class="menu menu--is-visible" id="pizzaMenu" data-aos="fade-up">
                                                   <div class="item row align-items-center">
                                                       <div class="col-sm-3 pr-5">
@@ -74,105 +89,18 @@
                                                           data-image="./img/pizza-1.png">Add to cart</button>
                                                       </div>
                                                   </div>
-                                                  <div class="item row align-items-center">
-                                                      <div class="col-sm-3 pr-5">
-                                                          <img class="product-img" src="./img/pizza-2.png">
-                                                      </div>
-                                                      <div class="details col-sm-9">
-                                                          <div class="item__header">
-                                                               <h3 class="item__title">Hot Pastrami</h3> <span class="item__dots"></span> <span class="item__price">$25</span>
-                                                          </div>
-                                                          <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt quos harum
-                                                              officia eaque nobis ut.</p>
-                                                          <button class="btn btn-sm btn-outline-primary my-cart-btn"
-                                                          data-id="2" data-name="Hot Pastrami" data-price="25" data-quantity="1"
-                                                          data-image="./img/pizza-2.png">Add to cart</button>
-                                                      </div>
-                                                  </div>
-                                                  <div class="item row align-items-center">
-                                                      <div class="col-sm-3 pr-5">
-                                                          <img class="product-img" src="./img/pizza-3.png">
-                                                      </div>
-                                                      <div class="details col-sm-9">
-                                                          <div class="item__header">
-                                                               <h3 class="item__title">Classic Pizza</h3> <span class="item__dots"></span> <span class="item__price">$20</span>
-                                                          </div>
-                                                          <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt quos harum
-                                                              officia eaque nobis ut.</p>
-                                                          <button class="btn btn-sm btn-outline-primary my-cart-btn"
-                                                          data-id="3" data-name="Classic Pizza" data-price="20" data-quantity="1"
-                                                          data-image="./img/pizza-3.png">Add to cart</button>
-                                                      </div>
-                                                  </div>
-                                                  <div class="item row align-items-center">
-                                                      <div class="col-sm-3 pr-5">
-                                                          <img class="product-img" src="./img/pizza-4.png">
-                                                      </div>
-                                                      <div class="details col-sm-9">
-                                                          <div class="item__header">
-                                                               <h3 class="item__title">Country Pizza</h3> <span class="item__dots"></span> <span class="item__price">$17</span>
-                                                          </div>
-                                                          <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt quos harum
-                                                              officia eaque nobis ut.</p>
-                                                          <button class="btn btn-sm btn-outline-primary my-cart-btn"
-                                                          data-id="4" data-name="Country Pizza" data-price="17" data-quantity="1"
-                                                          data-image="./img/pizza-4.png">Add to cart</button>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                  <!-- End Pizza Menu -->
-
-                                                <!-- Start Wine Menu -->
-                                                <div class="menu" id="wineMenu">
-                                                  <div class="item">
-                                                      <div class="item__header">
-                                                           <h3 class="item__title">White Wine</h3> <span class="item__dots"></span> <span class="item__price">$40</span>
-                                                      </div>
-                                                      <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt quos harum
-                                                          officia eaque nobis ut.</p>
-                                                  </div>
-                                                  <div class="item">
-                                                      <div class="item__header">
-                                                           <h3 class="item__title">Red Wine</h3> <span class="item__dots"></span> <span class="item__price">$50</span>
-                                                      </div>
-                                                      <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt quos harum
-                                                          officia eaque nobis ut.</p>
-                                                  </div>
-                                                  <div class="item">
-                                                      <div class="item__header">
-                                                           <h3 class="item__title">Red Wine</h3> <span class="item__dots"></span> <span class="item__price">$30</span>
-                                                      </div>
-                                                      <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt quos harum
-                                                          officia eaque nobis ut.</p>
-                                                  </div>
-                                                  <div class="item">
-                                                      <div class="item__header">
-                                                           <h3 class="item__title">White Wine</h3> <span class="item__dots"></span> <span class="item__price">$40</span>
-                                                      </div>
-                                                      <p class="item__description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt quos harum
-                                                          officia eaque nobis ut.</p>
-                                                  </div>
-                                                </div>
-                                  <!-- End Wine Menu -->
-
-                                            </div>
-
-                                        </section>
-                    </div>
-                </div>
-            </div>
 
 
 									<section class="features">
 										<article>
 											<a href="#" class="image"><img src="{{ url_for('static', filename='/images/pic04.png')}}"  alt="" /></a>
-											<h3 class="major">Sed feugiat lorem</h3>
+											<h3 class="major">Pizza's</h3>
 											<p>Lorem ipsum dolor sit amet, consectetur adipiscing vehicula id nulla dignissim dapibus ultrices.</p>
 											<a href="#" class="special">Learn more</a>
 										</article>
 										<article>
 											<a href="#" class="image"><img src="{{ url_for('static', filename='/images/pic05.png')}}"  alt="" /></a>
-											<h3 class="major">Nisl placerat</h3>
+											<h3 class="major">Beverage List</h3>
 											<p>Lorem ipsum dolor sit amet, consectetur adipiscing vehicula id nulla dignissim dapibus ultrices.</p>
 											<a href="#" class="special">Learn more</a>
 										</article>

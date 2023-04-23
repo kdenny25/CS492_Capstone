@@ -173,10 +173,10 @@ clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
 .bannlayer p:only-of-type {
 
   text-align: center;
-  font-size: 1em;
+  font-size: .8em;
 	font-style: normal;
 	text-weight: 700;
-	text-shadow: 2px 2px 4px #000000;
+	text-shadow: 2px 2px 4px #000000, 2px 2px 4px #000000;
   letter-spacing: 1%;
   transform: scale(.1);
   transition: all 0.9s ease;

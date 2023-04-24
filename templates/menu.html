@@ -2,6 +2,7 @@
 
 {% block headerScripts %}
     <!-- header scripts here -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='/assets/css/main.css') }}">
 {% endblock %}
 
 {% block styles %}
@@ -38,7 +39,7 @@
                                                     {% for dish in category.dish_list %}
 													<tr>
 														<td><img src="{{ dish.image }}" style="height:100px; width:auto;"/> </td>
-                                                        <td>{{ dish.name }}</td>>
+                                                        <td>{{ dish.name }}</td>
                                                         <td>{{ dish.description}}</td>
 														<td>{{ dish.price }}</td>
 													</tr>

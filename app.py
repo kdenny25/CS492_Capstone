@@ -78,6 +78,8 @@ toppings = db.menuToppings
 def load_user(user_id):
     user = users.find_one({'_id': ObjectId(user_id)})
     if user is not None:
+        #if user.phone is Null:
+
         return User(user)
     else:
         return None
@@ -171,7 +173,9 @@ def logout():
 @login_required
 def user_profile():
     if current_user.is_authenticated:
-        return render_template('user_pages/user_profile.html')
+        user_phone = str(users.find_one({'_id': ObjectId(current_user._id)})['phone'])
+        print(user_phone)
+        return render_template('user_pages/user_profile.html', user_phone=user_phone)
     else:
         return redirect('/')
 
@@ -183,6 +187,47 @@ def user_orders():
         return render_template(('user_pages/user_orders.html'))
     else:
         return redirect('/')
+
+@app.post('/update_user_name')
+@login_required
+def update_user_name():
+    f_name = request.form.get('fName')
+    l_name = request.form.get('lName')
+    _id = request.form.get('_id')
+
+    users.update_one({'_id': ObjectId(_id)}, {'$set': {
+        'first_name': f_name,
+        'last_name': l_name,
+    }})
+
+    flash('Name updated successfully', 'success')
+    return redirect(request.referrer)
+
+@app.post('/update_user_email')
+@login_required
+def update_user_email():
+    email = request.form.get('email')
+    _id = request.form.get('_id')
+
+    users.update_one({'_id': ObjectId(_id)}, {'$set':{
+        'email': email
+    }})
+
+    flash('Email updated successfully', 'success')
+    return redirect(request.referrer)
+
+@app.post('/update_user_phone')
+@login_required
+def update_user_phone():
+    phone = request.form.get('phone')
+    _id = request.form.get('_id')
+
+    users.update_one({'_id': ObjectId(_id)}, {'$set':{
+        'phone': phone
+    }})
+
+    flash('Phone number updated successfully', 'success')
+    return redirect(request.referrer)
 
 @app.route('/admin_dashboard')
 @login_required

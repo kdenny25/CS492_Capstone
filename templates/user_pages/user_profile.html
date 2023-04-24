@@ -6,15 +6,24 @@
 
 {% block styles %}
     <!-- CSS style code here -->
+    <style>
+        body {
+            background-color: #692d32;/* #2e3141;*/
+            background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.2)), url({{ url_for('static', filename='/images/bg.png') }});
+            background-size: auto, cover;
+            background-attachment: fixed, fixed;
+            background-position: center, center;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
 
 		<!-- Page Wrapper -->
 <div class="container-fluid">
-    <div class="row navbar-dark ">
+    <div class="row navbar-dark">
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
-            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2  min-vh-90">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2" style="min-height: calc(100vh - 75px);">
                 <a href="" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto  text-decoration-none">
                     <span class="fs-5 d-none d-sm-inline">User Profile</span>
                 </a>
@@ -57,7 +66,7 @@
                     <hr style="margin-top:5px;">
                     <h3 class="card-title" style="color: #dee2e6;">Full Name:</h3>
                     <p style="display:inline;">{{ current_user.fName }} {{ current_user.lName }}</p>
-                    <a href="" type="button" style="display:inline;" class="btn btn-secondary float-end">
+                    <a href="" type="button" style="display:inline;" class="btn btn-secondary float-end" data-bs-toggle="modal" data-bs-target="#updateNameDialog">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                           <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -66,7 +75,7 @@
                     <hr>
                     <h3 class="card-title" style="color: #dee2e6;">Email:</h3>
                     <p style="display:inline;">{{ current_user.email }}</p>
-                    <a href="" type="button" style="display:inline;" class="btn btn-secondary float-end">
+                    <a href="" type="button" style="display:inline;" class="btn btn-secondary float-end" data-bs-toggle="modal" data-bs-target="#updateEmailDialog">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                           <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -74,12 +83,12 @@
                     </a>
                     <hr>
                     <h3 class="card-title" style="color: #dee2e6;">Phone Number:</h3>
-                    {% if current_user.phone %}
-                        <p style="display:inline;" >{{ current_user.phone }}</p>
+                    {% if user_phone != "" %}
+                        <p style="display:inline;" >{{ user_phone }}</p>
                     {% else %}
                         <p style="display:inline;" >No phone number on file.</p>
                     {% endif %}
-                    <a href="" type="button" style="display:inline;" class="btn btn-secondary float-end">
+                    <a href="" type="button" style="display:inline;" class="btn btn-secondary float-end" data-bs-toggle="modal" data-bs-target="#updatePhoneDialog">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                           <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -87,15 +96,21 @@
                     </a>
                     <hr>
                     <button type="button" class="btn btn-secondary">Change Password</button>
-
+                    {% include 'elements/alert_messages.html' %}
                 </div>
             </div>
         </div>
+
     </div>
 </div>
+
+{% include 'user_pages/user_elements/update_name_modal.html' %}
+{% include 'user_pages/user_elements/update_email_modal.html' %}
+{% include 'user_pages/user_elements/update_phone_modal.html' %}
 
 {% endblock %}
 
 {% block scripts %}
+
 
 {% endblock %}

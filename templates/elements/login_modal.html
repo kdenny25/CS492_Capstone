@@ -6,12 +6,10 @@
                 <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body" >
-                <div class="col-12">
-                    <label for="categoryType" class="form-label" style="color: #ffffff;">Email:</label>
-                    <div class="input-group mb-3">
-                        <input class="form-select" type="email" id="loginEmail" name="email" required>
-                        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-                    </div>
+                <div class="col-12 mb-3">
+                    <label for="loginEmail" class="form-label" style="color: #ffffff;">Email:</label>
+                    <input class="form-control" type="email" id="loginEmail" name="email" required>
+                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
                 </div>
                 <div class="col-12">
                     <label for="categoryName" class="form-label" style="color: #ffffff;">Password:</label>

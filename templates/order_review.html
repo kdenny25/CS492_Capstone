@@ -11,6 +11,15 @@
             vertical-align: middle;
         }
     </style>
+    <style>
+        body {
+            background-color: #692d32;/* #2e3141;*/
+            background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.2)), url({{ url_for('static', filename='/images/bg.png') }});
+            background-size: auto, cover;
+            background-attachment: fixed, fixed;
+            background-position: center, center;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -20,8 +29,8 @@
     <div class="col-12 py-3">
         <div class="card" style="background-color: #212529;">
             <div class="card-body" >
-                <h1 class="card-title text-end" style="color: #dee2e6;">ORDER FOR DELIVERY:</h1>
-                <h4 class="card-title text-end" style="color: #dee2e6;">Date: 04/23/2023</h4>
+                <h3 class="card-title text-end" style="color: #dee2e6;">ORDER FOR DELIVERY:</h3>
+                <h5 class="card-title text-end" style="color: #dee2e6;">Date: 04/23/2023</h5>
                 <hr style="margin-top:5px;">
                 <table class="table table-dark table-striped">
                     <div class="table-wrapper">
@@ -81,8 +90,8 @@
     <div class="col-12 py-3">
         <div class="card" style="background-color: #212529;">
             <div class="card-body" >
-                <a class="text-end" data-bs-toggle="collapse" href="#collapseAddress" role="button" aria-expanded="false" aria-controls="collapseAddress">
-                    <h1 class="card-title text-end" style="color: #dee2e6;">CONFIRM ADDRESS:</h1>
+                <a class="text-end" data-bs-toggle="collapse" style="text-decoration: none" href="#collapseAddress" role="button" aria-expanded="false" aria-controls="collapseAddress">
+                    <h3 class="card-title text-end" style="color: #dee2e6;">CONFIRM ADDRESS:</h3>
                 </a>
                 <hr style="margin-top:5px;">
                 <div class="collapse" id="collapseAddress">
@@ -98,8 +107,8 @@
     <div class="col-12 py-3">
         <div class="card" style="background-color: #212529;">
             <div class="card-body" >
-                <a class="text-end" data-bs-toggle="collapse" href="#collapsePayment" role="button" aria-expanded="false" aria-controls="collapsePayment">
-                    <h1 class="card-title text-end" style="color: #dee2e6;">PAYMENT METHOD:</h1>
+                <a class="text-end" data-bs-toggle="collapse" style="text-decoration: none" href="#collapsePayment" role="button" aria-expanded="false" aria-controls="collapsePayment">
+                    <h3 class="card-title text-end" style="color: #dee2e6;">PAYMENT METHOD:</h3>
                 </a>
                 <hr style="margin-top:5px;">
                 <div class="collapse" id="collapsePayment">

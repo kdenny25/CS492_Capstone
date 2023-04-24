@@ -2,6 +2,8 @@
 
 {% block headerScripts %}
     <!-- header scripts here -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='/assets/css/main.css') }}">
+
 {% endblock %}
 
 {% block styles %}
@@ -21,10 +23,8 @@
 						<div class="inner">
 							<div class="logo"><span class="icon fa-gem"></span></div>
 							<h2>Cacciatore's</h2>
-                                    {% if current_user.is_authenticated %}
-                                        <p> Welcome {{ current_user.fName }}</p>
-                                    {% endif %}
 							<p>Boutique Italian Pizza and Cuisine</p>
+                            <a href="/menu" type="button" class="btn btn-primary btn-lg">GET IT DELIVERED</a>
 						</div>
 					</section>
 

@@ -1,0 +1,30 @@
+<div class="modal fade modal-dialog-scrollable"  id="updateNameDialog">
+    <div class="modal-dialog" >
+        <form class="modal-content"  style="background-color: rgba(53, 56, 73, 0.95);" action="{{ url_for('update_user_name') }}" method="post">
+            <div class="modal-header" style="border-bottom-color:#111217">
+                <h1 class="modal-title fs-5" style="color: #ffffff;">Update Name</h1>
+                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div style="display:none">
+                    <input class="invisible"  id="_id" name="_id" value="{{ current_user._id }}">
+                </div>
+                <div class="col-12">
+                    <label for="fName" class="form-label" style="color: #ffffff;">First Name:</label>
+                    <div class="mb-3">
+                        <input class="form-control" type="text" id="fName" name="fName" value="{{ current_user.fName }}"required>
+                        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                    </div>
+                    <label for="lName" class="form-label" style="color: #ffffff;">Last Name:</label>
+                    <div class="mb-3">
+                        <input class="form-control" type="text" id="lName" name="lName" value="{{ current_user.lName }}" required>
+                        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top-color:#111217">
+                <button type="submit" class="btn btn-success">Update</button>
+            </div>
+        </form>
+    </div>
+</div>

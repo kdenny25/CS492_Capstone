@@ -173,7 +173,10 @@ def logout():
 @login_required
 def user_profile():
     if current_user.is_authenticated:
-        user_phone = str(users.find_one({'_id': ObjectId(current_user._id)})['phone'])
+        try:
+            user_phone = str(users.find_one({'_id': ObjectId(current_user._id)})['phone'])
+        except:
+            user_phone = ""
         print(user_phone)
         return render_template('user_pages/user_profile.html', user_phone=user_phone)
     else:

@@ -100,10 +100,10 @@ def login():
         # gets data from form when POST method is passed
         email = request.form.get('email')
         password = request.form.get('password')
-
+        print(email)
         # finds user in database and assigns profile details to find_user
         find_user = users.find_one({'email': email})
-
+        print(find_user)
         # if user successfully found check if password is correct and log user in
         if find_user is not None:
             if bcrypt.check_password_hash(find_user['password'], password):
@@ -112,16 +112,17 @@ def login():
                 login_user(log_user)
 
                 # redirect to homepage
-                return redirect('/')
+                return redirect(request.referrer)
             else:
                 # passes an error message to login page.
                 flash('Password is incorrect.', 'error')
+                return redirect(request.referrer)
+        else:
+            # passes error message to login page
+            flash('User does not exist.', 'error')
 
-        # passes error message to login page
-        flash('User does not exist.', 'error')
-
-        # if user does not exist returns user to login page with error message
-        return render_template('elements/login_modal.html')
+            # if user does not exist returns user to login page with error message
+            return redirect(request.referrer)
 
     # default GET response is to load the login page
     return render_template('elements/login_modal.html')
@@ -187,9 +188,29 @@ def user_profile():
 def user_orders():
     if current_user.is_authenticated:
         log_site_traffic(db)
-        return render_template(('user_pages/user_orders.html'))
+        return render_template('user_pages/user_orders.html')
     else:
         return redirect('/')
+
+@app.route('/user_addresses')
+@login_required
+def user_addresses():
+    if current_user.is_authenticated:
+
+        # attempt to pull user addresses. If this key doesn't exist then create an empty array
+        try:
+            user_addresses = users.find_one({'_id': ObjectId(current_user._id)})['addresses']
+        except:
+            user_addresses = []
+
+        return render_template('user_pages/user_addresses.html', user_addresses=user_addresses)
+    else:
+        return redirect('/')
+
+# @app.post('/add_user_address')
+# @login_required
+# def add_user_address():
+#
 
 @app.post('/update_user_name')
 @login_required
@@ -231,6 +252,27 @@ def update_user_phone():
 
     flash('Phone number updated successfully', 'success')
     return redirect(request.referrer)
+
+@app.post('/update_user_password')
+@login_required
+def update_user_password():
+    new_password = request.form.get('newPass')
+    old_password = request.form.get('oldPass')
+    _id = request.form.get('_id')
+
+    # find the current user in the database so we can pull the password
+    find_user = users.find_one({'_id': ObjectId(_id)})
+
+    # if the old password matches the stored password then we can change the password
+    if bcrypt.check_password_hash(find_user['password'], old_password):
+        password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+
+        flash('Password updated successfully', 'success')
+        return redirect(request.referrer)
+    else:
+        flash('Incorrect password used', 'error')
+        return redirect(request.referrer)
+
 
 @app.route('/admin_dashboard')
 @login_required

@@ -2,7 +2,7 @@ import pymongo.errors
 from flask import Flask, request, render_template, url_for, redirect, flash
 from flask_bcrypt import Bcrypt
 from pymongo import MongoClient, ASCENDING
-#from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, current_user,login_required, login_user, logout_user
 from oauthlib.oauth2 import WebApplicationClient
 from bson.objectid import ObjectId
@@ -30,7 +30,7 @@ login_manager.init_app(app)
 bcrypt = Bcrypt(app)
 
 # csrf protection
-#csrf = CSRFProtect(app)
+csrf = CSRFProtect(app)
 
 # todo: allow login with google credentials
 # OAuth 2 client setup
@@ -59,7 +59,7 @@ else:
     blob_service_client = BlobServiceClient.from_connection_string(blob_conn_str)
 
 host_name="https://ctucapstonestg.blob.core.windows.net"
-container_name = 'imagesharing'
+container_name = 'images'
 
 # sets up database
 db = client.pizza_db

@@ -927,7 +927,16 @@ def add_menu_topping():
     else:
         return redirect('/')
 
-
+# add items to cart
+@app.route('/add_to_cart/<item_id>')
+def add_to_cart(item_id):
+    # Add the item with item_id to the cart
+    # You can use session or a database to store the cart items
+    return redirect(url_for('cart'))
+@app.route('/cart')
+def cart():
+    # Retrieve the items in the cart and display them on the cart page
+    return render_template('cart.html', items=cart_items)
 
 # inserts communication responses from customers
 @app.post('/get_in_touch')

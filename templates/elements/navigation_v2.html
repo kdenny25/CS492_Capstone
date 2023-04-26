@@ -58,6 +58,11 @@
                     <span class="visually-hidden">items in cart</span>
                 </span>
               </button>
+
+                    <ul>  {% for item in items %}
+                         <li>{{ item }}</li>
+                             {% endfor %}
+                    </ul>
               <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end px-2" id="navbarSupportContent">
                 <table class="table table-dark table-striped">
                         <div class="table-wrapper">

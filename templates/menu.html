@@ -43,6 +43,9 @@
                                                       <p class="card-text text-end">Price: ${{'%0.2f' % dish.price|float }}</p>
                                                       <div class="input-group mb-3">
                                                         <input type="number" id="typeNumber" class="form-control" value="1" />
+                                                          <form action="{{ url_for('add_to_cart', item_id=item_id) }}" method="post">
+                                                                <button type="submit">Add to Cart</button>
+                                                          </form>
                                                         <a href="#" class="btn btn-primary">Add to Cart</a>
                                                       </div>
                                                   </div>

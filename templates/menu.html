@@ -29,18 +29,18 @@
 							<div class="wrapper">
 								<div class="inner">
                                 {% for category in menu_data.dish_categories %}
-                                    <section class="table">
+                                    <div>
                                         <article>
                                             <h3 class="major">{{ category.category }}</h3>
                                         </article>
                                         <div class="row">
                                             {% for dish in category.dish_list %}
                                                 <div class="card col-4 m-1" style="width: 18rem; background-color: rgba(53, 56, 73, 0.95);">
-                                                  <img src="{{ dish.image }}" style="object-fit: cover;" class="card-img-top" alt="...">
+                                                  <img src="{{ dish.image }}" style="height: 11rem;" class="card-img-top" alt=""/>
                                                   <div class="card-body">
-                                                    <h5 class="card-title">{{ dish.name }}</h5>
+                                                    <h3 class="card-title">{{ dish.name }}</h3>
                                                     <p class="card-text">{{ dish.description[0:100]}}</p>
-                                                      <p class="card-text">Price: ${{ dish.price }}</p>
+                                                      <p class="card-text text-end">Price: ${{'%0.2f' % dish.price|float }}</p>
                                                       <div class="input-group mb-3">
                                                         <input type="number" id="typeNumber" class="form-control" value="1" />
                                                         <a href="#" class="btn btn-primary">Add to Cart</a>
@@ -49,7 +49,7 @@
                                                 </div>
                                             {% endfor %}
 										</div>
-                                    </section>
+                                    </div>
                                 {% endfor %}
 
     <div class="wrapper">

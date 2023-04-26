@@ -927,24 +927,7 @@ def add_menu_topping():
     else:
         return redirect('/')
 
-# add items to cart
-@app.route('/add_to_cart/<_id>')
-def add_to_cart(_id):
-    # Add the item with item_id to the cart
-    # You can use session or a database to store the cart items
-    return redirect(url_for('cart'))
-@app.route('/add_to_cart/_id')
-def add_to_cart(_id):
-    if 'cart' not in session:
-        session['cart'] = []
-    if _id not in session['cart']:
-        session['cart'].append(_id)
-    return 'Item added to cart!'
-@app.route('/cart')
-def cart():
-    if 'cart' not in session:
-        session['cart'] = []
-    return 'Cart contents: ' + ', '.join(session['cart'])
+
 
 # inserts communication responses from customers
 @app.post('/get_in_touch')

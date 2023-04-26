@@ -12,6 +12,7 @@ def log_site_traffic(db):
     ip_response = requests.get(request_url)
     ip_result = ip_response.content.decode()
     ip_result = ip_result.split("(")[1].strip(")")
+    print(ip_result)
     ip_result = json.loads(ip_result)
 
     log = {'date': date,

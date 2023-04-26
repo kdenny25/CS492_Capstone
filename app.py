@@ -347,7 +347,7 @@ def menu():
     page_data = {'dish_categories': dish_categories,
                  'bev_categories': beverage_categories}
 
-    log_site_traffic(db)
+    #log_site_traffic(db)
 
     return render_template('menu.html', menu_data=page_data)
 

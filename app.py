@@ -155,7 +155,7 @@ def register():
             flash(f'Account created for {fName}!', 'success')
             log_site_traffic(db)
             # returns user to homepage with success message
-            return redirect('/')
+            return redirect(request.referrer)
         else:
             # if user already exists sends error message
             flash(f'Account already exits for email: {email}!', 'error')
@@ -199,18 +199,71 @@ def user_addresses():
 
         # attempt to pull user addresses. If this key doesn't exist then create an empty array
         try:
-            user_addresses = users.find_one({'_id': ObjectId(current_user._id)})['addresses']
+            user = users.find_one({'_id': ObjectId(current_user._id)})
+            addresses = user['addresses']
         except:
-            user_addresses = []
+            addresses = []
 
-        return render_template('user_pages/user_addresses.html', user_addresses=user_addresses)
+        return render_template('user_pages/user_addresses.html', user_addresses=addresses)
     else:
         return redirect('/')
 
-# @app.post('/add_user_address')
-# @login_required
-# def add_user_address():
-#
+@app.post('/add_user_address')
+@login_required
+def add_user_address():
+    if current_user.is_authenticated:
+        _id = request.form.get('_id')
+        address = request.form.get('address')
+        city = request.form.get('city')
+        state = request.form.get('state')
+        zip = request.form.get('zip')
+        default = str(request.form.get('defaultAddress'))
+
+        if default == 'None':
+            default = 'False'
+
+        user_addrs = users.find_one({'_id': ObjectId(_id)})
+
+        try:
+            # if ['addresses'] doesn't exist this will throw an error and move to except:
+            user_addrs['addresses']
+
+            # if it does exist then check if default is true and change value of current default address
+            if default == 'True':
+                for address in user_addrs['addresses']:
+                    if (address['default'] == 'True'):
+                        users.update_one({'_id': ObjectId, 'addresses._id': address['_id']}, {'$set': {
+                            'default': 'False'
+                        }})
+
+            # then add a new address to the list
+            users.update_one({'_id': ObjectId(_id)}, {'$push': {
+                'addresses': {
+                    '_id': ObjectId(),
+                    'address': address,
+                    'city': city,
+                    'state': state,
+                    'zip': zip,
+                    'default': default
+                }
+            }})
+        except:
+            # if customer did not click default. Automatically set to default
+
+            users.update_one({'_id': ObjectId(_id)}, {'$set': {
+                 'addresses': [{
+                     '_id': ObjectId(),
+                     'address': address,
+                     'city': city,
+                     'state': state,
+                     'zip': zip,
+                     'default': 'True'
+                 }]
+             }})
+
+        return redirect(request.referrer)
+    else:
+        return redirect('/')
 
 @app.post('/update_user_name')
 @login_required
@@ -483,7 +536,7 @@ def add_menu_dish():
                     blob_client.upload_blob(data, overwrite=True)
                     print("Upload Done")
 
-                    dish_image_path = f"{host_name}   /{container_name}/{filename}"
+                    dish_image_path = f"{host_name}/{container_name}/{filename}"
                 except:
                     pass
             os.remove(filename)

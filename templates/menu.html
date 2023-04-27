@@ -72,10 +72,16 @@
                                                     <h5 class="card-title">{{ bev.name }}</h5>
                                                     <p class="card-text">{{ bev.description[0:100]}}</p>
                                                       <p class="card-text">Price: ${{ bev.price }}</p>
-                                                      <div class="input-group mb-3">
-                                                        <input type="number" id="typeNumber" class="form-control" value="1" />
-                                                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                                                      </div>
+                                                       <form action="{{ url_for('add_dish_to_cart') }}" method="post">
+                                                        <input class="invisible"  id="_id" name="_id" value="{{ bev._id }}">
+                                                        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                                        <div class="input-group mb-3">
+                                                            <input type="number" id="qty" name="qty" class="form-control" value="1" />
+                                                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                                        </div>
+                                                        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                                    </form>
+
                                                   </div>
                                                 </div>
                                             {% endfor %}
@@ -103,6 +109,9 @@
             var _id = document.getElementById("_id").value;
             var qty = document.getElementById("qty").value;
             var url = "/add_dish_to_cart?_id=" + _id + "&" + qty;
+
+
+
 
             console.log(url);
             window.location.

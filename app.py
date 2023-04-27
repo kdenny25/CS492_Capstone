@@ -935,8 +935,12 @@ def add_dish_to_cart():
     item = menu_dishes.find_one({'_id': ObjectId(_id)})
     print(item)
 
+
+
     print("ID: " + str(_id) + " added " + str(qty) + " to cart")
     return redirect(request.referrer)
+
+
 
 # inserts communication responses from customers
 @app.post('/get_in_touch')
@@ -956,3 +960,5 @@ def get_in_touch():
 
     # ideally this would be a thank you for your comment page
     return redirect('/')
+
+# session info for cookies

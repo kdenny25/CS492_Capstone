@@ -44,6 +44,7 @@
                                                     <p class="card-text text-end">Price: ${{'%0.2f' % dish.price|float }}</p>
                                                     <form action="{{ url_for('add_dish_to_cart') }}" method="post">
                                                         <input class="invisible"  id="_id" name="_id" value="{{ dish._id }}">
+                                                        <input class="invisible"  id="tag" name="tag" value="dish">
                                                         <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
                                                         <div class="input-group mb-3">
                                                             <input type="number" id="qty" name="qty" class="form-control" value="1" />
@@ -71,17 +72,17 @@
                                                   <div class="card-body">
                                                     <h5 class="card-title">{{ bev.name }}</h5>
                                                     <p class="card-text">{{ bev.description[0:100]}}</p>
-                                                      <p class="card-text">Price: ${{ bev.price }}</p>
-                                                       <form action="{{ url_for('add_dish_to_cart') }}" method="post">
-                                                        <input class="invisible"  id="_id" name="_id" value="{{ bev._id }}">
-                                                        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-                                                        <div class="input-group mb-3">
-                                                            <input type="number" id="qty" name="qty" class="form-control" value="1" />
-                                                            <button type="submit" class="btn btn-primary">Add to Cart</button>
-                                                        </div>
-                                                        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-                                                    </form>
-
+                                                        <p class="card-text">Price: ${{ bev.price }}</p>
+                                                        <form action="{{ url_for('add_dish_to_cart') }}" method="post">
+                                                            <input class="invisible"  id="_id" name="_id" value="{{ bev._id }}">
+                                                            <input class="invisible"  id="tag" name="tag" value="bev">
+                                                            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                                            <div class="input-group mb-3">
+                                                                <input type="number" id="qty" name="qty" class="form-control" value="1" />
+                                                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                                            </div>
+                                                            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                                        </form>
                                                   </div>
                                                 </div>
                                             {% endfor %}

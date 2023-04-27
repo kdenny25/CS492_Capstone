@@ -931,20 +931,48 @@ def add_menu_topping():
 @app.route('/add_dish_to_cart', methods=['POST'])
 def add_dish_to_cart():
     _id = request.form.get('_id')
-    qty = request.form.get('qty')
+    qty = int(request.form.get('qty'))
+    tag = request.form.get('tag')   # determines if it is a beverage or dish
 
-    item = menu_dishes.find_one({'_id': ObjectId(_id)})
-    print(item)
+    # if the tag item is dish then we check the dish database else we check the beverage database
+    if tag == 'dish':
+        # pulls item information from dish database.
+        item = menu_dishes.find_one({'_id': ObjectId(_id)})
+        print(item)
+    else:
+        # pulls item information from beverages database
+        item = beverages.find_one({'_id': ObjectId(_id)})
+        print(item)
 
-    item = beverages.find_one({'_id': ObjectId(_id)})
-    print(item)
+    # calculate total price of selected item once
+    total_price = float(qty) * item['price']
+
+    # create dict format of item to store in the session.
+    item_dict = { '_id': str(item['_id']),
+                 'name': item['name'],
+                 'cost': item['cost'],
+                 'price': item['price'],
+                 'qty': qty,
+                 'total_price': total_price}
 
     print("ID: " + str(_id) + " added " + str(qty) + " to cart")
 
-    if 'Shoppingcart' in session:
-        print(session['Shoppingcart'])
+    # if the key 'shopping_cart' is in the session then there are already items in the cart
+    if 'shopping_cart' in session:
+        print(session['shopping_cart'])
+        # loop through cart and check if new item is already in shopping cart
+        # if item is in cart then update qty
+        # else append item to cart list and update total price and qty
+        session['shopping_cart'].append(item_dict)
+        session['total_quantity'] += qty
+        session['total_price'] += total_price
+
     else:
-        session['Shoppingcart'] = print('cart is empty')
+        # initial setup of the cart, quantity and total price values
+        session['shopping_cart'] = [item_dict]
+        session['total_quantity'] = qty
+        session['total_price'] = total_price
+        print(session['shopping_cart'])
 
     return redirect(request.referrer)
 

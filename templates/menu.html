@@ -38,17 +38,24 @@
                                                 <div class="card col-4 m-1" style="width: 18rem; background-color: rgba(53, 56, 73, 0.95);">
                                                   <img src="{{ dish.image }}" style="height: 11rem;" class="card-img-top" alt=""/>
                                                   <div class="card-body">
+
                                                     <h3 class="card-title">{{ dish.name }}</h3>
                                                     <p class="card-text">{{ dish.description[0:100]}}</p>
-                                                      <p class="card-text text-end">Price: ${{'%0.2f' % dish.price|float }}</p>
-                                                      <div class="input-group mb-3">
-                                                        <input type="number" id="typeNumber" class="form-control" value="1" />
-                                                           <a href="#" class="btn btn-primary">Add to Cart</a>
-                                                      </div>
+                                                    <p class="card-text text-end">Price: ${{'%0.2f' % dish.price|float }}</p>
+                                                    <form action="{{ url_for('add_dish_to_cart') }}" method="post">
+                                                        <input class="invisible"  id="_id" name="_id" value="{{ dish._id }}">
+                                                        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                                        <div class="input-group mb-3">
+                                                            <input type="number" id="qty" name="qty" class="form-control" value="1" />
+                                                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                                        </div>
+                                                        <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                                    </form>
                                                   </div>
                                                 </div>
                                             {% endfor %}
 										</div><BR><BR>
+                                    </div>
 
                                 {% endfor %}
 
@@ -75,6 +82,10 @@
 										</div>
                                     </section>
                                 {% endfor %}
+                                </div>
+                            </div>
+                    </section>
+            </div>
 
 
 {% include "elements/login_modal.html" %}
@@ -84,4 +95,16 @@
 
 {% block scripts %}
 
+    <script>
+
+     $(document).on("click", '#addDishToCart', function(){
+            var _id = document.getElementById("_id").value;
+            var qty = document.getElementById("qty").value;
+            var url = "/add_dish_to_cart?_id=" + _id + "&" + qty;
+
+            console.log(url);
+            window.location.
+            window.location.href = url;
+        })
+    </script>
 {% endblock %}

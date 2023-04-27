@@ -1,5 +1,5 @@
 import pymongo.errors
-from flask import Flask, request, render_template, url_for, redirect, flash
+from flask import Flask, request, render_template, url_for, redirect, flash, session
 from flask_bcrypt import Bcrypt
 from pymongo import MongoClient, ASCENDING
 from flask_wtf.csrf import CSRFProtect
@@ -927,7 +927,16 @@ def add_menu_topping():
     else:
         return redirect('/')
 
+@app.post('/add_dish_to_cart')
+def add_dish_to_cart():
+    _id = request.form.get('_id')
+    qty = request.form.get('qty')
 
+    item = menu_dishes.find_one({'_id': ObjectId(_id)})
+    print(item)
+
+    print("ID: " + str(_id) + " added " + str(qty) + " to cart")
+    return redirect(request.referrer)
 
 # inserts communication responses from customers
 @app.post('/get_in_touch')

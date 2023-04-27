@@ -935,6 +935,9 @@ def add_dish_to_cart():
     item = menu_dishes.find_one({'_id': ObjectId(_id)})
     print(item)
 
+    item = beverages.find_one({'_id': ObjectId(_id)})
+    print(item)
+
 
 
     print("ID: " + str(_id) + " added " + str(qty) + " to cart")

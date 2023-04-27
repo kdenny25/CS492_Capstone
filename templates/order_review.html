@@ -83,88 +83,118 @@
                     </div>
                 </table>
                     <hr>
-                        <button type="button" class="btn btn-primary float-end" data-bs-toggle="collapse" data-bs-target="#collapseAddress" aria-expanded="false" aria-controls="collapseAddress">Next</button>
+                        <button type="button" class="btn btn-primary float-end" data-bs-toggle="collapse" data-bs-target="#collapseAddress" aria-expanded="false" aria-controls="collapseAddress">Delivery Address</button>
             </div>
         </div>
     </div>
-    <div class="col-12 py-3">
-        <div class="card" style="background-color: #212529;">
-            <div class="card-body" >
-                <a class="text-end" data-bs-toggle="collapse" style="text-decoration: none" href="#collapseAddress" role="button" aria-expanded="false" aria-controls="collapseAddress">
-                    <h3 class="card-title text-end" style="color: #dee2e6;">CONFIRM ADDRESS:</h3>
-                </a>
-                <hr style="margin-top:5px;">
-                <div class="collapse" id="collapseAddress">
-                    <p>1575 Garden of the Gods Rd Suite 100,</p>
-                    <p>Colorado Springs, CO 80907</p>
-                    <hr>
-                    <button type="button" class="btn btn-primary float-end" data-bs-toggle="collapse" data-bs-target="#collapsePayment" aria-expanded="false" aria-controls="collapsePayment">Next</button>
-                    <button type="button" class="btn btn-secondary float-end me-3">Change Address</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 py-3">
-        <div class="card" style="background-color: #212529;">
-            <div class="card-body" >
-                <a class="text-end" data-bs-toggle="collapse" style="text-decoration: none" href="#collapseAddress" role="button" aria-expanded="false" aria-controls="collapseAddress">
-                    <h3 class="card-title text-end" style="color: #dee2e6;">CONFIRM ADDRESS:</h3>
-                </a>
-                <hr style="margin-top:5px;">
-                <div class="collapse" id="collapseAddress">
-                    <div class="row">
-                        <div class="card col mx-2" style="background-color: #252b31;">
-                            <div class="card-body">
-                                <h5 class="card-title" style="color: #dee2e6;">Login to Order</h5>
-                                <hr style="margin-top:5px;">
-                                <div class="d-flex justify-content-center my-auto">
-                                    <a type="button" class="btn btn-primary mx-2" href="" data-bs-toggle="modal" data-bs-target="#loginDialog">Login</a>
-                                    <a type="button" class="btn btn-primary mx-2" href="" data-bs-toggle="modal" data-bs-target="#registerDialog">Register</a>
+    {% if current_user.is_authenticated %}
+        <div class="col-12 py-3">
+            <div class="card" style="background-color: #212529;">
+                <div class="card-body" >
+                    <a class="text-end" data-bs-toggle="collapse" style="text-decoration: none" href="#collapseAddress" role="button" aria-expanded="false" aria-controls="collapseAddress">
+                        <h3 class="card-title text-end" style="color: #dee2e6;">DELIVERY ADDRESS:</h3>
+                    </a>
+                    <hr style="margin-top:5px;">
+                    <div class="collapse" id="collapseAddress">
+                        <div class="row">
+                            <div class="col-12">
+                                <label for="email" class="form-label" style="color: #ffffff;">Street Address:</label>
+                                <div class="mb-3">
+                                    <input class="form-control" type="text" id="address" name="address" autocomplete="street-address" value="{{ address.address }}" required>
+                                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <label for="email" class="form-label" style="color: #ffffff;">City:</label>
+                                <div class="mb-3">
+                                    <input class="form-control" type="text" id="city" name="city" autocomplete="address-level2" value="{{ address.city }}" required>
+                                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <label for="email" class="form-label" style="color: #ffffff;">State:</label>
+                                <div class="mb-3">
+                                    <input class="form-control" type="text" id="state" name="state" value="{{ address.state }}" required>
+                                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <label for="email" class="form-label" style="color: #ffffff;">Zipcode:</label>
+                                <div class="mb-3">
+                                    <input class="form-control" type="text" id="zip" name="zip" pattern="[0-9]*" autocomplete="postal-code" value="{{ address.zip }}" required>
+                                    <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
                                 </div>
                             </div>
                         </div>
-                        <div class="card col mx-2" style="background-color: #252b31;">
-                            <div class="card-body">
-                                <h5 class="card-title" style="color: #dee2e6;">Order as a Guest</h5>
-                                <hr style="margin-top:5px;">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label for="email" class="form-label" style="color: #ffffff;">Street Address:</label>
-                                        <div class="mb-3">
-                                            <input class="form-control" type="text" id="address" name="address" autocomplete="street-address" required>
-                                            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="email" class="form-label" style="color: #ffffff;">City:</label>
-                                        <div class="mb-3">
-                                            <input class="form-control" type="text" id="city" name="city" autocomplete="address-level2" required>
-                                            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="email" class="form-label" style="color: #ffffff;">State:</label>
-                                        <div class="mb-3">
-                                            <input class="form-control" type="text" id="state" name="state" required>
-                                            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="email" class="form-label" style="color: #ffffff;">Zipcode:</label>
-                                        <div class="mb-3">
-                                            <input class="form-control" type="text" id="zip" name="zip" pattern="[0-9]*" autocomplete="postal-code" required>
-                                            <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <hr>
+                        <button type="button" class="btn btn-primary float-end" data-bs-toggle="collapse" data-bs-target="#collapsePayment" aria-expanded="false" aria-controls="collapsePayment">Payment Method</button>
                     </div>
-                    <button type="button" class="btn btn-primary float-end" data-bs-toggle="collapse" data-bs-target="#collapsePayment" aria-expanded="false" aria-controls="collapsePayment">Next</button>
                 </div>
             </div>
         </div>
-    </div>
+    {% else %}
+        <div class="col-12 py-3">
+            <div class="card" style="background-color: #212529;">
+                <div class="card-body" >
+                    <a class="text-end" data-bs-toggle="collapse" style="text-decoration: none" href="#collapseAddress" role="button" aria-expanded="false" aria-controls="collapseAddress">
+                        <h3 class="card-title text-end" style="color: #dee2e6;">DELIVERY ADDRESS:</h3>
+                    </a>
+                    <hr style="margin-top:5px;">
+                    <div class="collapse" id="collapseAddress">
+                        <div class="row mb-1">
+                            <div class="card col mx-2" style="background-color: #252b31;">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="color: #dee2e6;">Login to Order</h5>
+                                    <hr style="margin-top:5px;">
+                                    <div class="d-flex justify-content-center my-auto">
+                                        <a type="button" class="btn btn-primary mx-2" href="" data-bs-toggle="modal" data-bs-target="#loginDialog">Login</a>
+                                        <a type="button" class="btn btn-primary mx-2" href="" data-bs-toggle="modal" data-bs-target="#registerDialog">Register</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card col mx-2" style="background-color: #252b31;">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="color: #dee2e6;">Order as a Guest</h5>
+                                    <hr style="margin-top:5px;">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label for="email" class="form-label" style="color: #ffffff;">Street Address:</label>
+                                            <div class="mb-3">
+                                                <input class="form-control" type="text" id="address" name="address" autocomplete="street-address" required>
+                                                <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="email" class="form-label" style="color: #ffffff;">City:</label>
+                                            <div class="mb-3">
+                                                <input class="form-control" type="text" id="city" name="city" autocomplete="address-level2" required>
+                                                <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="email" class="form-label" style="color: #ffffff;">State:</label>
+                                            <div class="mb-3">
+                                                <input class="form-control" type="text" id="state" name="state" required>
+                                                <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="email" class="form-label" style="color: #ffffff;">Zipcode:</label>
+                                            <div class="mb-3">
+                                                <input class="form-control" type="text" id="zip" name="zip" pattern="[0-9]*" autocomplete="postal-code" required>
+                                                <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary float-end" data-bs-toggle="collapse" data-bs-target="#collapsePayment" aria-expanded="false" aria-controls="collapsePayment">Payment Method</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
     <div class="col-12 py-3">
         <div class="card" style="background-color: #212529;">
             <div class="card-body" >
@@ -176,8 +206,7 @@
                     <p>1575 Garden of the Gods Rd Suite 100,</p>
                     <p>Colorado Springs, CO 80907</p>
                     <hr>
-                    <button type="button" class="btn btn-primary float-end ">Next</button>
-                    <button type="button" class="btn btn-secondary float-end me-3">Change Address</button>
+                    <button type="button" class="btn btn-primary float-end ">Complete Order</button>
                 </div>
             </div>
         </div>

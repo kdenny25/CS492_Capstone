@@ -407,7 +407,23 @@ def menu():
 
 @app.route('/order_review')
 def order_review():
-    return render_template('order_review.html')
+    # check if user is logged in
+    if current_user.is_authenticated:
+        user= users.find_one({'_id': ObjectId(current_user._id)})
+
+        # try to pull the default address
+        try:
+            user_address = ''
+            for address in user['addresses']:
+                if address['default'] == 'True':
+                    user_address = address
+
+        except:
+            user_address = ''
+
+        return render_template('order_review.html', address=user_address)
+    else:
+        return render_template('order_review.html')
 
 @app.route('/communications')
 def communications():

@@ -127,6 +127,7 @@ def login():
     # default GET response is to load the login page
     return render_template('elements/login_modal.html')
 
+
 @app.route('/signup', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -938,12 +939,14 @@ def add_dish_to_cart():
     item = beverages.find_one({'_id': ObjectId(_id)})
     print(item)
 
-
-
     print("ID: " + str(_id) + " added " + str(qty) + " to cart")
+
+    if 'Shoppingcart' in session:
+        print(session['Shoppingcart'])
+    else:
+        session['Shoppingcart'] = print(item)
+
     return redirect(request.referrer)
-
-
 
 # inserts communication responses from customers
 @app.post('/get_in_touch')
@@ -965,3 +968,4 @@ def get_in_touch():
     return redirect('/')
 
 # session info for cookies
+

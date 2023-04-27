@@ -928,7 +928,7 @@ def add_menu_topping():
     else:
         return redirect('/')
 
-@app.post('/add_dish_to_cart')
+@app.route('/add_dish_to_cart', methods=['POST'])
 def add_dish_to_cart():
     _id = request.form.get('_id')
     qty = request.form.get('qty')

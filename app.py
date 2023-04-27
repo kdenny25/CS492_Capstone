@@ -944,7 +944,7 @@ def add_dish_to_cart():
     if 'Shoppingcart' in session:
         print(session['Shoppingcart'])
     else:
-        session['Shoppingcart'] = print(item)
+        session['Shoppingcart'] = print('cart is empty')
 
     return redirect(request.referrer)
 

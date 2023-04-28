@@ -42,12 +42,12 @@
                                         <div class="row">
                                             {% for dish in category.dish_list %}
                                                 <div class="card col-4 m-1" style="width: 18rem; background-color: rgba(53, 56, 73, 0.95);">
-                                                  <img src="{{ dish.image }}" style="height: 11rem;" class="card-img-top" alt=""/>
+                                                  <img src="{{ dish.image }}" style="height: 11rem; background-size: cover;" class="card-img-top" alt=""/>
                                                   <div class="card-body">
-                                                    <h3 class="card-title" style="height: 4em">{{ dish.name }}</h3>
-                                                    <a class="text-decoration-underline" data-bs-custom-class="custom-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus data-bs-placement="right" data-bs-content="{{ dish.description }}">Click for Description</a>
+                                                    <h3 class="card-title" style="height: 5em; margin-bottom: 0.5em;">{{ dish.name }}</h3>
+                                                    <a class="text-decoration-underline" data-bs-custom-class="custom-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="right" data-bs-content="{{ dish.description }}">Click for Description</a>
 {#                                                    <p class="card-text">{{ dish.description[0:100]}}</p>#}
-                                                    <p class="card-text text-end">Price: ${{'%0.2f' % dish.price|float }}</p>
+                                                    <p class="card-text text-end" style="margin-top: 0.5em;">Price: ${{'%0.2f' % dish.price|float }}</p>
                                                     <form action="{{ url_for('add_dish_to_cart') }}" method="post">
                                                         <div style="display:none;">
                                                             <input class="invisible"  id="_id" name="_id" value="{{ dish._id }}">
@@ -76,12 +76,12 @@
                                         <div class="row">
                                             {% for bev in category.bev_list %}
                                                 <div class="card col-4 m-1" style="width: 18rem; background-color: rgba(53, 56, 73, 0.95);">
-                                                  <img src="{{ bev.image }}" style="height: 11rem;" class="card-img-top" alt=""/>
+                                                  <img src="{{ bev.image }}" style="height: 11rem; background-size: cover;" class="card-img-top" alt=""/>
                                                   <div class="card-body">
-                                                    <h3 class="card-title">{{ bev.name }}</h3>
-                                                    <a data-bs-custom-class="custom-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus data-bs-placement="right" data-bs-content="{{ bev.description }}">Click for Description</a>
+                                                    <h3 class="card-title" style="height: 5em; margin-bottom: 0.5em;">{{ bev.name }}</h3>
+                                                    <a data-bs-custom-class="custom-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus"  data-bs-placement="right" data-bs-content="{{ bev.description }}">Click for Description</a>
 {#                                                    <p class="card-text">{{ bev.description[0:100]}}</p>#}
-                                                        <p class="card-text">Price: ${{ bev.price }}</p>
+                                                        <p class="card-text text-end" style="margin-top: 0.5em;">Price: ${{'%0.2f' % bev.price|float }}</p>
                                                         <form action="{{ url_for('add_dish_to_cart') }}" method="post">
                                                             <div style="display:none;">
                                                                 <input class="invisible" style="width:0px;"  id="_id" name="_id" value="{{ bev._id }}">

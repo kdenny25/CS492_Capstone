@@ -408,9 +408,9 @@ def menu():
 @app.route('/order_review')
 def order_review():
     # check if user is logged in
+    date = datetime.date.today()
     if current_user.is_authenticated:
         user= users.find_one({'_id': ObjectId(current_user._id)})
-
         # try to pull the default address
         try:
             user_address = ''
@@ -421,9 +421,9 @@ def order_review():
         except:
             user_address = ''
 
-        return render_template('order_review.html', address=user_address)
+        return render_template('order_review.html', address=user_address, date=date)
     else:
-        return render_template('order_review.html')
+        return render_template('order_review.html', date=date)
 
 @app.route('/communications')
 def communications():
@@ -976,12 +976,28 @@ def add_dish_to_cart():
     # if the key 'shopping_cart' is in the session then there are already items in the cart
     if 'shopping_cart' in session:
         print(session['shopping_cart'])
-        # loop through cart and check if new item is already in shopping cart
-        # if item is in cart then update qty
-        # else append item to cart list and update total price and qty
-        session['shopping_cart'].append(item_dict)
-        session['total_quantity'] += qty
-        session['total_price'] += total_price
+        # Get a temporary reference to the session cart, just to reduce the name of the variable we will use subsequently
+        shopping_cart = session["shopping_cart"]
+        # This flag will be used to track if the item exists or not
+
+        for item in shopping_cart:
+            # This flag will be used to track if the item exists or not
+            itemExists = False
+            if item["_id"] == _id:
+                item["qty"] = item["qty"] + qty
+                session['total_quantity'] += qty
+                item['total_price']= item['total_price'] + total_price
+                session['total_price'] += total_price
+                itemExists = True
+                break  # exit the for loop
+
+        # Save the temp cart back into session
+        session["shopping_cart"] = shopping_cart
+
+        if not itemExists:
+            session['shopping_cart'].append(item_dict)
+            session['total_quantity'] += qty
+            session['total_price'] += total_price
 
     else:
         # initial setup of the cart, quantity and total price values

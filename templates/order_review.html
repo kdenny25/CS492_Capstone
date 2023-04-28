@@ -30,7 +30,7 @@
         <div class="card" style="background-color: #212529;">
             <div class="card-body" >
                 <h3 class="card-title text-end" style="color: #dee2e6;">ORDER FOR DELIVERY:</h3>
-                <h5 class="card-title text-end" style="color: #dee2e6;">Date: 04/23/2023</h5>
+                <h5 class="card-title text-end" style="color: #dee2e6;">{{date}}</h5>
                 <hr style="margin-top:5px;">
                 <table class="table table-dark table-striped">
                     <div class="table-wrapper">
@@ -68,19 +68,33 @@
                         </tbody>
                     </div>
                 </table>
-            <li><hr class="major"></li>
-                {% if session['total_price'] %}
-                    <li class="text-end">Total: ${{ '%0.2f' % session['total_price']|float }}</li>
-                {% else %}
-                    <li class="text-end">Total: $0.00</li>
-                {% endif %}
+                <div class="row">
+                <div class="col-9"></div>
+                <div class="col-3">
+                <table class="table table-dark table-striped">
+                    <div class="table-wrapper">
+                        <tr>
+                            <td> <p class="text-end"> Total Price:</p></td>
+                            <td> {% if session['total_price'] %}
+                            <p class="text-end"> ${{ '%0.2f' % session['total_price']|float }}</p>
+                        {% else %}
+                            <p class="text-end">$0.00</p>
+                        {% endif %}
+                            </td>
+                        </tr>
+                    </div>
+                </table>
+                </div>
+                </div>
 
-              </ul>
-            </li>
 
-            #address starts here
+            <!--address starts here-->
                     <hr>
-                        <button type="button" class="btn btn-primary float-end" data-bs-toggle="collapse" data-bs-target="#collapseAddress" aria-expanded="false" aria-controls="collapseAddress">Delivery Address</button>
+            <div class="text-end">
+                <button type="button" class="btn btn-success" style="margin-right: 1em;" href="#"  >Add Items </button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapseAddress" aria-expanded="false" aria-controls="collapseAddress">Delivery Address</button>
+
+            </div>
             </div>
         </div>
     </div>

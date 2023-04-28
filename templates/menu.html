@@ -7,6 +7,12 @@
 
 {% block styles %}
     <!-- CSS style code here -->
+    <style>
+    .custom-popover {
+        --bs-popover-bg:#252b31;
+        --bs-popover-body-color: #dee2e6;
+    }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -17,7 +23,7 @@
 {#                {% include 'elements/navigation.html' %}#}
 
 				<!-- Wrapper -->
-					<section id="wrapper">
+					<div id="wrapper">
 						<header>
 							<div class="inner">
 								<h2>Online Ordering Menu</h2>
@@ -38,16 +44,18 @@
                                                 <div class="card col-4 m-1" style="width: 18rem; background-color: rgba(53, 56, 73, 0.95);">
                                                   <img src="{{ dish.image }}" style="height: 11rem;" class="card-img-top" alt=""/>
                                                   <div class="card-body">
-
-                                                    <h3 class="card-title">{{ dish.name }}</h3>
-                                                    <p class="card-text">{{ dish.description[0:100]}}</p>
+                                                    <h3 class="card-title" style="height: 4em">{{ dish.name }}</h3>
+                                                    <a class="text-decoration-underline" data-bs-custom-class="custom-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus data-bs-placement="right" data-bs-content="{{ dish.description }}">Click for Description</a>
+{#                                                    <p class="card-text">{{ dish.description[0:100]}}</p>#}
                                                     <p class="card-text text-end">Price: ${{'%0.2f' % dish.price|float }}</p>
                                                     <form action="{{ url_for('add_dish_to_cart') }}" method="post">
-                                                        <input class="invisible"  id="_id" name="_id" value="{{ dish._id }}">
-                                                        <input class="invisible"  id="tag" name="tag" value="dish">
+                                                        <div style="display:none;">
+                                                            <input class="invisible"  id="_id" name="_id" value="{{ dish._id }}">
+                                                            <input class="invisible"  id="tag" name="tag" value="dish">
+                                                        </div>
                                                         <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
                                                         <div class="input-group mb-3">
-                                                            <input type="number" id="qty" name="qty" class="form-control" value="1" />
+                                                            <input type="number" id="qty" name="qty" min="1" max="15" class="form-control" value="1" />
                                                             <button type="submit" class="btn btn-primary">Add to Cart</button>
                                                         </div>
                                                         <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
@@ -61,24 +69,27 @@
                                 {% endfor %}
 
                                 {% for category in menu_data.bev_categories %}
-                                    <section class="table">
+                                    <div>
                                         <article>
                                             <h3 class="major">{{ category.category }}</h3>
                                         </article>
                                         <div class="row">
                                             {% for bev in category.bev_list %}
                                                 <div class="card col-4 m-1" style="width: 18rem; background-color: rgba(53, 56, 73, 0.95);">
-                                                  <img src="{{ bev.image }}" style="object-fit: cover;" class="card-img-top" alt="...">
+                                                  <img src="{{ bev.image }}" style="height: 11rem;" class="card-img-top" alt=""/>
                                                   <div class="card-body">
-                                                    <h5 class="card-title">{{ bev.name }}</h5>
-                                                    <p class="card-text">{{ bev.description[0:100]}}</p>
+                                                    <h3 class="card-title">{{ bev.name }}</h3>
+                                                    <a data-bs-custom-class="custom-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus data-bs-placement="right" data-bs-content="{{ bev.description }}">Click for Description</a>
+{#                                                    <p class="card-text">{{ bev.description[0:100]}}</p>#}
                                                         <p class="card-text">Price: ${{ bev.price }}</p>
                                                         <form action="{{ url_for('add_dish_to_cart') }}" method="post">
-                                                            <input class="invisible"  id="_id" name="_id" value="{{ bev._id }}">
-                                                            <input class="invisible"  id="tag" name="tag" value="bev">
+                                                            <div style="display:none;">
+                                                                <input class="invisible" style="width:0px;"  id="_id" name="_id" value="{{ bev._id }}">
+                                                                <input class="invisible" style="width:0px;"  id="tag" name="tag" value="bev">
+                                                            </div>
                                                             <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
                                                             <div class="input-group mb-3">
-                                                                <input type="number" id="qty" name="qty" class="form-control" value="1" />
+                                                                <input type="number" id="qty" name="qty" min="1" class="form-control" value="1" />
                                                                 <button type="submit" class="btn btn-primary">Add to Cart</button>
                                                             </div>
                                                             <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}" />
@@ -87,7 +98,7 @@
                                                 </div>
                                             {% endfor %}
 										</div>
-                                    </section>
+                                    </div>
                                 {% endfor %}
                                 </div>
                             </div>    <section id="filler" class="wrapper alt style1">
@@ -118,5 +129,11 @@
             window.location.
             window.location.href = url;
         })
+    </script>
+
+    <script>
+        $(document).ready(function(){
+            $('[data-bs-toggle="popover"]').popover();
+        });
     </script>
 {% endblock %}

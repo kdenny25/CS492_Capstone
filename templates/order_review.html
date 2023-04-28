@@ -43,10 +43,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                             {% for item in session['shopping_cart'] %}
                             <tr>
-                                <td>Chicago-Style Deep Dish Pizza with Pepperoni and Italian Sausage Layers</td>
-                                <td><input type="number" id="typeNumber" class="form-control" style="width:5em;" value="3"/></td>
-                                <td class="text-end">$23.59</td>
+
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.qty }}</td>
+                                <td class="text-end">${{ '%0.2f' % item.total_price|float }}</td>
                                 <td class="text-end">
                                     <a href="" type="button" class="btn btn-secondary">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
@@ -61,27 +63,22 @@
                                     </a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>Baked Feta Cheese Rigatoni in Red Sauce</td>
-                                <td><input type="number" id="typeNumber" class="form-control" style="width:5em;" value="1"/></td>
-                                <td class="text-end">$11.25</td>
-                                <td class="text-end">
-                                    <a href="" type="button" class="btn btn-secondary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                                          <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-                                          <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-                                        </svg>
-                                    </a>
-                                    <a href="" type="button" class="btn btn-outline-danger">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                                          <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                        </svg>
-                                    </a>
-                                </td>
-                            </tr>
+
+                        {% endfor %}
                         </tbody>
                     </div>
                 </table>
+            <li><hr class="major"></li>
+                {% if session['total_price'] %}
+                    <li class="text-end">Total: ${{ '%0.2f' % session['total_price']|float }}</li>
+                {% else %}
+                    <li class="text-end">Total: $0.00</li>
+                {% endif %}
+
+              </ul>
+            </li>
+
+            #address starts here
                     <hr>
                         <button type="button" class="btn btn-primary float-end" data-bs-toggle="collapse" data-bs-target="#collapseAddress" aria-expanded="false" aria-controls="collapseAddress">Delivery Address</button>
             </div>

@@ -954,7 +954,7 @@ def add_dish_to_cart():
     if tag == 'dish':
         # pulls item information from dish database.
         item = menu_dishes.find_one({'_id': ObjectId(_id)})
-        print(item max(l5) min(1))
+        print(item, max(16))
     else:
         # pulls item information from beverages database
         item = beverages.find_one({'_id': ObjectId(_id)})

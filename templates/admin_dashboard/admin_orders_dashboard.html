@@ -1,0 +1,57 @@
+{% extends 'admin_dashboard/admin_elements/admin_layout.html' %}
+
+{% block styles %}
+    <style>
+        #menu_item.card-body{
+            padding-top: 0px;
+            padding-bottom: 0px;
+            padding-left: 2px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin_dashboard" style="color: #ffffff;">Admin Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page" style="color: #dcdcdc;">Orders Dashboard</li>
+      </ol>
+    </nav>
+
+        <!-- alert messages below -->
+    {% include "elements/alert_messages.html" %}
+
+        <div class="card mt-1" style="background-color: rgba(53, 56, 73, 0.95);">
+            <div class="card-body" >
+                <h5 class="card-title" style="color: #ffffff;">ORDERS</h5>
+                <hr>
+                 <table class="table table-dark table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Customer ID</th>
+                            <th scope="col">Total Qty</th>
+                            <th scope="col">Total Price</th>
+                            <th scope="col">Payment Type</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td>{{ order.datetime }}</td>
+                                <td>{{ order.customer_id }}</td>
+                                <td>{{ order.total_quantity }}</td>
+                                <td>${{ '%0.2f' % order.total_price|float }}</td>
+                                <td>{{ order.payment_type }}</td>
+                                <td>{{ order.status }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+{% endblock %}

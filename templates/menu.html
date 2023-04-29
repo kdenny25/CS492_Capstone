@@ -42,7 +42,7 @@
                                         <div class="row">
                                             {% for dish in category.dish_list %}
                                                 <div class="card col-4 m-1" style="width: 18rem; background-color: rgba(53, 56, 73, 0.95);">
-                                                  <img src="{{ dish.image }}" style="height: 11rem; background-size: cover;" class="card-img-top" alt=""/>
+                                                  <img src="{{ dish.image }}" style="height: 11rem; background-size: cover; background: transparent no-repeat;" class="card-img-top" alt=""/>
                                                   <div class="card-body">
                                                     <h3 class="card-title" style="height: 6rem; margin-bottom: 0.5em;">{{ dish.name }}</h3>
                                                     <a class="text-decoration-underline" data-bs-custom-class="custom-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="right" data-bs-content="{{ dish.description }}">Click for Description</a>
@@ -79,7 +79,7 @@
                                                   <img src="{{ bev.image }}" style="height: 11rem; background-size: cover;" class="card-img-top" alt=""/>
                                                   <div class="card-body">
                                                     <h3 class="card-title" style="height: 6rem; margin-bottom: 0.5em;">{{ bev.name }}</h3>
-                                                    <a data-bs-custom-class="custom-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus"  data-bs-placement="right" data-bs-content="{{ bev.description }}">Click for Description</a>
+                                                    <a class="text-decoration-underline" data-bs-custom-class="custom-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus"  data-bs-placement="right" data-bs-content="{{ bev.description }}">Click for Description</a>
 {#                                                    <p class="card-text">{{ bev.description[0:100]}}</p>#}
                                                         <p class="card-text text-end" style="margin-top: 0.5em;">Price: ${{'%0.2f' % bev.price|float }}</p>
                                                         <form action="{{ url_for('add_dish_to_cart') }}" method="post">
@@ -101,9 +101,8 @@
                                     </div>
                                 {% endfor %}
                                 </div>
-                            </div>    <section id="filler" class="wrapper alt style1">
-</section>
-                    </section>
+                            </div>
+                    </div>
             </div>
 
 
@@ -114,23 +113,6 @@
 {% endblock %}
 
 {% block scripts %}
-
-    <script>
-
-     $(document).on("click", '#addDishToCart', function(){
-            var _id = document.getElementById("_id").value;
-            var qty = document.getElementById("qty").value;
-            var url = "/add_dish_to_cart?_id=" + _id + "&" + qty;
-
-
-
-
-            console.log(url);
-            window.location.
-            window.location.href = url;
-        })
-    </script>
-
     <script>
         $(document).ready(function(){
             $('[data-bs-toggle="popover"]').popover();

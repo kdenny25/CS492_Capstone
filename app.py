@@ -189,7 +189,8 @@ def user_profile():
 def user_orders():
     if current_user.is_authenticated:
         log_site_traffic(db)
-        return render_template('user_pages/user_orders.html')
+        user_orders = orders.find({'customer_id': current_user._id})
+        return render_template('user_pages/user_orders.html', orders=user_orders)
     else:
         return redirect('/')
 
@@ -425,6 +426,86 @@ def order_review():
     else:
         return render_template('order_review.html', date=date)
 
+@app.post('/order_confirmation')
+def order_confirmation():
+    if current_user.is_authenticated:
+        # process order as a logged in customer
+        try:
+            # check if shopping cart has items.
+            cart_items = session['shopping_cart']
+            total_price = session['total_price']
+            total_quantity = session['total_quantity']
+
+            # delivery address
+            address = request.form.get('address')
+            city = request.form.get('city')
+            state = request.form.get('state')
+            zipcode = request.form.get('zip')
+
+            payment_selection = request.form.get('paymentMethod')
+
+            order = {'customer_id': current_user._id,
+                     'datetime': datetime.datetime.now(),
+                     'cart_items': cart_items,
+                     'total_price': total_price,
+                     'total_quantity': total_quantity,
+                     'delivery_address': {'address': address,
+                                          'city': city,
+                                          'state': state,
+                                          'zipcode': zipcode},
+                     'payment_type': payment_selection,
+                     'status': 'pending'}
+
+            orders.insert_one(order)
+
+            session.pop('shopping_cart', None)
+            session.pop('total_price', None)
+            session.pop('total_quantity', None)
+
+
+            return render_template('order_confirmation.html', order=order)
+        except:
+            flash('No items in cart', 'error')
+            return redirect(request.referrer)
+    else:
+        # process order as a guest
+        try:
+            # check if shopping cart has items.
+            cart_items = session['shopping_cart']
+            total_price = session['total_price']
+            total_quantity = session['total_quantity']
+
+            # guest delivery address
+            address = request.form.get('gAddress')
+            city = request.form.get('gCity')
+            state = request.form.get('gState')
+            zipcode = request.form.get('gZip')
+
+            payment_selection = request.form.get('paymentMethod')
+
+            order = {'customer_id': 'guest',
+                     'datetime': datetime.datetime.now(),
+                     'cart_items': cart_items,
+                     'total_price': total_price,
+                     'total_quantity': total_quantity,
+                     'delivery_address': {'address': address,
+                                          'city': city,
+                                          'state': state,
+                                          'zipcode': zipcode},
+                     'payment_type': payment_selection,
+                     'status': 'pending'}
+
+            orders.insert_one(order)
+
+            session.pop('shopping_cart', None)
+            session.pop('total_price', None)
+            session.pop('total_quantity', None)
+
+            return render_template('order_confirmation.html', order=order)
+        except:
+            flash('No items in cart', 'error')
+            return redirect(request.referrer)
+
 @app.route('/communications')
 def communications():
     comm_results = getInTouch.find()
@@ -478,6 +559,14 @@ def admin_delete_profile():
         users.delete_one({'_id': ObjectId(id)})
         flash('Profile: ' + str(id) + ' successfully deleted.', 'success')
         return redirect('/user_management')
+    return redirect('/')
+
+@app.route('/admin_orders_dashboard')
+def admin_orders_dashboard():
+    if current_user.is_admin:
+        order_list = orders.find()
+
+        return render_template('admin_dashboard/admin_orders_dashboard.html', orders=order_list)
     return redirect('/')
 
 @app.route('/menu_management', methods=['GET', 'POST'])
@@ -954,11 +1043,9 @@ def add_dish_to_cart():
     if tag == 'dish':
         # pulls item information from dish database.
         item = menu_dishes.find_one({'_id': ObjectId(_id)})
-        print(item)
     else:
         # pulls item information from beverages database
         item = beverages.find_one({'_id': ObjectId(_id)})
-        print(item)
 
     # calculate total price of selected item once
     total_price = float(qty) * item['price']
@@ -971,11 +1058,8 @@ def add_dish_to_cart():
                  'qty': qty,
                  'total_price': total_price}
 
-    print("ID: " + str(_id) + " added " + str(qty) + " to cart")
-
     # if the key 'shopping_cart' is in the session then there are already items in the cart
     if 'shopping_cart' in session:
-        print(session['shopping_cart'])
         # Get a temporary reference to the session cart, just to reduce the name of the variable we will use subsequently
         shopping_cart = session["shopping_cart"]
         # This flag will be used to track if the item exists or not
@@ -1004,7 +1088,6 @@ def add_dish_to_cart():
         session['shopping_cart'] = [item_dict]
         session['total_quantity'] = qty
         session['total_price'] = total_price
-        print(session['shopping_cart'])
 
     return redirect(request.referrer)
 

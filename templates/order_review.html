@@ -91,14 +91,14 @@
             <!--address starts here-->
                     <hr>
             <div class="text-end">
-                <button type="button" class="btn btn-success" style="margin-right: 1em;" href="#"  >Add Items </button>
+                <a type="button" class="btn btn-success" style="margin-right: 1em;" href="/menu" >Add Items </a>
                 <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapseAddress" aria-expanded="false" aria-controls="collapseAddress">Delivery Address</button>
 
             </div>
             </div>
         </div>
     </div>
-    <form action="{{ url_for('update_user_name') }}" method="post">
+    <form action="{{ url_for('order_confirmation') }}" method="post">
         {% if current_user.is_authenticated %}
             <div class="col-12 py-3">
                 <div class="card" style="background-color: #212529;">
@@ -288,10 +288,11 @@
                             </div>
                         </div>
                         <hr>
-                        <button type="button" class="btn btn-primary float-end ">Complete Order</button>
+                        <button type="submit" class="btn btn-primary float-end ">Complete Order</button>
                     </div>
                 </div>
             </div>
+             {% include "elements/alert_messages.html" %}
         </div>
     </form>
 </div>
@@ -302,5 +303,20 @@
 {% endblock %}
 
 {% block scripts %}
+    <script>
+        $(document).on("click", '#paymentMethod2', function(){
+            document.getElementById("nameOnCard").disabled = true;
+            document.getElementById("cardNumber").disabled = true;
+            document.getElementById("securityCode").disabled = true;
+            document.getElementById("expDate").disabled = true;
+        })
 
+        $(document).on("click", '#paymentMethod1', function(){
+            document.getElementById("nameOnCard").disabled = false;
+            document.getElementById("cardNumber").disabled = false;
+            document.getElementById("securityCode").disabled = false;
+            document.getElementById("expDate").disabled = false;
+        })
+
+    </script>
 {% endblock %}

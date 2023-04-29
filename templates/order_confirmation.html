@@ -1,0 +1,114 @@
+{% extends 'layout.html' %}
+
+{% block headerScripts %}
+    <!-- header scripts here -->
+{% endblock %}
+
+{% block styles %}
+    <!-- CSS style code here -->
+    <style>
+        td{
+            vertical-align: middle;
+        }
+    </style>
+    <style>
+        body {
+            background-color: #692d32;/* #2e3141;*/
+            background-image: linear-gradient(to top, rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.2)), url({{ url_for('static', filename='/images/bg.png') }});
+            background-size: auto, cover;
+            background-attachment: fixed, fixed;
+            background-position: center, center;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Wrapper -->
+<div class="row mx-3">
+    <div class="col-12 py-3">
+        <div class="card" style="background-color: #212529;">
+            <div class="card-body" >
+            <div class="row">
+                <div class="col">
+                    <h3 class="card-title" style="color: #dee2e6;">ORDER CONFIRMATION:</h3>
+                    <p class="" style="color: #dee2e6;">{{order.datetime}}</p>
+                </div>
+                <div class="col">
+                <h5 class="card-title text-end" style="color: #dee2e6;">DELIVERY ADDRESS</h5>
+                <p class="text-end" style="color: #dee2e6;">{{ order.delivery_address.address }}</p>
+                <p class="text-end" style="color: #dee2e6;">{{ order.delivery_address.city }}, {{ order.delivery_address.state }} {{ order.delivery_address.zipcode }}</p>
+                </div>
+            </div>
+                <hr style="margin-top:5px;">
+                <table class="table table-dark table-striped">
+                    <div class="table-wrapper">
+                        <thead>
+                            <tr>
+                                <th scope="col">Description</th>
+                                <th scope="col">Qty</th>
+                                <th scope="col" class="text-end">Price</th>
+                                <th scope="col" class="text-end">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             {% for item in order.cart_items %}
+                            <tr>
+
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.qty }}</td>
+                                <td class="text-end">${{ '%0.2f' % item.total_price|float }}</td>
+                                <td class="text-end">
+                                    <a href="" type="button" class="btn btn-secondary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                          <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                          <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                                        </svg>
+                                    </a>
+                                    <a href="" type="button" class="btn btn-outline-danger">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                          <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                                        </svg>
+                                    </a>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+                        </tbody>
+                    </div>
+                </table>
+                <div class="row">
+                <div class="col-9"></div>
+                <div class="col-3">
+                <table class="table table-dark table-striped">
+                    <div class="table-wrapper">
+                        <tr>
+                            <td> <p class="text-end"> Total Price:</p></td>
+                            <td>
+                            <p class="text-end"> ${{ '%0.2f' % order.total_price|float }}</p>
+                            </td>
+                        </tr>
+                    </div>
+                </table>
+                </div>
+                </div>
+
+
+            <!--address starts here-->
+                    <hr>
+            <div class="text-end">
+                <button type="button" class="btn btn-success" style="margin-right: 1em;" href="/">Return to Homepage</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "elements/login_modal.html" %}
+{% include "elements/register_modal.html" %}
+
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

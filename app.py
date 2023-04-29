@@ -1063,10 +1063,9 @@ def add_dish_to_cart():
         # Get a temporary reference to the session cart, just to reduce the name of the variable we will use subsequently
         shopping_cart = session["shopping_cart"]
         # This flag will be used to track if the item exists or not
-
+        itemExists = False
         for item in shopping_cart:
             # This flag will be used to track if the item exists or not
-            itemExists = False
             if item["_id"] == _id:
                 item["qty"] = item["qty"] + qty
                 session['total_quantity'] += qty
@@ -1090,6 +1089,21 @@ def add_dish_to_cart():
         session['total_price'] = total_price
 
     return redirect(request.referrer)
+@app.route('/delete_item')
+def deleteitem():
+   _id = request.values.get('_id')
+   shopping_cart = session['shopping_cart']
+   for index, value in enumerate(session['shopping_cart']):
+        # remove the item from the session if it is there
+        if  value['_id'] == _id:
+            session['total_price'] = session['total_price'] - value['total_price']
+            session['total_quantity'] = session['total_quantity'] - value['qty']
+            shopping_cart.pop(index)
+            if len(session['shopping_cart'])==0:
+                session.pop('shopping_cart', None)
+   session["shopping_cart"] = shopping_cart
+
+   return redirect(request.referrer)
 
 # inserts communication responses from customers
 @app.post('/get_in_touch')

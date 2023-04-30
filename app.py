@@ -357,8 +357,8 @@ def dishes():
     page_data = {'dish_categories': dish_categories}
     return render_template('dishes.html', menu_data=page_data)
 
-@app.route('/wine')             #This is for the Winelist page, nothing to do with db otherwise.
-def wine():
+@app.route('/winelist')             #This is for the Winelist page, nothing to do with db otherwise.
+def winelist():
     log_site_traffic(db)
     return render_template('winelist.html')
 

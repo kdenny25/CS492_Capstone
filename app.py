@@ -366,9 +366,9 @@ def wine():
 def story():
     return render_template('story.html')
 
-@app.route('/elements')          #WE CAN TAKE THIS OUT IN THE FINAL PUSH, Leave it for now just in case but this is a developer's useful page only.
-def elements():
-    return render_template('elements.html')
+@app.route('/groupone')
+def groupone():
+    return render_template('groupone.html')
 
 @app.route('/menu')
 def menu():

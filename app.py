@@ -335,7 +335,11 @@ def update_user_password():
 def admin_dash():
     # checks if user is admin before loading page.
     if current_user.is_admin:
-        messages = bulletin.find().sort("date", -1)
+        try:
+            messages = bulletin.find()
+        except:
+            messages = []
+
 
         start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0)
 

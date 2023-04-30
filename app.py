@@ -338,10 +338,6 @@ def admin_dash():
     else:
         return redirect('/')
 
-@app.route('/generic')
-def generic():
-    return render_template('generic.html')
-
 @app.route('/dishes')           #This is strictly for the dishes.html page, not anyhting to with the db categories,etc.
 def dishes():
     log_site_traffic(db)

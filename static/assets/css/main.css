@@ -3680,7 +3680,13 @@ clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
 			-ms-filter: blur(2px);
 			filter: blur(2px);
 		}
-
+/* Story*/
+.story-image{
+            width: -webkit-fill-available;
+            padding-top: 10px;
+            padding-left: 6px;
+            padding-right: 6px;
+        }
 /* Wrapper */
 
 	#wrapper > header {

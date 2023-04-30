@@ -72,6 +72,7 @@ menu_categories = db.menuCategories
 menu_dishes = db.menuDishes
 beverages = db.menuBeverages
 toppings = db.menuToppings
+bulletin = db.bulletinMessages
 
 # this is called when the user is loaded into a webpage
 @login_manager.user_loader
@@ -334,7 +335,32 @@ def update_user_password():
 def admin_dash():
     # checks if user is admin before loading page.
     if current_user.is_admin:
-        return render_template("admin_dashboard/admin_dashboard.html")
+        messages = bulletin.find().sort("date", -1)
+
+        start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0)
+
+        print(start_date)
+
+        visits_today = db.site_logs.find({'date': {'$gte': start_date}})
+
+        return render_template("admin_dashboard/admin_dashboard.html", messages=messages, visits=visits_today)
+    else:
+        return redirect('/')
+
+@app.post('/admin_add_bulletin')
+@login_required
+def admin_add_bulletin():
+    # check if user is admin
+    if current_user.is_admin:
+        date = str(datetime.date.today().strftime("%m/%d/%Y"))
+        user = current_user.fName + ' ' + current_user.lName
+        message = request.form.get('msg')
+
+        bulletin.insert_one({'date': date,
+                             'user': user,
+                             'message': message})
+
+        return redirect(request.referrer)
     else:
         return redirect('/')
 
@@ -1062,6 +1088,7 @@ def add_dish_to_cart():
         itemExists = False
         for item in shopping_cart:
             # This flag will be used to track if the item exists or not
+
             if item["_id"] == _id:
                 item["qty"] = item["qty"] + qty
                 session['total_quantity'] += qty
@@ -1085,6 +1112,7 @@ def add_dish_to_cart():
         session['total_price'] = total_price
 
     return redirect(request.referrer)
+
 @app.route('/delete_item')
 def deleteitem():
    _id = request.values.get('_id')

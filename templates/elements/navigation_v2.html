@@ -32,7 +32,7 @@
                             Welcome, {{ current_user.fName }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark">
-                    {% if current_user.is_admin %}
+                    {% if current_user.role == "admin" %}
                         <li><a class="dropdown-item" href="/admin_dashboard">Admin Dashboard</a></li>
                     {% endif %}
                         <li><a class="dropdown-item" href="/user_profile">Profile Settings</a></li>

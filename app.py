@@ -92,6 +92,7 @@ def home_page():
         return redirect('index.html')
     else:
         log_site_traffic(db)
+        
         return render_template('index.html')
 
 

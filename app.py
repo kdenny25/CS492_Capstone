@@ -91,7 +91,7 @@ def home_page():
 
         return redirect('index.html')
     else:
-        log_site_traffic(db)
+        log_site_traffic(db, app)
         
         return render_template('index.html')
 
@@ -156,7 +156,7 @@ def register():
                                     'password': password})
             # sends message if registration is successful
             flash(f'Account created for {fName}!', 'success')
-            log_site_traffic(db)
+            log_site_traffic(db, app)
             # returns user to homepage with success message
             return redirect(request.referrer)
         else:
@@ -190,7 +190,7 @@ def user_profile():
 @login_required
 def user_orders():
     if current_user.is_authenticated:
-        log_site_traffic(db)
+        log_site_traffic(db, app)
         user_orders = orders.find({'customer_id': current_user._id})
         return render_template('user_pages/user_orders.html', orders=user_orders)
     else:
@@ -371,7 +371,7 @@ def admin_add_bulletin():
 
 @app.route('/dishes')           #This is strictly for the dishes.html page, not anyhting to with the db categories,etc.
 def dishes():
-    log_site_traffic(db)
+    log_site_traffic(db, app)
     dish_categories = list(menu_categories.find({'category_type': 'dish'}))
     dish_options = list(menu_dishes.find())
 
@@ -390,7 +390,7 @@ def dishes():
 
 @app.route('/winelist')             #This is for the Winelist page, nothing to do with db otherwise.
 def winelist():
-    log_site_traffic(db)
+    log_site_traffic(db, app)
     return render_template('winelist.html')
 
 @app.route('/story')            #For the Cacciatore's Story page (about the owners)
@@ -429,7 +429,7 @@ def menu():
     page_data = {'dish_categories': dish_categories,
                  'bev_categories': beverage_categories}
 
-    #log_site_traffic(db)
+    log_site_traffic(db, app)
 
     return render_template('menu.html', menu_data=page_data)
 

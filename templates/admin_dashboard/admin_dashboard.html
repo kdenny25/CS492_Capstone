@@ -62,7 +62,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Date</th>
-                            <th scope="col">State</th>
+                            <th scope="col">City</th>
                             <th scope="col">Referred Page</th>
                             <th scope="col">Landing Page</th>
                         </tr>
@@ -72,7 +72,7 @@
                         {% for visit in visits %}
                             <tr>
                                 <td>{{ visit.date }}</td>
-                                <td>{{ visit.ip_info.state }}</td>
+                                <td>{{ visit.ip_info.city }}</td>
                                 <td>{{visit.referred_page}}</td>
                                 <td>{{ visit['landing page'] }}</td>
                             </tr>

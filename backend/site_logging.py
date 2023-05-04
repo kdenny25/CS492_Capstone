@@ -3,7 +3,7 @@ import requests
 import json
 import datetime
 
-def log_site_traffic(db, access_key):
+def log_site_traffic(db):
 
     try:
         site_logs = db.site_logs

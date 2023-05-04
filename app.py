@@ -15,7 +15,6 @@ from backend.site_logging import log_site_traffic
 from werkzeug.utils import secure_filename
 from azure.storage.blob import BlobServiceClient
 
-
 base_dir = '.'
 
 app = Flask(__name__,

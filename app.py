@@ -5,7 +5,6 @@ from pymongo import MongoClient, ASCENDING
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, current_user,login_required, login_user, logout_user
 from oauthlib.oauth2 import WebApplicationClient
-from dotenv import load_dotenv
 from bson.objectid import ObjectId
 import numpy as np
 import os, sys
@@ -15,7 +14,6 @@ from backend.user import User
 from backend.site_logging import log_site_traffic
 from werkzeug.utils import secure_filename
 from azure.storage.blob import BlobServiceClient
-from turbo_flask import Turbo
 
 
 base_dir = '.'
@@ -31,9 +29,6 @@ login_manager.init_app(app)
 # Hashing method for user passwords
 bcrypt = Bcrypt(app)
 
-# turbo flask
-turbo = Turbo(app)
-
 # csrf protection
 csrf = CSRFProtect(app)
 
@@ -44,15 +39,13 @@ csrf = CSRFProtect(app)
 # checks if local development environment or production environment and
 # connects to correct MongoDB database.
 if 'COSMOS_CONNECTION_STRING' not in os.environ:
-    load_dotenv()
     # local development, where environment variables are used
     #print('Loading config.development and environment variables from .env file.')
     client = MongoClient('localhost', 27017)
     # file storage path
     # app.config['UPLOAD_FOLDER'] = os.path.join(base_dir, "static/uploaded_images/")
-    blob_conn_str = os.getenv('BLOB_CONN_STRING')
+    blob_conn_str = "DefaultEndpointsProtocol=https;AccountName=ctucapstonestg;AccountKey=/kF8zvrGJ8LsON1fd/TfTF79mrlmBYj/XiXN+o7USfDxbWtsWZPwYAa/Sz7sthSZL2BMowH0fqOR+ASt1TQqpA==;EndpointSuffix=core.windows.net"
     app.secret_key = b'_53oi3uriq9pifpff;apl'
-    access_key = os.getenv('IP_API_ACCESS_KEY')
     blob_service_client = BlobServiceClient.from_connection_string(blob_conn_str)
 else:
     # production
@@ -63,7 +56,6 @@ else:
 
     # image storage
     blob_conn_str = app.config.get('BLOB_CONN_STRING')
-    access_key = app.config.get('IPAPI_ACCESS_KEY')
     blob_service_client = BlobServiceClient.from_connection_string(blob_conn_str)
 
 host_name="https://ctucapstonestg.blob.core.windows.net"
@@ -99,8 +91,7 @@ def home_page():
 
         return redirect('index.html')
     else:
-        log_site_traffic(db, access_key)
-        
+        log_site_traffic(db)
         return render_template('index.html')
 
 
@@ -164,7 +155,7 @@ def register():
                                     'password': password})
             # sends message if registration is successful
             flash(f'Account created for {fName}!', 'success')
-            log_site_traffic(db, access_key)
+            log_site_traffic(db)
             # returns user to homepage with success message
             return redirect(request.referrer)
         else:
@@ -198,7 +189,7 @@ def user_profile():
 @login_required
 def user_orders():
     if current_user.is_authenticated:
-        log_site_traffic(db, access_key)
+        log_site_traffic(db)
         user_orders = orders.find({'customer_id': current_user._id})
         return render_template('user_pages/user_orders.html', orders=user_orders)
     else:
@@ -379,7 +370,7 @@ def admin_add_bulletin():
 
 @app.route('/dishes')           #This is strictly for the dishes.html page, not anyhting to with the db categories,etc.
 def dishes():
-    log_site_traffic(db, access_key)
+    log_site_traffic(db)
     dish_categories = list(menu_categories.find({'category_type': 'dish'}))
     dish_options = list(menu_dishes.find())
 
@@ -398,7 +389,7 @@ def dishes():
 
 @app.route('/winelist')             #This is for the Winelist page, nothing to do with db otherwise.
 def winelist():
-    log_site_traffic(db, access_key)
+    log_site_traffic(db)
     return render_template('winelist.html')
 
 @app.route('/story')            #For the Cacciatore's Story page (about the owners)
@@ -437,7 +428,7 @@ def menu():
     page_data = {'dish_categories': dish_categories,
                  'bev_categories': beverage_categories}
 
-    log_site_traffic(db, access_key)
+    #log_site_traffic(db)
 
     return render_template('menu.html', menu_data=page_data)
 

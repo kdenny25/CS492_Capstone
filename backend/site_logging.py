@@ -8,9 +8,11 @@ def log_site_traffic(db, access_key):
     try:
         site_logs = db.site_logs
         date = datetime.datetime.now()
-        ip_address = str(request.environ.get('HTTP_X_REAL_IP', request.remote_addr))
-        print(ip_address)
-        request_url = 'http://api.ipapi.com/api/' + ip_address + '?access_key=' + access_key
+
+
+        # ip_address = str(request.environ.get('HTTP_X_REAL_IP', request.remote_addr))
+        # request_url = 'http://api.ipapi.com/api/' + ip_address + '?access_key=' + access_key
+        request_url = 'https://ipapi.co/json/'
         ip_response = requests.get(request_url)
 
         ip_result = ip_response.content.decode()
@@ -27,5 +29,5 @@ def log_site_traffic(db, access_key):
 
         site_logs.insert_one(log)
     except:
-
+        print('error retrieving IP')
         pass

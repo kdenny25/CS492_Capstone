@@ -10,3 +10,4 @@ requests
 pyOpenSSL
 flask-bcrypt
 azure-storage-blob
+turbo-flask

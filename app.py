@@ -15,6 +15,7 @@ from backend.user import User
 from backend.site_logging import log_site_traffic
 from werkzeug.utils import secure_filename
 from azure.storage.blob import BlobServiceClient
+from turbo_flask import Turbo
 
 
 base_dir = '.'
@@ -29,6 +30,9 @@ login_manager.init_app(app)
 
 # Hashing method for user passwords
 bcrypt = Bcrypt(app)
+
+# turbo flask
+turbo = Turbo(app)
 
 # csrf protection
 csrf = CSRFProtect(app)

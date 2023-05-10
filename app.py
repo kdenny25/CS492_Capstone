@@ -339,14 +339,13 @@ def admin_dash():
         except:
             messages = []
 
-
         start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0)
 
-        print(start_date)
+        loc_data = []
 
         visits_today = db.site_logs.find({'date': {'$gte': start_date}})
 
-        return render_template("admin_dashboard/admin_dashboard.html", messages=messages, visits=visits_today)
+        return render_template("admin_dashboard/admin_dashboard.html", messages=messages, visits=visits_today, loc_data=loc_data)
     else:
         return redirect('/')
 
@@ -1064,6 +1063,7 @@ def add_dish_to_cart():
     qty = int(request.form.get('qty'))
     tag = request.form.get('tag')   # determines if it is a beverage or dish
 
+    print(_id)
     # if the tag item is dish then we check the dish database else we check the beverage database
     if tag == 'dish':
         # pulls item information from dish database.
@@ -1114,7 +1114,7 @@ def add_dish_to_cart():
         session['total_quantity'] = qty
         session['total_price'] = total_price
 
-    return redirect(request.referrer)
+    return redirect(url_for('menu'))
 
 @app.route('/delete_item')
 def deleteitem():

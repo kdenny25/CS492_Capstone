@@ -124,4 +124,26 @@
             $('[data-bs-toggle="popover"]').popover();
         });
     </script>
+
+    <script type="text/javascript">
+        $(document).on('submit','#addToCart',function(e)
+           {
+                console.log('loggin cart item')
+              e.preventDefault();
+              $.ajax({
+                    type:'POST',
+                    url:'/add_dish_to_cart',
+                    data:{
+                        _id:$("#_id").val(),
+                        qty:$("#qty").val(),
+                        tag:$("#tag").val()
+                    },
+                    success:function()
+                    {
+                      alert('saved');
+                    }
+                })
+               $('#cart').load();
+        });
+    </script>
 {% endblock %}

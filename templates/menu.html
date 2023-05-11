@@ -82,7 +82,7 @@
                                                     <a class="text-decoration-underline" data-bs-custom-class="custom-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus"  data-bs-placement="right" data-bs-content="{{ bev.description }}">Click for Description</a>
 {#                                                    <p class="card-text">{{ bev.description[0:100]}}</p>#}
                                                         <p class="card-text text-end" style="margin-top: 0.5em;">Price: ${{'%0.2f' % bev.price|float }}</p>
-                                                        <form action="{{ url_for('add_dish_to_cart') }}" method="post">
+                                                        <form id="addToCart" method="post">
                                                             <div style="display:none;">
                                                                 <input class="invisible" style="width:0px;"  id="_id" name="_id" value="{{ bev._id }}">
                                                                 <input class="invisible" style="width:0px;"  id="tag" name="tag" value="bev">

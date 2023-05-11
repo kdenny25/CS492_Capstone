@@ -109,5 +109,23 @@
 {% endblock %}
 
 {% block scripts %}
+    <script>
+        $(document).ready(function(){
+            console.log('visit logged')
+            $.getJSON('https://ipapi.co/json/', function(data){
+                console.log(data)
+                $.ajax({
+                    type: "POST",
+                    url: "/log_visit",
+                    data: JSON.stringify(data),
+                    success: function(){
+                       alert("done");
+                    },
+                    dataType: 'json',
+                    contentType: 'application/json'
+                });
+            })
 
+        });
+    </script>
 {% endblock %}

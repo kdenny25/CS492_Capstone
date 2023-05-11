@@ -398,7 +398,7 @@ def story():
 def groupone():
     return render_template('groupone.html')
 
-@app.route('/menu')
+@app.route('/menu', methods=['GET', 'POST'])
 def menu():
     dish_categories = list(menu_categories.find({'category_type': 'dish'}))
     beverage_categories = list(menu_categories.find({'category_type': 'beverage'}))
@@ -1063,7 +1063,6 @@ def add_dish_to_cart():
     qty = int(request.form.get('qty'))
     tag = request.form.get('tag')   # determines if it is a beverage or dish
 
-    print(_id)
     # if the tag item is dish then we check the dish database else we check the beverage database
     if tag == 'dish':
         # pulls item information from dish database.
@@ -1114,7 +1113,7 @@ def add_dish_to_cart():
         session['total_quantity'] = qty
         session['total_price'] = total_price
 
-    return redirect(url_for('menu'))
+    return json.dumps({'status': 'Success'})
 
 @app.route('/delete_item')
 def deleteitem():

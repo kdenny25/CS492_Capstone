@@ -48,7 +48,7 @@
                                                     <a class="text-decoration-underline" data-bs-custom-class="custom-popover" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-placement="right" data-bs-content="{{ dish.description }}">Click for Description</a>
 {#                                                    <p class="card-text">{{ dish.description[0:100]}}</p>#}
                                                     <p class="card-text text-end" style="margin-top: 0.5em;">Price: ${{'%0.2f' % dish.price|float }}</p>
-                                                    <form action="{{ url_for('add_dish_to_cart') }}" method="post">
+                                                    <form id="addToCart" method="post">
                                                         <div style="display:none;">
                                                             <input class="invisible"  id="_id" name="_id" value="{{ dish._id }}">
                                                             <input class="invisible"  id="tag" name="tag" value="dish">
@@ -126,24 +126,25 @@
     </script>
 
     <script type="text/javascript">
-        $(document).on('submit','#addToCart',function(e)
-           {
-                console.log('loggin cart item')
-              e.preventDefault();
-              $.ajax({
+        $(document).on('submit', '#addToCart', function(e)
+            {
+                e.preventDefault();
+                var form = $(this);
+                console.log(form.serialize())
+                $.ajax({
                     type:'POST',
                     url:'/add_dish_to_cart',
-                    data:{
-                        _id:$("#_id").val(),
-                        qty:$("#qty").val(),
-                        tag:$("#tag").val()
-                    },
-                    success:function()
+                    data: form.serialize(),
+                    error:function(e)
                     {
-                      alert('saved');
+                      console.log(e);
+                    },
+                    complete:function()
+                    {
+                       $("#cart").load(location.href + " #cart");
                     }
                 })
-               $('#cart').load();
+
         });
     </script>
 {% endblock %}

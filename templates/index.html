@@ -113,16 +113,21 @@
         $(document).ready(function(){
             console.log('visit logged')
             $.getJSON('https://ipapi.co/json/', function(data){
-                console.log(data)
+                let dataToSend = ""
+                for(var key in data){
+                    var combined = key.concat("=", data[key])
+
+                    dataToSend += combined
+                    if(key != "org"){
+                        dataToSend += "&"
+                    }
+                }
+
                 $.ajax({
-                    type: "POST",
+                    type: "GET",
                     url: "/log_visit",
-                    data: JSON.stringify(data),
-                    success: function(){
-                       alert("done");
-                    },
-                    dataType: 'json',
-                    contentType: 'application/json'
+                    contentType: 'application/json',
+                    data: dataToSend
                 });
             })
 

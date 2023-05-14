@@ -1150,24 +1150,39 @@ def get_in_touch():
     # ideally this would be a thank you for your comment page
     return redirect('/')
 
-@app.post('/log_visit')
+@app.route('/log_visit')
 def log_visit():
     try:
         site_logs = db.site_logs
         date = datetime.datetime.now()
 
-
-        # ip_address = str(request.environ.get('HTTP_X_REAL_IP', request.remote_addr))
-        # request_url = 'http://api.ipapi.com/api/' + ip_address + '?access_key=' + access_key
-        request_url = 'https://ipapi.co/json/'
-        #ip_response = requests.get(request_url)
-
-        ip_result = ip_response.content.decode()
-        # ip_result = ip_result.split("(")[1].strip(")")
-
-        ip_result = json.loads(ip_result)
-        print(ip_result)
-
+        ip_result = {
+            'ip': request.values.get('ip'),
+            'network': request.values.get('network'),
+            'version': request.values.get('version'),
+            'city': request.values.get('city'),
+            'region': request.values.get('region'),
+            'region_code': request.values.get('region_code'),
+            'country': request.values.get('country'),
+            'country_name': request.values.get('country_name'),
+            'country_code': request.values.get('country_code'),
+            'country_code_iso3': request.values.get('country_code_iso3'),
+            'country_capital': request.values.get('country_capital'),
+            'country_tld': request.values.get('country_tld'),
+            'continent_code': request.values.get('continent_code'),
+            'in_eu': request.values.get('in_eu'),
+            'postal': request.values.get('postal'),
+            'latitude': request.values.get('latitude'),
+            'longitude': request.values.get('longitude'),
+            'timezone': request.values.get('timezone'),
+            'utc_offset': request.values.get('utc_offset'),
+            'country_calling_code': request.values.get('country_calling_code'),
+            'languages': request.values.get('languages'),
+            'country_area': request.values.get('country_area'),
+            'country_population': request.values.get('country_population'),
+            'asn': request.values.get('asn'),
+            'org': request.values.get('org')
+        }
 
         log = {'date': date,
                'ip_info': ip_result,
@@ -1175,7 +1190,10 @@ def log_visit():
                'landing page': str(request.path)}
 
         site_logs.insert_one(log)
+
+        return json.dumps({'status': 'Success'})
     except:
         print('error retrieving IP')
         pass
 
+    return json.dumps({'status': 'Success'})

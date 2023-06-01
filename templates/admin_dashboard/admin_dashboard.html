@@ -5,6 +5,10 @@
     <!-- optional if mapbox base map is needed -->
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 {% endblock %}
 
 {% block styles %}
@@ -62,11 +66,24 @@
     </div>
     <div class="card mt-4" style="background-color: rgba(53, 56, 73, 0.95);">
         <div class="card-body" >
-            <h3 class="card-title" style="color: #ffffff;">Today's Site Visits</h3>
+            <div class="row mb-4">
+                <div class="col-4">
+                    <h3 class="card-title" style="color: #ffffff;">Today's Site Visits</h3>
+                </div>
+                <div class="col-4"></div>
+                <div class="input-group col">
+                    <input class="form-control" id="datePicker" type="text" value="01/01/2018 - 01/15/2018" />
+                    <button class="btn btn-outline-secondary" name="daterange" id="datePicker">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                          <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                          <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
             <hr>
             <div class="row">
                 <div class="col" id="container" style="margin-right: 10px; margin-left: 10px;">
-
                 </div>
                 <div class="col">
                     <div style="height:20em; overflow:auto;">
@@ -108,20 +125,52 @@
 {% block scripts %}
 
     <script>
+        $(function() {
+          $('button[name="daterange"]').daterangepicker({
+            opens: 'left'
+          }, function(start, end, label) {
+            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+          });
+        });
+    </script>
+    <script>
+        //
+        // Get Client Location
+        //
+        const initialize = () => {
+            navigator.geolocation.getCurrentPosition(getCurrentLocation, handleError);
+        }
+        const handleError = error => {
+            alert('Unable to retrieve location: ${error.message}');
+        }
+        const getCurrentLocation = position => {
+            const lat = position.coords.latitude;
+            const long = position.coords.longitude;
+            const latlong = (`${lat},${long}`);
+            document.getElementById("latlong").value = latlong
+        }
+
         //
         // Map Generation
         //
         mapboxgl.accessToken = 'pk.eyJ1Ijoia2Rlbm55MDI1IiwiYSI6ImNsZDFsdXY3NzAwMHEzdXF0d2g3MTRnbGsifQ.5AOW3YJN0L_-b8W4QSZ3Ig';
         const {DeckGL, HeatmapLayer} = deck;
 
-        loc_data = []
+        loc_data = {{ loc_data }}
+        var lat
+        var long
+            $.getJSON('https://ipapi.co/json/', function(data) {
+                lat = data['latitude'];
+                long = data['longitude'];
+                console.log(lat)
+            });
         // Portsmouth coords: Long: -76.34 Lat: 36.82
         new DeckGL({
           container: 'container',
           mapStyle: 'https://tiles.basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
           initialViewState: {
-            longitude: -76.23,
-            latitude: 36.9,
+            longitude: -71.47,
+            latitude: 41.76,
             zoom: 10
           },
           controller: true,

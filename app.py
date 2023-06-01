@@ -340,10 +340,14 @@ def admin_dash():
 
         start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0)
 
+        visits_today = list(db.site_logs.find({'date': {'$gte': start_date}}))
+
         loc_data = []
+        if len(visits_today) > 0:
+            for i in visits_today:
+                loc_data.append([float(i['ip_info']['latitude']),  float(i['ip_info']['longitude'])])
 
-        visits_today = db.site_logs.find({'date': {'$gte': start_date}})
-
+        print(loc_data)
         return render_template("admin_dashboard/admin_dashboard.html", messages=messages, visits=visits_today, loc_data=loc_data)
     else:
         return redirect('/')

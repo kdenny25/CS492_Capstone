@@ -68,7 +68,7 @@
         <div class="card-body" >
             <div class="row mb-4">
                 <div class="col-4">
-                    <h3 class="card-title" style="color: #ffffff;">Today's Site Visits</h3>
+                    <h3 class="card-title" style="color: #ffffff;">Site Visits</h3>
                 </div>
                 <div class="col-4"></div>
                 <div class="input-group col">
@@ -83,30 +83,36 @@
             </div>
             <hr>
             <div class="row">
-                <div class="col" id="container" style="margin-right: 10px; margin-left: 10px;">
+                <div class="col">
+                    <div class="box shadow" style="background-color: rgba(46,48,63,0.95); padding: 1em;">
+                        <div class="box" id="container" style="height: 350px;"></div>
+                    </div>
                 </div>
                 <div class="col">
-                    <div style="height:20em; overflow:auto;">
-                        <table class="table table-dark table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">City</th>
-                                    <th scope="col">Referred Page</th>
-                                    <th scope="col">Landing Page</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                {% for visit in visits %}
-                                    <tr>
-                                        <td>{{ visit.ip_info.city }}</td>
-                                        <td>{{visit.referred_page}}</td>
-                                        <td>{{ visit['landing page'] }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                   <div class="box shadow" style="background-color: rgba(46,48,63,0.95); padding-top: 1em;">
+                       <div id="chart"></div>
+                   </div>
+{#                    <div style="height:20em; overflow:auto;">#}
+{#                        <table class="table table-dark table-striped">#}
+{#                            <thead>#}
+{#                                <tr>#}
+{#                                    <th scope="col">City</th>#}
+{#                                    <th scope="col">Referred Page</th>#}
+{#                                    <th scope="col">Landing Page</th>#}
+{#                                </tr>#}
+{#                            </thead>#}
+{##}
+{#                            <tbody>#}
+{#                                {% for visit in visits %}#}
+{#                                    <tr>#}
+{#                                        <td>{{ visit.ip_info.city }}</td>#}
+{#                                        <td>{{visit.referred_page}}</td>#}
+{#                                        <td>{{ visit['landing page'] }}</td>#}
+{#                                    </tr>#}
+{#                                {% endfor %}#}
+{#                            </tbody>#}
+{#                        </table>#}
+{#                    </div>#}
                 </div>
             </div>
             <hr>
@@ -186,5 +192,65 @@
             }),
           ]
         });
+    </script>
+    <script>
+        window.Apex = {
+          chart: {
+            foreColor: '#ccc',
+            toolbar: {
+              show: false
+            },
+          },
+          stroke: {
+            width: 3
+          },
+          dataLabels: {
+            enabled: false
+          },
+          tooltip: {
+            theme: 'dark'
+          },
+          grid: {
+            borderColor: "#535A6C",
+            xaxis: {
+              lines: {
+                show: true
+              }
+            }
+          }
+        };
+
+        var options = {
+          series: [{
+          data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+        }],
+          chart: {
+          type: 'bar',
+          height: 350
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: 4,
+            horizontal: true,
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        title: {
+            text: 'Most Popular Pages',
+            align: 'left',
+            style: {
+              fontSize: '18px'
+        }},
+        xaxis: {
+          categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
+            'United States', 'China', 'Germany'
+          ],
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
     </script>
 {% endblock %}

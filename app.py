@@ -85,12 +85,7 @@ def load_user(user_id):
 
 @app.route('/')
 def home_page():
-    if request.method == 'POST':
-
-        return redirect('index.html')
-    else:
-
-        return render_template('index.html')
+    return render_template('index.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -328,27 +323,30 @@ def update_user_password():
         return redirect(request.referrer)
 
 
-@app.route('/admin_dashboard')
+@app.route('/admin_dashboard', methods=['GET', 'POST'])
 @login_required
 def admin_dash():
     # checks if user is admin before loading page.
     if current_user.is_admin:
-        try:
-            messages = bulletin.find()
-        except:
-            messages = []
+        if request.method == 'GET':
+            try:
+                messages = bulletin.find()
+            except:
+                messages = []
 
-        start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0)
+            start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0)
 
-        visits_today = list(db.site_logs.find({'date': {'$gte': start_date}}))
+            visits_today = list(db.site_logs.find({'date': {'$gte': start_date}}))
 
-        loc_data = []
-        if len(visits_today) > 0:
-            for i in visits_today:
-                loc_data.append([float(i['ip_info']['latitude']),  float(i['ip_info']['longitude'])])
 
-        print(loc_data)
-        return render_template("admin_dashboard/admin_dashboard.html", messages=messages, visits=visits_today, loc_data=loc_data)
+
+            loc_data = []
+            if len(visits_today) > 0:
+                for i in visits_today:
+                    loc_data.append([float(i['ip_info']['latitude']),  float(i['ip_info']['longitude'])])
+
+            print(loc_data)
+            return render_template("admin_dashboard/admin_dashboard.html", messages=messages, visits=visits_today, loc_data=loc_data)
     else:
         return redirect('/')
 
@@ -1187,7 +1185,7 @@ def log_visit():
         log = {'date': date,
                'ip_info': ip_result,
                'referred_page': str(request.referrer),
-               'landing page': str(request.path)}
+               'landing page': str(request.referrer)}
 
         site_logs.insert_one(log)
 

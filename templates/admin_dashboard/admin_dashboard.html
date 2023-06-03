@@ -85,7 +85,8 @@
             <div class="row">
                 <div class="col">
                     <div class="box shadow" style="background-color: rgba(46,48,63,0.95); padding: 1em;">
-                        <div class="box" id="container" style="height: 350px;"></div>
+                        <h5 style="color: #ffffff;">Visits By Location</h5>
+                        <div class="box" id="container" style="height: 317px;"></div>
                     </div>
                 </div>
                 <div class="col">
@@ -168,7 +169,6 @@
             $.getJSON('https://ipapi.co/json/', function(data) {
                 lat = data['latitude'];
                 long = data['longitude'];
-                console.log(lat)
             });
         // Portsmouth coords: Long: -76.34 Lat: 36.82
         new DeckGL({
@@ -220,9 +220,10 @@
           }
         };
 
+
         var options = {
           series: [{
-          data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+          data: {{ page_data["pages_data"]|safe }}
         }],
           chart: {
           type: 'bar',
@@ -235,18 +236,16 @@
           }
         },
         dataLabels: {
-          enabled: false
+          enabled: true
         },
         title: {
-            text: 'Most Popular Pages',
+            text: 'Page visits',
             align: 'left',
             style: {
               fontSize: '18px'
         }},
         xaxis: {
-          categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
-            'United States', 'China', 'Germany'
-          ],
+          categories: {{ page_data["pages_categories"]|safe }},
         }
         };
 

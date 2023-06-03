@@ -338,15 +338,31 @@ def admin_dash():
 
             visits_today = list(db.site_logs.find({'date': {'$gte': start_date}}))
 
+            top_pages = {}
+            for visit in visits_today:
+                page = visit['referred_page'].replace(request.root_url, '/')
+                if page not in top_pages:
+                    top_pages[page] = 1
+                else:
+                    top_pages[page] +=1
 
+            top_pages = dict(sorted(top_pages.items(), key=lambda item: item[1], reverse=True))
+
+            print(top_pages)
+
+            data_to_display = {
+                'pages_categories': list(top_pages.keys()),
+                'pages_data': list(top_pages.values())
+            }
+
+            print(data_to_display['pages_categories'])
 
             loc_data = []
             if len(visits_today) > 0:
                 for i in visits_today:
                     loc_data.append([float(i['ip_info']['latitude']),  float(i['ip_info']['longitude'])])
 
-            print(loc_data)
-            return render_template("admin_dashboard/admin_dashboard.html", messages=messages, visits=visits_today, loc_data=loc_data)
+            return render_template("admin_dashboard/admin_dashboard.html", messages=messages, page_data=data_to_display, loc_data=loc_data)
     else:
         return redirect('/')
 

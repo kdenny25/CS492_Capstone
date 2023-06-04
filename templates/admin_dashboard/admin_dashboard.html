@@ -89,7 +89,7 @@
                     </div>
                 </div>
                 <div class="col">
-                   <div class="box shadow" style="background-color: rgba(46,48,63,0.95); padding-top: 1em;">
+                   <div class="box shadow" id="page_visits" style="background-color: rgba(46,48,63,0.95); padding-top: 1em;">
                        <div id="chart"></div>
                    </div>
                 </div>
@@ -115,14 +115,10 @@
             singleMode: false,
             setup: (picker) => {
                 picker.on('hide', () => {
-                    console.log(picker.getStartDate().format('YYYY–MM-DD'))
-                    $.ajax({
-                    type: "GET",
-                    url: "/admin_dashboard",
-                    contentType: 'application/json;charset=UTF-8',
-                    data: {'start_date': picker.getStartDate().format('YYYY–MM-DD'),
-                            'end_date': picker.getEndDate().format('YYYY–MM-DD')}
-                });
+                    new_url = location.protocol + '//' + location.host + location.pathname +'?start_date=' +
+                        picker.getStartDate().format('YYYY–MM-DD') + '&end_date=' + picker.getEndDate().format('YYYY–MM-DD')
+                    window.location.href = new_url;
+                    console.log(new_url)
                 });
             },
         });

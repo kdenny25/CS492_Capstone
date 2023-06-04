@@ -336,10 +336,15 @@ def admin_dash():
 
             # checks if a manually entered start date exists.
             if request.values.get('start_date'):
-                print('test complete')
+                start_date = datetime.datetime.strptime(request.values.get('start_date') + 'T00:00:00', '%Y–%m-%dT%H:%M:%S')
+                end_date = datetime.datetime.strptime(request.values.get('end_date') + 'T00:00:00', '%Y–%m-%dT%H:%M:%S')
+                date_range = str(start_date) + ' - ' + str(end_date.date())
 
-            start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0)
-            print(start_date)
+
+            else:
+                start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0)
+                date_range = str(start_date.date()) + ' - ' + str(start_date.date())
+
             visits_today = list(db.site_logs.find({'date': {'$gte': start_date}}))
 
             top_pages = {}
@@ -355,15 +360,18 @@ def admin_dash():
             data_to_display = {
                 'pages_categories': list(top_pages.keys()),
                 'pages_data': list(top_pages.values()),
-                'date_range': str(start_date.date()) + ' - ' + str(start_date.date())
+                'date_range': date_range
             }
 
             print(data_to_display['pages_categories'])
 
             loc_data = []
-            if len(visits_today) > 0:
-                for i in visits_today:
-                    loc_data.append([float(i['ip_info']['latitude']),  float(i['ip_info']['longitude'])])
+            try:
+                if len(visits_today) > 0:
+                    for i in visits_today:
+                        loc_data.append([float(i['ip_info']['latitude']),  float(i['ip_info']['longitude'])])
+            except:
+                pass
 
             return render_template("admin_dashboard/admin_dashboard.html", messages=messages, page_data=data_to_display, loc_data=loc_data)
     else:

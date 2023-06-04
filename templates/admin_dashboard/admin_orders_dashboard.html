@@ -48,32 +48,48 @@
                             <div id="monthly-earnings-chart"></div>
                         </div>
                     </div>
-                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <div class="box shadow" style="background-color: rgba(46,48,63,0.95); padding-top: 1em;">
+                            <div id="pieChart"></div>
+                        </div>
+                    </div>
                 </div>
-                 <table class="table table-dark table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Date</th>
-                            <th scope="col">Customer ID</th>
-                            <th scope="col">Total Qty</th>
-                            <th scope="col">Total Price</th>
-                            <th scope="col">Payment Type</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for order in orders %}
-                            <tr>
-                                <td>{{ order.datetime }}</td>
-                                <td>{{ order.customer_id }}</td>
-                                <td>{{ order.total_quantity }}</td>
-                                <td>${{ '%0.2f' % order.total_price|float }}</td>
-                                <td>{{ order.payment_type }}</td>
-                                <td>{{ order.status }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="box shadow" style="background-color: rgba(46,48,63,0.95); padding-top: 1em;">
+                            <div id="dishSales"></div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="box shadow" style="background-color: rgba(46,48,63,0.95); padding-top: 1em;">
+                            <div id="beverageSales"></div>
+                        </div>
+                    </div>
+                </div>
+{#                 <table class="table table-dark table-striped">#}
+{#                    <thead>#}
+{#                        <tr>#}
+{#                            <th scope="col">Date</th>#}
+{#                            <th scope="col">Customer ID</th>#}
+{#                            <th scope="col">Total Qty</th>#}
+{#                            <th scope="col">Total Price</th>#}
+{#                            <th scope="col">Payment Type</th>#}
+{#                            <th scope="col">Status</th>#}
+{#                        </tr>#}
+{#                    </thead>#}
+{#                    <tbody>#}
+{#                        {% for order in orders %}#}
+{#                            <tr>#}
+{#                                <td>{{ order.datetime }}</td>#}
+{#                                <td>{{ order.customer_id }}</td>#}
+{#                                <td>{{ order.total_quantity }}</td>#}
+{#                                <td>${{ '%0.2f' % order.total_price|float }}</td>#}
+{#                                <td>{{ order.payment_type }}</td>#}
+{#                                <td>{{ order.status }}</td>#}
+{#                            </tr>#}
+{#                        {% endfor %}#}
+{#                    </tbody>#}
+{#                </table>#}
             </div>
         </div>
 
@@ -133,7 +149,7 @@
     //var colorPalette = ['#01BFD6', '#5564BE', '#F7A600', '#EDCD24', '#F74F58'];
     var colorPalette = ['#00D8B6','#008FFB',  '#FEB019', '#FF4560', '#775DD0']
 
-    var spark1 = {
+    var salesSpark = {
       chart: {
         id: 'sparkline1',
         group: 'sparklines',
@@ -162,7 +178,7 @@
       },
       colors: ['#DCE6EC'],
       title: {
-        text: '$424,652',
+        text: '$' + {{ page_data['sales_total']}},
         offsetX: 30,
         style: {
           fontSize: '24px',
@@ -179,7 +195,7 @@
       }
     }
 
-    var spark2 = {
+    var expensesSpark = {
       chart: {
         id: 'sparkline2',
         group: 'sparklines',
@@ -208,7 +224,7 @@
       },
       colors: ['#DCE6EC'],
       title: {
-        text: '$235,312',
+        text: '$' + {{ page_data['expense_total'] }},
         offsetX: 30,
         style: {
           fontSize: '24px',
@@ -225,7 +241,7 @@
       }
     }
 
-    var spark3 = {
+    var profitsSpark = {
       chart: {
         id: 'sparkline3',
         group: 'sparklines',
@@ -255,7 +271,7 @@
       colors: ['#008FFB'],
       //colors: ['#5564BE'],
       title: {
-        text: '$135,965',
+        text: '$' + {{ page_data['profits_total'] }},
         offsetX: 30,
         style: {
           fontSize: '24px',
@@ -275,7 +291,7 @@
     var monthlyEarningsBar = {
       chart: {
         type: 'bar',
-        height: 380,
+        height: 300,
         width: '100%',
         stacked: true,
       },
@@ -327,12 +343,98 @@
 
     }
 
+    var earningsSources = {
+        series: [44, 55, 41, 17, 15],
+            chart: {
+            type: 'donut',
+            height: 300
+        },
+        title: {
+            text: 'Sales Source',
+            align: 'left',
+            style: {
+              fontSize: '18px'}
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }]
+    };
 
-        new ApexCharts(document.querySelector("#spark1"), spark1).render();
-        new ApexCharts(document.querySelector("#spark2"), spark2).render();
-        new ApexCharts(document.querySelector("#spark3"), spark3).render();
-        var monthlyEarningsChart = new ApexCharts(document.querySelector("#monthly-earnings-chart"), monthlyEarningsBar);
-        {#var chart = new ApexCharts(document.querySelector("#chart"), options);#}
-        monthlyEarningsChart.render();
+    var salesByDish = {
+        series: [{
+            data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+        }],
+        chart: {
+            type: 'bar',
+            height: 250
+        },
+        title: {
+            text: 'Sales by Dish Categories',
+            align: 'left',
+            style: {
+              fontSize: '18px'}
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                horizontal: true,
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        xaxis: {
+            categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
+                'United States', 'China', 'Germany'
+            ],
+        }
+    }
+
+    var salesByBeverage = {
+        series: [{
+            data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+            }],
+        chart: {
+            type: 'bar',
+            height: 250
+        },
+        title: {
+            text: 'Sales by Beverage Categories',
+            align: 'left',
+            style: {
+              fontSize: '18px'}
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                horizontal: true,
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        xaxis: {
+            categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
+                'United States', 'China', 'Germany'
+            ],
+        }
+    };
+
+    new ApexCharts(document.querySelector("#dishSales"), salesByDish).render();
+    new ApexCharts(document.querySelector("#beverageSales"), salesByBeverage).render();
+    new ApexCharts(document.querySelector("#pieChart"), earningsSources).render();
+    new ApexCharts(document.querySelector("#spark1"), salesSpark).render();
+    new ApexCharts(document.querySelector("#spark2"), expensesSpark).render();
+    new ApexCharts(document.querySelector("#spark3"), profitsSpark).render();
+    new ApexCharts(document.querySelector("#monthly-earnings-chart"), monthlyEarningsBar).render();
+    {#var chart = new ApexCharts(document.querySelector("#chart"), options);#}
 </script>
 {% endblock %}

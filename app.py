@@ -602,9 +602,32 @@ def admin_delete_profile():
 @app.route('/admin_orders_dashboard')
 def admin_orders_dashboard():
     if current_user.is_admin:
-        order_list = orders.find()
+        order_list = list(orders.find())
 
-        return render_template('admin_dashboard/admin_orders_dashboard.html', orders=order_list)
+        sales_total = 0
+        expense_total = 0
+        profit_total = 0
+        for order in order_list:
+            for item in order['cart_items']:
+                sales_total += item['total_price']
+                expense_total += (item['cost'] * item['qty'])
+
+        profit_total = sales_total - expense_total
+
+        print(profit_total)
+        page_data = {
+            "sales_total":  int(sales_total),
+            "sales_labels": "data list",
+            "sales_data": "data list",
+            "expense_total": int(expense_total),
+            "expense_labels": "data list",
+            "expense_data": "data list",
+            "profits_total": int(profit_total),
+            "profits_labels": "dates list",
+            "profits_data": "data list"
+        }
+
+        return render_template('admin_dashboard/admin_orders_dashboard.html', page_data=page_data)
     return redirect('/')
 
 @app.route('/menu_management', methods=['GET', 'POST'])

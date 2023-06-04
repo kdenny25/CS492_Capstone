@@ -334,8 +334,12 @@ def admin_dash():
             except:
                 messages = []
 
-            start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0)
+            # checks if a manually entered start date exists.
+            if request.values.get('start_date'):
+                print('test complete')
 
+            start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0)
+            print(start_date)
             visits_today = list(db.site_logs.find({'date': {'$gte': start_date}}))
 
             top_pages = {}
@@ -348,11 +352,10 @@ def admin_dash():
 
             top_pages = dict(sorted(top_pages.items(), key=lambda item: item[1], reverse=True))
 
-            print(top_pages)
-
             data_to_display = {
                 'pages_categories': list(top_pages.keys()),
-                'pages_data': list(top_pages.values())
+                'pages_data': list(top_pages.values()),
+                'date_range': str(start_date.date()) + ' - ' + str(start_date.date())
             }
 
             print(data_to_display['pages_categories'])
@@ -492,6 +495,7 @@ def order_confirmation():
                                           'state': state,
                                           'zipcode': zipcode},
                      'payment_type': payment_selection,
+                     'order_type': 'delivery',
                      'status': 'pending'}
 
             orders.insert_one(order)
@@ -531,6 +535,7 @@ def order_confirmation():
                                           'state': state,
                                           'zipcode': zipcode},
                      'payment_type': payment_selection,
+                     'order_type': 'delivery',
                      'status': 'pending'}
 
             orders.insert_one(order)
@@ -607,14 +612,43 @@ def admin_orders_dashboard():
         sales_total = 0
         expense_total = 0
         profit_total = 0
+
+        daily_orders = {}
+
         for order in order_list:
+            order_date = order['datetime'].date()
+            print(order_date)
             for item in order['cart_items']:
-                sales_total += item['total_price']
-                expense_total += (item['cost'] * item['qty'])
+                item_sale_total = item['total_price']
+                item_expense_total = (item['cost'] * item['qty'])
+                item_profit_total = item_sale_total - item_expense_total
+
+                # add to timeframe total
+                sales_total += item_sale_total
+                expense_total += item_expense_total
+
+                # add to daily total
+                if order_date not in daily_orders:
+                    daily_orders[order_date] = {'sales_total': item_sale_total,
+                                                'expenses_total': item_expense_total,
+                                                'item_profits_total': item_profit_total}
+                else:
+                    daily_orders[order_date]['sales_total'] += item_sale_total
+                    daily_orders[order_date]['expenses_total'] += item_expense_total
+                    daily_orders[order_date]['item_profits_total'] += item_profit_total
+
+        daily_orders = dict(sorted(daily_orders.items(), key=lambda item: item[0], reverse=False))
+
+        print(daily_orders)
+
+
+        # data_to_display = {
+        #     'pages_categories': list(top_pages.keys()),
+        #     'pages_data': list(top_pages.values())
+        # }
 
         profit_total = sales_total - expense_total
 
-        print(profit_total)
         page_data = {
             "sales_total":  int(sales_total),
             "sales_labels": "data list",
@@ -1234,3 +1268,17 @@ def log_visit():
         pass
 
     return json.dumps({'status': 'Success'})
+
+@app.route('/data_generator')
+def data_generator():
+    if current_user.is_admin:
+        return render_template('admin_dashboard/admin_data_generator.html')
+    else:
+        return redirect('/')
+
+@app.route('/store_settings')
+def store_settings():
+    if current_user.is_admin:
+        return render_template('admin_dashboard/admin_store_settings.html')
+    else:
+        return redirect('/')

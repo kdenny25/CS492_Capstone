@@ -7,8 +7,7 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
 {% endblock %}
 
 {% block styles %}
@@ -72,7 +71,7 @@
                 </div>
                 <div class="col-4"></div>
                 <div class="input-group col">
-                    <input class="form-control" id="datePicker" type="text" value="01/01/2018 - 01/15/2018" />
+                    <input class="form-control" id="litepicker" type="text" value="{{ page_data['date_range'] }}" />
                     <button class="btn btn-outline-secondary" name="daterange" id="datePicker">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
                           <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
@@ -93,27 +92,6 @@
                    <div class="box shadow" style="background-color: rgba(46,48,63,0.95); padding-top: 1em;">
                        <div id="chart"></div>
                    </div>
-{#                    <div style="height:20em; overflow:auto;">#}
-{#                        <table class="table table-dark table-striped">#}
-{#                            <thead>#}
-{#                                <tr>#}
-{#                                    <th scope="col">City</th>#}
-{#                                    <th scope="col">Referred Page</th>#}
-{#                                    <th scope="col">Landing Page</th>#}
-{#                                </tr>#}
-{#                            </thead>#}
-{##}
-{#                            <tbody>#}
-{#                                {% for visit in visits %}#}
-{#                                    <tr>#}
-{#                                        <td>{{ visit.ip_info.city }}</td>#}
-{#                                        <td>{{visit.referred_page}}</td>#}
-{#                                        <td>{{ visit['landing page'] }}</td>#}
-{#                                    </tr>#}
-{#                                {% endfor %}#}
-{#                            </tbody>#}
-{#                        </table>#}
-{#                    </div>#}
                 </div>
             </div>
             <hr>
@@ -132,12 +110,21 @@
 {% block scripts %}
 
     <script>
-        $(function() {
-          $('button[name="daterange"]').daterangepicker({
-            opens: 'left'
-          }, function(start, end, label) {
-            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-          });
+        const picker = new Litepicker({
+            element: document.getElementById('litepicker'),
+            singleMode: false,
+            setup: (picker) => {
+                picker.on('hide', () => {
+                    console.log(picker.getStartDate().format('YYYY–MM-DD'))
+                    $.ajax({
+                    type: "GET",
+                    url: "/admin_dashboard",
+                    contentType: 'application/json;charset=UTF-8',
+                    data: {'start_date': picker.getStartDate().format('YYYY–MM-DD'),
+                            'end_date': picker.getEndDate().format('YYYY–MM-DD')}
+                });
+                });
+            },
         });
     </script>
     <script>

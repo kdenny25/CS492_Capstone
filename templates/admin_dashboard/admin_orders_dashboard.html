@@ -99,6 +99,14 @@
 
 {% block scripts %}
 <script>
+
+    function commaSeparateNumber(val){
+        while (/(\d+)(\d{3})/.test(val.toString())){
+          val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+        }
+        return val;
+    }
+
     window.Apex = {
       chart: {
         foreColor: '#ccc',
@@ -167,9 +175,9 @@
       },
       series: [{
         name: 'Sales',
-        data: randomizeArray(sparklineData)
+        data: {{page_data['sales_data']|safe}}
       }],
-      labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
+      labels: {{ page_data['spark_labels']|safe }},
       yaxis: {
         min: 0
       },
@@ -178,7 +186,7 @@
       },
       colors: ['#DCE6EC'],
       title: {
-        text: '$' + {{ page_data['sales_total']}},
+        text: '$' + commaSeparateNumber({{ page_data['sales_total']}}),
         offsetX: 30,
         style: {
           fontSize: '24px',
@@ -213,9 +221,9 @@
       },
       series: [{
         name: 'Expenses',
-        data: randomizeArray(sparklineData)
+        data: {{ page_data['expense_data']|safe }}
       }],
-      labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
+      labels: {{ page_data['spark_labels']|safe }},
       yaxis: {
         min: 0
       },
@@ -224,7 +232,7 @@
       },
       colors: ['#DCE6EC'],
       title: {
-        text: '$' + {{ page_data['expense_total'] }},
+        text: '$' + commaSeparateNumber({{ page_data['expense_total'] }}),
         offsetX: 30,
         style: {
           fontSize: '24px',
@@ -259,9 +267,9 @@
       },
       series: [{
         name: 'Profits',
-        data: randomizeArray(sparklineData)
+        data: {{ page_data['profits_data']|safe }}
       }],
-      labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
+      labels: {{ page_data['spark_labels']|safe }},
       xaxis: {
         type: 'datetime',
       },
@@ -271,7 +279,7 @@
       colors: ['#008FFB'],
       //colors: ['#5564BE'],
       title: {
-        text: '$' + {{ page_data['profits_total'] }},
+        text: '$' + commaSeparateNumber({{ page_data['profits_total'] }}),
         offsetX: 30,
         style: {
           fontSize: '24px',

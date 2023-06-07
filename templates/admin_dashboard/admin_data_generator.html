@@ -12,8 +12,24 @@
         <hr>
         <div>
             <form class="modal-content"  style="background-color: rgba(53, 56, 73, 0.95);" action="" method="post">
-                <label for="litepicker" class="form-label" style="color: #ffffff;">Date Range:</label>
-                <input class="form-control" id="litepicker" type="text" value="" />
+                <div class="row">
+                    <div class="col-12">
+                        <label for="litepicker" class="form-label" style="color: #ffffff;">Date Range:</label>
+                        <input class="form-control" id="litepicker" type="text" value=""  required/>
+                    </div>
+                    <div class="col-6 mt-2">
+                        <label for="minOrders" class="form-label" style="color: #ffffff;">Min Daily Orders</label>
+                        <input type="number" id="minOrders" name="minOrders" min="1" class="form-control" value="1" />
+                    </div>
+                    <div class="col-6 mt-2">
+                        <label for="maxOrders" class="form-label" style="color: #ffffff;">Max Daily Orders</label>
+                        <input type="number" id="maxOrders" name="maxOrders" min="1" class="form-control" value="4" />
+                    </div>
+                    <hr>
+                    <div class="col-12">
+                        <button type="button" id="submitOrders" class="btn btn-secondary">Generate Data</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
@@ -24,14 +40,29 @@
 {% endblock %}
 {% block scripts %}
 <script>
+    var start_date;
+    var end_end;
+
     const picker = new Litepicker({
         element: document.getElementById('litepicker'),
         singleMode: false,
         setup: (picker) => {
             picker.on('hide', () => {
-
+                start_date = picker.getStartDate().format('YYYY–MM-DD')
+                end_date = picker.getEndDate().format('YYYY-MM-DD')
             });
         },
     });
+
+    $("#submitOrders").on("click", function() {
+        var min_orders = $('#minOrders').val();
+        var max_orders = $('#maxOrders').val();
+
+        new_url = location.protocol + '//' + location.host + location.pathname +'?start_date=' + start_date + '&end_date=' + end_date +
+            '&min_orders=' + min_orders + '&max_orders=' + max_orders;
+        window.location.href = new_url;
+    })
+
+
 </script>
 {% endblock %}

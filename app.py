@@ -10,7 +10,7 @@ import numpy as np
 import os, sys
 import json
 import datetime
-from backend.
+from backend.orders_data_gen import gen_orders_data
 from backend.user import User
 from werkzeug.utils import secure_filename
 from azure.storage.blob import BlobServiceClient
@@ -626,7 +626,6 @@ def admin_orders_dashboard():
 
         for order in order_list:
             order_date = order['datetime'].date()
-            print(order_date)
             for item in order['cart_items']:
                 item_sale_total = item['total_price']
                 item_expense_total = (item['cost'] * item['qty'])
@@ -648,8 +647,16 @@ def admin_orders_dashboard():
 
         daily_orders = dict(sorted(daily_orders.items(), key=lambda item: item[0], reverse=False))
 
-        print(daily_orders)
+        labels = [date.strftime('%Y-%m-%d') for date in list(daily_orders.keys())]
 
+        sales_data = []
+        expense_data = []
+        profits_data = []
+
+        for day in daily_orders:
+            sales_data.append(daily_orders[day]['sales_total'])
+            expense_data.append(daily_orders[day]['expenses_total'])
+            profits_data.append(daily_orders[day]['item_profits_total'])
 
         # data_to_display = {
         #     'pages_categories': list(top_pages.keys()),
@@ -659,15 +666,13 @@ def admin_orders_dashboard():
         profit_total = sales_total - expense_total
 
         page_data = {
+            "spark_labels": labels,
             "sales_total":  int(sales_total),
-            "sales_labels": "data list",
-            "sales_data": "data list",
+            "sales_data": sales_data,
             "expense_total": int(expense_total),
-            "expense_labels": "data list",
-            "expense_data": "data list",
+            "expense_data": expense_data,
             "profits_total": int(profit_total),
-            "profits_labels": "dates list",
-            "profits_data": "data list"
+            "profits_data": profits_data
         }
 
         return render_template('admin_dashboard/admin_orders_dashboard.html', page_data=page_data)
@@ -1281,6 +1286,16 @@ def log_visit():
 @app.route('/data_generator')
 def data_generator():
     if current_user.is_admin:
+
+        if request.values.get('start_date'):
+            start_date = request.values.get('start_date')
+            end_date = request.values.get('end_date')
+
+            min_daily_order = int(request.values.get('min_orders'))
+            max_daily_order = int(request.values.get('max_orders'))
+
+            orders_generated = gen_orders_data(menu_dishes, beverages, orders, start_date, end_date, min_daily_order, max_daily_order)
+            flash(orders_generated[0], orders_generated[1])
         return render_template('admin_dashboard/admin_data_generator.html')
     else:
         return redirect('/')

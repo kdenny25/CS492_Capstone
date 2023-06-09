@@ -616,16 +616,52 @@ def admin_delete_profile():
 @app.route('/admin_orders_dashboard')
 def admin_orders_dashboard():
     if current_user.is_admin:
-        order_list = list(orders.find())
+        quarters = [1, 4, 7, 10]
+        current_date = datetime.datetime.today()
+        start_of_year = current_date.replace(month=1, day=1)
+        # get current quarter
+        month = current_date.month
+
+        if month < quarters[1]:
+            quarter = quarters[0]
+        elif month < quarters[2] and month >= quarters[1]:
+            quarter = quarters[1]
+        elif month < quarters[3] and month >= quarters[2]:
+            quarter = quarters[2]
+        else:
+            quarter = quarters[3]
+
+        quarter = current_date.replace(month=quarter, day=1)
+
+        order_list = list(orders.find({'datetime': {'$gte': start_of_year}}))
+
+        order_list_qtr = list(orders.find({'datetime': {'$gte': quarter}}))
 
         sales_total = 0
         expense_total = 0
-        profit_total = 0
 
         daily_orders = {}
 
+        monthly_orders = {}
+
         for order in order_list:
             order_date = order['datetime'].date()
+
+            # some orders may not have the order_type field
+            try:
+                if order_date.month not in monthly_orders:
+                    if order['order_type'] == 'dine-in':
+                        monthly_orders[order_date.month] = {'dine-in': order['total_price'], 'delivery': 0.0}
+                    else:
+                        monthly_orders[order_date.month] = {'dine-in': 0.0, 'delivery': order['total_price']}
+                else:
+                    if order['order_type'] == 'dine-in':
+                        monthly_orders[order_date.month]['dine-in'] += order['total_price']
+                    else:
+                        monthly_orders[order_date.month]['delivery'] += order['total_price']
+            except:
+                pass
+
             for item in order['cart_items']:
                 item_sale_total = item['total_price']
                 item_expense_total = (item['cost'] * item['qty'])
@@ -645,10 +681,15 @@ def admin_orders_dashboard():
                     daily_orders[order_date]['expenses_total'] += item_expense_total
                     daily_orders[order_date]['item_profits_total'] += item_profit_total
 
+        # sort dicts
         daily_orders = dict(sorted(daily_orders.items(), key=lambda item: item[0], reverse=False))
+        monthly_orders = dict(sorted(monthly_orders.items(), key=lambda item: item[0], reverse=False))
 
-        labels = [date.strftime('%Y-%m-%d') for date in list(daily_orders.keys())]
 
+        #####
+        # Spark Chart Data formatting
+        #####
+        spark_labels = [date.strftime('%Y-%m-%d') for date in list(daily_orders.keys())]
         sales_data = []
         expense_data = []
         profits_data = []
@@ -658,6 +699,19 @@ def admin_orders_dashboard():
             expense_data.append(daily_orders[day]['expenses_total'])
             profits_data.append(daily_orders[day]['item_profits_total'])
 
+        #####
+        # Monthly Sales Data formatting
+        #####
+        months_in_year = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        monthly_labels = [months_in_year[month-1] for month in list(monthly_orders.keys())]
+        monthly_dine_in = []
+        monthly_delivery = []
+
+        for month in monthly_orders:
+            monthly_dine_in.append(monthly_orders[month]['dine-in'])
+            monthly_delivery.append(monthly_orders[month]['delivery'])
+
+        print(monthly_labels)
         # data_to_display = {
         #     'pages_categories': list(top_pages.keys()),
         #     'pages_data': list(top_pages.values())
@@ -666,13 +720,16 @@ def admin_orders_dashboard():
         profit_total = sales_total - expense_total
 
         page_data = {
-            "spark_labels": labels,
+            "spark_labels": spark_labels,
             "sales_total":  int(sales_total),
             "sales_data": sales_data,
             "expense_total": int(expense_total),
             "expense_data": expense_data,
             "profits_total": int(profit_total),
-            "profits_data": profits_data
+            "profits_data": profits_data,
+            "monthly_labels": monthly_labels,
+            "monthly_dinein_data": monthly_dine_in,
+            "monthly_delivery_data": monthly_delivery
         }
 
         return render_template('admin_dashboard/admin_orders_dashboard.html', page_data=page_data)

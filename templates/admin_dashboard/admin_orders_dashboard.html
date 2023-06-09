@@ -43,14 +43,14 @@
                   </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-8">
+                    <div class="col-6">
                         <div class="box shadow" style="background-color: rgba(46,48,63,0.95); padding-top: 1em;">
-                            <div id="monthly-earnings-chart"></div>
+                            <div id="daily-earnings-chart"></div>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                         <div class="box shadow" style="background-color: rgba(46,48,63,0.95); padding-top: 1em;">
-                            <div id="pieChart"></div>
+                            <div id="monthly-earnings-chart"></div>
                         </div>
                     </div>
                 </div>
@@ -184,7 +184,7 @@
       xaxis: {
         type: 'datetime',
       },
-      colors: ['#DCE6EC'],
+      colors: ['#008FFB'],
       title: {
         text: '$' + commaSeparateNumber({{ page_data['sales_total']}}),
         offsetX: 30,
@@ -230,7 +230,7 @@
       xaxis: {
         type: 'datetime',
       },
-      colors: ['#DCE6EC'],
+      colors: ['#FF4560'],
       title: {
         text: '$' + commaSeparateNumber({{ page_data['expense_total'] }}),
         offsetX: 30,
@@ -276,7 +276,7 @@
       yaxis: {
         min: 0
       },
-      colors: ['#008FFB'],
+      colors: ['#00D8B6'],
       //colors: ['#5564BE'],
       title: {
         text: '$' + commaSeparateNumber({{ page_data['profits_total'] }}),
@@ -310,16 +310,16 @@
       },
       colors: colorPalette,
       series: [{
-        name: "Clothing",
-        data: [42, 52, 16, 55, 59, 51, 45, 32, 26, 33, 44, 51, 42, 56],
+        name: "Dine-In",
+        data: {{ page_data['monthly_dinein_data']|safe }},
       }, {
-        name: "Food Products",
-        data: [6, 12, 4, 7, 5, 3, 6, 4, 3, 3, 5, 6, 7, 4],
+        name: "Delivery",
+        data: {{ page_data['monthly_delivery_data']|safe }},
       }],
-      labels: [10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+      labels: {{ page_data['monthly_labels']|safe }},
       xaxis: {
         labels: {
-          show: false
+          show: true
         },
         axisBorder: {
           show: false
@@ -351,30 +351,66 @@
 
     }
 
-    var earningsSources = {
-        series: [44, 55, 41, 17, 15],
-            chart: {
-            type: 'donut',
-            height: 300
+    var dailyEarningsBar = {
+      chart: {
+        type: 'line',
+        height: 300,
+        width: '100%',
+        stacked: true,
+      },
+      plotOptions: {
+        bar: {
+          columnWidth: '45%',
+        }
+      },
+      colors: colorPalette,
+      series: [{
+        name: "Dine-In",
+        type: 'column',
+        data: [42, 52, 16, 55, 59, 51, 45],
+      }, {
+        name: "Delivery",
+        type: 'column',
+        data: [6, 12, 4, 7, 5, 3, 6],
+      }, {
+          name: 'Qrtly Average Daily Sales',
+          type: 'line',
+          data: [23, 42, 35, 27, 43, 22, 17]
+      }],
+      labels: ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'],
+      xaxis: {
+        labels: {
+          show: true
         },
-        title: {
-            text: 'Sales Source',
-            align: 'left',
-            style: {
-              fontSize: '18px'}
+        axisBorder: {
+          show: false
         },
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                },
-                legend: {
-                    position: 'bottom'
-                }
-            }
-        }]
-    };
+        axisTicks: {
+          show: false
+        },
+      },
+      yaxis: {
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        },
+        labels: {
+          style: {
+            colors: '#78909c'
+          }
+        }
+      },
+      title: {
+        text: 'Daily Sales',
+        align: 'left',
+        style: {
+          fontSize: '18px'
+        }
+      }
+
+    }
 
     var salesByDish = {
         series: [{
@@ -438,11 +474,11 @@
 
     new ApexCharts(document.querySelector("#dishSales"), salesByDish).render();
     new ApexCharts(document.querySelector("#beverageSales"), salesByBeverage).render();
-    new ApexCharts(document.querySelector("#pieChart"), earningsSources).render();
     new ApexCharts(document.querySelector("#spark1"), salesSpark).render();
     new ApexCharts(document.querySelector("#spark2"), expensesSpark).render();
     new ApexCharts(document.querySelector("#spark3"), profitsSpark).render();
     new ApexCharts(document.querySelector("#monthly-earnings-chart"), monthlyEarningsBar).render();
+    new ApexCharts(document.querySelector("#daily-earnings-chart"), dailyEarningsBar).render();
     {#var chart = new ApexCharts(document.querySelector("#chart"), options);#}
 </script>
 {% endblock %}

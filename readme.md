@@ -27,7 +27,7 @@ Website url: https://ctucapstone.azurewebsites.net/
 * CSS
 * SCSS
 * JavaScript
-* Phyton
+* Python
 
 ## Usage instructions
 Our pizza project application is a web-based platform that allows customers to browse menus, place orders, and track their delivery in real-time. The app also includes an admin dashboard for restaurant owners to manage their inventory, prices, and menu items. With our app, customers can customize their pizzas with a variety of toppings, track the progress of their order, and receive notifications when their pizza is ready for pickup or delivery.

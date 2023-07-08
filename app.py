@@ -10,6 +10,7 @@ import numpy as np
 import os, sys
 import json
 import datetime
+from datetime import datetime, date, timedelta
 from backend.orders_data_gen import gen_orders_data
 from backend.user import User
 from werkzeug.utils import secure_filename
@@ -84,6 +85,10 @@ def load_user(user_id):
     else:
         return None
 
+@login_manager.unauthorized_handler
+def unauthorized_callback():
+    return redirect('/')
+
 @app.route('/')
 def home_page():
     return render_template('index.html')
@@ -120,7 +125,8 @@ def login():
             return redirect(request.referrer)
 
     # default GET response is to load the login page
-    return render_template('elements/login_modal.html')
+    return render_template('/')
+
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -337,13 +343,13 @@ def admin_dash():
 
             # checks if a manually entered start date exists.
             if request.values.get('start_date'):
-                start_date = datetime.datetime.strptime(request.values.get('start_date') + 'T00:00:00', '%Y–%m-%dT%H:%M:%S')
-                end_date = datetime.datetime.strptime(request.values.get('end_date') + 'T00:00:00', '%Y–%m-%dT%H:%M:%S')
+                start_date = datetime.strptime(request.values.get('start_date') + 'T00:00:00', '%Y–%m-%dT%H:%M:%S')
+                end_date = datetime.strptime(request.values.get('end_date') + 'T00:00:00', '%Y–%m-%dT%H:%M:%S')
                 date_range = str(start_date) + ' - ' + str(end_date.date())
 
 
             else:
-                start_date = datetime.datetime.now().replace(hour=0, minute=0, second=0)
+                start_date = datetime.now().replace(hour=0, minute=0, second=0)
                 date_range = str(start_date.date()) + ' - ' + str(start_date.date())
 
             visits_today = list(db.site_logs.find({'date': {'$gte': start_date}}))
@@ -495,7 +501,7 @@ def order_confirmation():
             payment_selection = request.form.get('paymentMethod')
 
             order = {'customer_id': current_user._id,
-                     'datetime': datetime.datetime.now(),
+                     'datetime': datetime.now(),
                      'cart_items': cart_items,
                      'total_price': total_price,
                      'total_quantity': total_quantity,
@@ -535,7 +541,7 @@ def order_confirmation():
             payment_selection = request.form.get('paymentMethod')
 
             order = {'customer_id': 'guest',
-                     'datetime': datetime.datetime.now(),
+                     'datetime': datetime.now(),
                      'cart_items': cart_items,
                      'total_price': total_price,
                      'total_quantity': total_quantity,
@@ -614,11 +620,13 @@ def admin_delete_profile():
     return redirect('/')
 
 @app.route('/admin_orders_dashboard')
+@login_required
 def admin_orders_dashboard():
     if current_user.is_admin:
         quarters = [1, 4, 7, 10]
-        current_date = datetime.datetime.today()
+        current_date = datetime.today()
         start_of_year = current_date.replace(month=1, day=1)
+        start_of_week = current_date - timedelta(days=current_date.weekday())
         # get current quarter
         month = current_date.month
 
@@ -637,12 +645,16 @@ def admin_orders_dashboard():
 
         order_list_qtr = list(orders.find({'datetime': {'$gte': quarter}}))
 
+        order_list_wk = list(orders.find({'datetime': {'$gte': start_of_week}}))
+
         sales_total = 0
         expense_total = 0
 
         daily_orders = {}
 
         monthly_orders = {}
+        daily_sales_dine_in = [0,0,0,0,0,0,0]
+        daily_sales_delivery = [0, 0, 0, 0, 0, 0, 0]
 
         for order in order_list:
             order_date = order['datetime'].date()
@@ -662,6 +674,15 @@ def admin_orders_dashboard():
             except:
                 pass
 
+        for order in order_list_wk:
+            order_date = order['datetime'].date()
+
+            # sum all sales for the week and divide them in to dine-in and delivery
+            if order['order_type'] == 'delivery':
+                daily_sales_delivery[order_date.weekday()] += order['total_price']
+            else:
+                daily_sales_dine_in[order_date.weekday()] += order['total_price']
+
             for item in order['cart_items']:
                 item_sale_total = item['total_price']
                 item_expense_total = (item['cost'] * item['qty'])
@@ -680,6 +701,21 @@ def admin_orders_dashboard():
                     daily_orders[order_date]['sales_total'] += item_sale_total
                     daily_orders[order_date]['expenses_total'] += item_expense_total
                     daily_orders[order_date]['item_profits_total'] += item_profit_total
+
+
+        # setup daily sales average for the quarter
+        daily_sales_qtr = [0,0,0,0,0,0,0]
+        daily_sales_count_qtr = [0,0,0,0,0,0,0]
+
+        for order in order_list_qtr:
+            order_date = order['datetime'].date().weekday()
+
+            daily_sales_qtr[order_date] += order['total_price']
+            daily_sales_count_qtr[order_date] += 1.0
+
+        daily_sales_avg_qtr = []
+        for idx, value in enumerate(daily_sales_qtr):
+            daily_sales_avg_qtr.append(round(value / daily_sales_count_qtr[idx], 2))
 
         # sort dicts
         daily_orders = dict(sorted(daily_orders.items(), key=lambda item: item[0], reverse=False))
@@ -711,7 +747,6 @@ def admin_orders_dashboard():
             monthly_dine_in.append(monthly_orders[month]['dine-in'])
             monthly_delivery.append(monthly_orders[month]['delivery'])
 
-        print(monthly_labels)
         # data_to_display = {
         #     'pages_categories': list(top_pages.keys()),
         #     'pages_data': list(top_pages.values())
@@ -729,11 +764,15 @@ def admin_orders_dashboard():
             "profits_data": profits_data,
             "monthly_labels": monthly_labels,
             "monthly_dinein_data": monthly_dine_in,
-            "monthly_delivery_data": monthly_delivery
+            "monthly_delivery_data": monthly_delivery,
+            "daily_sales_delivery": daily_sales_delivery,
+            "daily_sales_dine_in": daily_sales_dine_in,
+            "daily_sales_avg_qtr": daily_sales_avg_qtr
         }
 
         return render_template('admin_dashboard/admin_orders_dashboard.html', page_data=page_data)
-    return redirect('/')
+    else:
+        return redirect('/')
 
 @app.route('/menu_management', methods=['GET', 'POST'])
 def admin_menu_management():
@@ -1277,7 +1316,7 @@ def deleteitem():
 @app.post('/get_in_touch')
 def get_in_touch():
     name = request.form.get('name')
-    date = datetime.datetime.now()
+    date = datetime.now()
     email = request.form.get('email')
     message = request.form.get('message')
     viewed = 0
@@ -1296,7 +1335,7 @@ def get_in_touch():
 def log_visit():
     try:
         site_logs = db.site_logs
-        date = datetime.datetime.now()
+        date = datetime.now()
 
         ip_result = {
             'ip': request.values.get('ip'),

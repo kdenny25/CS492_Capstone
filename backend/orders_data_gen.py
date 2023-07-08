@@ -65,7 +65,7 @@ def gen_orders_data(db_dishes, db_bevs, db_orders, date_start = "2023–06-06", 
                 #append to cart_items
                 cart_items.append(item_dict)
 
-            orders_date = orders_date.replace(hour=random.randint(1,12), minute=random.randint(0,60))
+            orders_date = orders_date.replace(hour=random.randint(1,12), minute=random.randint(0,59))
             order_type = random.choice(order_type_list)
 
             if order_type == 'delivery':

@@ -367,15 +367,15 @@
       series: [{
         name: "Dine-In",
         type: 'column',
-        data: [42, 52, 16, 55, 59, 51, 45],
+        data: {{ page_data['daily_sales_dine_in']|safe }},
       }, {
         name: "Delivery",
         type: 'column',
-        data: [6, 12, 4, 7, 5, 3, 6],
+        data: {{ page_data['daily_sales_delivery']|safe }},
       }, {
-          name: 'Qrtly Average Daily Sales',
+          name: 'Mean Daily Sales for Qtr',
           type: 'line',
-          data: [23, 42, 35, 27, 43, 22, 17]
+          data: {{ page_data['daily_sales_avg_qtr']|safe }}
       }],
       labels: ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat'],
       xaxis: {

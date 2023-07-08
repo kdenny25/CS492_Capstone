@@ -714,8 +714,10 @@ def admin_orders_dashboard():
             daily_sales_count_qtr[order_date] += 1.0
 
         daily_sales_avg_qtr = []
+
         for idx, value in enumerate(daily_sales_qtr):
-            daily_sales_avg_qtr.append(round(value / daily_sales_count_qtr[idx], 2))
+            if daily_sales_count_qtr[idx] != 0:
+                daily_sales_avg_qtr.append(round(value / daily_sales_count_qtr[idx], 2))
 
         # sort dicts
         daily_orders = dict(sorted(daily_orders.items(), key=lambda item: item[0], reverse=False))

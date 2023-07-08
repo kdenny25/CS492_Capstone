@@ -41,7 +41,7 @@
                                         </article>
                                         <div class="row">
                                             {% for dish in category.dish_list %}
-                                                <div class="card col-4 m-1" style="width: 18rem; background-color: rgba(53, 56, 73, 0.95);">
+                                                <div class="card col-4 m-1 p-0" style="width: 18rem; background-color: rgba(53, 56, 73, 0.95);">
                                                   <img src="{{ dish.image }}" style="height: 11rem; background-size: cover; background: transparent no-repeat;" class="card-img-top" alt=""/>
                                                   <div class="card-body">
                                                     <h3 class="card-title" style="height: 6rem; margin-bottom: 0.5em;">{{ dish.name }}</h3>
@@ -75,7 +75,7 @@
                                         </article>
                                         <div class="row">
                                             {% for bev in category.bev_list %}
-                                                <div class="card col-4 m-1" style="width: 18rem; background-color: rgba(53, 56, 73, 0.95);">
+                                                <div class="card col-4 m-1 p-0" style="width: 18rem; background-color: rgba(53, 56, 73, 0.95);">
                                                   <img src="{{ bev.image }}" style="height: 11rem; background-size: cover;" class="card-img-top" alt=""/>
                                                   <div class="card-body">
                                                     <h3 class="card-title" style="height: 6rem; margin-bottom: 0.5em;">{{ bev.name }}</h3>

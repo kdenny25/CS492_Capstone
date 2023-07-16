@@ -703,6 +703,7 @@ def admin_orders_dashboard():
                     daily_orders[order_date]['item_profits_total'] += item_profit_total
 
 
+
         # setup daily sales average for the quarter
         daily_sales_qtr = [0,0,0,0,0,0,0]
         daily_sales_count_qtr = [0,0,0,0,0,0,0]
@@ -717,7 +718,11 @@ def admin_orders_dashboard():
 
         for idx, value in enumerate(daily_sales_qtr):
             if daily_sales_count_qtr[idx] != 0:
+                print(value)
+                print(daily_sales_count_qtr[idx])
                 daily_sales_avg_qtr.append(round(value / daily_sales_count_qtr[idx], 2))
+            else:
+                daily_sales_avg_qtr.append(0)
 
         # sort dicts
         daily_orders = dict(sorted(daily_orders.items(), key=lambda item: item[0], reverse=False))

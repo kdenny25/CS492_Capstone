@@ -319,26 +319,29 @@
       labels: {{ page_data['monthly_labels']|safe }},
       xaxis: {
         labels: {
-          show: true
+            show: true
         },
         axisBorder: {
-          show: false
+            show: false
         },
         axisTicks: {
-          show: false
+            show: false
         },
       },
       yaxis: {
         axisBorder: {
-          show: false
+            show: false
         },
         axisTicks: {
-          show: false
+            show: false
         },
         labels: {
-          style: {
-            colors: '#78909c'
-          }
+            formatter: function(val){
+                return val.toFixed(2)
+            },
+            style: {
+                colors: '#78909c'
+            }
         }
       },
       title: {
@@ -373,7 +376,7 @@
         type: 'column',
         data: {{ page_data['daily_sales_delivery']|safe }},
       }, {
-          name: 'Mean Daily Sales for Qtr',
+          name: 'Mean Sale Per Order',
           type: 'line',
           data: {{ page_data['daily_sales_avg_qtr']|safe }}
       }],
@@ -397,9 +400,12 @@
           show: false
         },
         labels: {
-          style: {
-            colors: '#78909c'
-          }
+            formatter: function(val){
+                return val.toFixed(2)
+            },
+            style: {
+                colors: '#78909c'
+            }
         }
       },
       title: {

@@ -708,11 +708,14 @@ def admin_orders_dashboard():
         daily_sales_qtr = [0,0,0,0,0,0,0]
         daily_sales_count_qtr = [0,0,0,0,0,0,0]
 
+        # start list of top items sold
+
         for order in order_list_qtr:
             order_date = order['datetime'].date().weekday()
 
             daily_sales_qtr[order_date] += order['total_price']
             daily_sales_count_qtr[order_date] += 1.0
+
 
         daily_sales_avg_qtr = []
 

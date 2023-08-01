@@ -15,7 +15,7 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/admin_dashboard" style="color: #ffffff;">Admin Dashboard</a></li>
-        <li class="breadcrumb-item active" aria-current="page" style="color: #dcdcdc;">Sales & Marketing</li>
+        <li class="breadcrumb-item active" aria-current="page" style="color: #dcdcdc;">Sales Analytics</li>
       </ol>
     </nav>
 
@@ -23,8 +23,11 @@
     {% include "elements/alert_messages.html" %}
 
         <div class="card mt-1" style="background-color: rgba(53, 56, 73, 0.95);">
+
             <div class="card-body" >
-                {% include "admin_dashboard/admin_elements/sales_marketing/navigation.html" %}
+                <div class="col-4">
+                    <h3 class="card-title" style="color: #ffffff;">Sales Dashboard</h3>
+                </div>
                 <div class="row mb-4">
                   <div class="col-md-4">
                     <div class="box shadow" style="background-color: rgba(46,48,63,0.95);">
@@ -54,18 +57,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-6">
-                        <div class="box shadow" style="background-color: rgba(46,48,63,0.95); padding-top: 1em;">
-                            <div id="dishSales"></div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="box shadow" style="background-color: rgba(46,48,63,0.95); padding-top: 1em;">
-                            <div id="beverageSales"></div>
-                        </div>
-                    </div>
-                </div>
+
 {#                 <table class="table table-dark table-striped">#}
 {#                    <thead>#}
 {#                        <tr>#}
@@ -418,68 +410,7 @@
 
     }
 
-    var salesByDish = {
-        series: [{
-            data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
-        }],
-        chart: {
-            type: 'bar',
-            height: 250
-        },
-        title: {
-            text: 'Sales by Dish Categories',
-            align: 'left',
-            style: {
-              fontSize: '18px'}
-        },
-        plotOptions: {
-            bar: {
-                borderRadius: 4,
-                horizontal: true,
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        xaxis: {
-            categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
-                'United States', 'China', 'Germany'
-            ],
-        }
-    }
 
-    var salesByBeverage = {
-        series: [{
-            data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
-            }],
-        chart: {
-            type: 'bar',
-            height: 250
-        },
-        title: {
-            text: 'Sales by Beverage Categories',
-            align: 'left',
-            style: {
-              fontSize: '18px'}
-        },
-        plotOptions: {
-            bar: {
-                borderRadius: 4,
-                horizontal: true,
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        xaxis: {
-            categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
-                'United States', 'China', 'Germany'
-            ],
-        }
-    };
-
-    new ApexCharts(document.querySelector("#dishSales"), salesByDish).render();
-    new ApexCharts(document.querySelector("#beverageSales"), salesByBeverage).render();
     new ApexCharts(document.querySelector("#spark1"), salesSpark).render();
     new ApexCharts(document.querySelector("#spark2"), expensesSpark).render();
     new ApexCharts(document.querySelector("#spark3"), profitsSpark).render();

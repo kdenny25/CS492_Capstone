@@ -10,7 +10,7 @@ import numpy as np
 import os, sys
 import json
 import datetime
-from datetime import datetime, date, timedelta
+from datetime import datetime, timedelta
 from backend.orders_data_gen import gen_orders_data
 from backend.user import User
 from werkzeug.utils import secure_filename
@@ -465,7 +465,7 @@ def menu():
 @app.route('/order_review')
 def order_review():
     # check if user is logged in
-    date = datetime.date.today()
+    date = datetime.today().strftime("%d/%m/%Y")
     if current_user.is_authenticated:
         user= users.find_one({'_id': ObjectId(current_user._id)})
         # try to pull the default address
